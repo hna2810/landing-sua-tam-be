@@ -19,6 +19,16 @@ $tiktok_id   = lx_get_field('lx_tiktok_pixel_id', 'option', '');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#4cc0d3">
     <link rel="icon" href="https://cdn.hstatic.net/themes/200001066686/1001439050/14/favicon.png" type="image/png">
+    <title><?php
+        $site_name = get_bloginfo('name');
+        $default_seo = 'Sữa Tắm Gội Bon Bon Cho Bé - Dịu Nhẹ, Không Cay Mắt | Home Care Việt Nam';
+        echo esc_html($default_seo);
+    ?></title>
+    <meta name="description" content="Sữa tắm gội 2in1 Bon Bon cho bé: không cay mắt, không Paraben, pH cân bằng, dùng được cho trẻ sơ sinh. Đăng ký nhận tư vấn miễn phí &amp; quà tặng dành cho mẹ.">
+    <meta property="og:title" content="Sữa Tắm Gội Bon Bon - Nâng niu làn da bé từ những ngày đầu đời">
+    <meta property="og:description" content="Làm quiz 30 giây để biết bé cần chăm da thế nào và nhận quà tặng từ Home Care Việt Nam.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?php echo esc_url(home_url('/')); ?>">
     <script>document.documentElement.classList.add('js');</script>
 
 <?php if (!empty($fb_pixel_id)) : ?>
