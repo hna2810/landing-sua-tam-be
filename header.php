@@ -85,11 +85,27 @@ $tiktok_id   = lx_get_field('lx_tiktok_pixel_id', 'option', '');
 </div>
 
 <!-- ===== HEADER ===== -->
+<?php
+$default_header_logo = 'https://cdn.hstatic.net/themes/200001066686/1001439050/14/logo.png';
+$header_logo = lx_get_field('lx_header_logo', 'option', '');
+if (empty($header_logo)) {
+    $header_logo = $default_header_logo;
+}
+$logo_text = lx_get_field('lx_header_logo_text', 'option', 'Bon Bon');
+$logo_sub  = lx_get_field('lx_header_logo_sub', 'option', 'by Home Care Việt Nam');
+?>
 <header class="header" id="header">
     <div class="container header-inner">
-        <a href="#top" class="logo js-scroll">
-            <img src="https://cdn.hstatic.net/themes/200001066686/1001439050/14/logo.png" alt="Home Care Việt Nam" onerror="this.style.display='none'">
-            <span class="logo-text">Bon Bon<small>by Home Care Việt Nam</small></span>
+        <a href="#top" class="logo js-scroll" aria-label="<?php echo esc_attr(!empty($logo_text) ? $logo_text : get_bloginfo('name')); ?>">
+            <?php if (!empty($header_logo)) : ?>
+                <img src="<?php echo esc_url($header_logo); ?>" alt="<?php echo esc_attr(!empty($logo_text) ? $logo_text : get_bloginfo('name')); ?>">
+            <?php endif; ?>
+            <?php if (!empty($logo_text) || !empty($logo_sub)) : ?>
+                <span class="logo-text">
+                    <?php if (!empty($logo_text)) : ?><?php echo esc_html($logo_text); ?><?php endif; ?>
+                    <?php if (!empty($logo_sub)) : ?><small><?php echo esc_html($logo_sub); ?></small><?php endif; ?>
+                </span>
+            <?php endif; ?>
         </a>
         <nav class="nav">
             <a href="#thanh-phan" class="js-scroll"><?php _e('Thành phần', 'lx-landing'); ?></a>

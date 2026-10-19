@@ -107,7 +107,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 .header.hide { transform: translateY(-110%); }
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 72px; }
 .logo { display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-weight: 800; font-size: 22px; color: var(--primary-dark); }
-.logo img { height: 40px; width: auto; }
+.logo img { height: 42px; max-height: 48px; width: auto; max-width: 220px; object-fit: contain; }
 .logo-text small { display: block; font-size: 12px; font-weight: 600; color: var(--text-soft); margin-top: -6px; }
 .nav { display: flex; gap: 6px; }
 .nav a { padding: 8px 14px; border-radius: 99px; font-weight: 700; font-size: 15px; transition: background .2s, color .2s; }
