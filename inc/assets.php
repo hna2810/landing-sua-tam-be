@@ -87,6 +87,29 @@ function lx_enqueue_scripts() {
         $gifts = $default_gifts;
     }
 
+    $offer = array(
+        'label' => lx_get_field('lx_offer_label', 'option', 'Combo 299K BIGSIZE tắm gội + Kem bôi'),
+        'price' => (int)lx_get_field('lx_offer_price', 'option', 299000),
+        'old'   => (int)lx_get_field('lx_offer_old_price', 'option', 455000),
+    );
+
+    $acf_reviews = lx_get_field('lx_reviews_list', 'option', array());
+    $reviews = array();
+    if (!empty($acf_reviews) && is_array($acf_reviews)) {
+        foreach ($acf_reviews as $r) {
+            if (!empty($r['name']) && !empty($r['text'])) {
+                $reviews[] = array(
+                    'name'   => $r['name'],
+                    'time'   => !empty($r['time']) ? $r['time'] : 'Gần đây',
+                    'stars'  => !empty($r['stars']) ? (int)$r['stars'] : 5,
+                    'text'   => $r['text'],
+                    'photos' => !empty($r['photos']) ? (array)$r['photos'] : array(),
+                    'sample' => false,
+                );
+            }
+        }
+    }
+
     $js_config = array(
         'hotline'          => lx_get_field('lx_hotline', 'option', '0901234567'),
         'hotlineFormatted' => lx_get_field('lx_hotline_formatted', 'option', '0901.234.567'),
@@ -94,7 +117,9 @@ function lx_enqueue_scripts() {
         'webhookUrl'       => lx_get_field('lx_webhook_url', 'option', ''),
         'ajaxUrl'          => admin_url('admin-ajax.php'),
         'nonce'            => wp_create_nonce('lx_lead_nonce'),
+        'offer'            => $offer,
         'gifts'            => $gifts,
+        'reviews'          => !empty($reviews) ? $reviews : null,
     );
 
     wp_localize_script('lx-landing-main', 'BONBON_CONFIG', $js_config);

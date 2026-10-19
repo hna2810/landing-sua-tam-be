@@ -1,12 +1,20 @@
 /* ===================================================================
-   CẤU HÌNH — chỉnh tại đây
+   CẤU HÌNH — Tích hợp WordPress BONBON_CONFIG & Fallback
    =================================================================== */
-const CONFIG = Object.assign({
+const DEFAULT_CONFIG = {
     hotline: '0901234567',
+    hotlineFormatted: '0901.234.567',
     zalo: '0901234567',
     webhookUrl: '',
     ajaxUrl: '',
     nonce: '',
+    offer: { label: 'Combo 299K BIGSIZE tắm gội + Kem bôi', price: 299000, old: 455000 },
+    reviews: [
+        { name: 'Mẹ Bin', time: '2 ngày trước', stars: 5, text: 'Sữa tắm ít bọt, gội đầu bé không bị cay mắt. Mùi thơm nhẹ dễ chịu, tắm xong da con mềm.', photos: [], sample: true },
+        { name: 'Thu Trang (Mẹ Bắp)', time: 'Hôm qua', stars: 5, text: 'Một chai vừa tắm vừa gội tiện ghê, mẹ đỡ phải chuẩn bị nhiều. Đóng gói cẩn thận, giao nhanh.', photos: [], sample: true },
+        { name: 'Mẹ Ken', time: '3 ngày trước', stars: 5, text: 'Bé nhà mình da nhạy cảm, dùng thấy dịu, không bị khô. Shop tư vấn nhiệt tình.', photos: [], sample: true },
+        { name: 'Hồng Nhung', time: '1 tuần trước', stars: 4, text: 'Dùng ổn, xả nhanh sạch. Mong shop có thêm chai to hơn nữa.', photos: [], sample: true }
+    ],
     gifts: [
         { label: 'Giảm 20%',        color: '#ffb5c8', weight: 2 },
         { label: 'Khăn tắm xinh',   color: '#fff6d6', weight: 3 },
@@ -15,7 +23,20 @@ const CONFIG = Object.assign({
         { label: 'Vịt tắm cute',    color: '#e3f7fa', weight: 3 },
         { label: 'Mua 2 tặng 1',    color: '#ffe08a', weight: 1 }
     ]
-}, window.BONBON_CONFIG || {});
+};
+
+const BONBON_CFG = window.BONBON_CONFIG || {};
+const CONFIG = {
+    hotline: BONBON_CFG.hotline || DEFAULT_CONFIG.hotline,
+    hotlineFormatted: BONBON_CFG.hotlineFormatted || BONBON_CFG.hotline || DEFAULT_CONFIG.hotlineFormatted,
+    zalo: BONBON_CFG.zalo || DEFAULT_CONFIG.zalo,
+    webhookUrl: BONBON_CFG.webhookUrl || '',
+    ajaxUrl: BONBON_CFG.ajaxUrl || '',
+    nonce: BONBON_CFG.nonce || '',
+    offer: Object.assign({}, DEFAULT_CONFIG.offer, BONBON_CFG.offer || {}),
+    reviews: (Array.isArray(BONBON_CFG.reviews) && BONBON_CFG.reviews.length > 0) ? BONBON_CFG.reviews : DEFAULT_CONFIG.reviews,
+    gifts: (Array.isArray(BONBON_CFG.gifts) && BONBON_CFG.gifts.length > 0) ? BONBON_CFG.gifts : DEFAULT_CONFIG.gifts
+};
 
 function bootBonBon() {
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, Draggable);
@@ -33,53 +54,6 @@ $$('[data-tel]').forEach(a => { a.href = 'tel:' + CONFIG.hotline; });
 $$('[data-tel-text]').forEach(a => { a.textContent = CONFIG.hotline.replace(/(\d{4})(\d{3})(\d+)/, '$1.$2.$3'); });
 $$('[data-zalo]').forEach(a => { a.href = 'https://zalo.me/' + CONFIG.zalo; });
 $('#year').textContent = new Date().getFullYear();
-
-/* ===== BOTTLE SVG ===== */
-let bottleUid = 0;
-function bottleSVG(withFill) {
-    const id = 'b' + (++bottleUid);
-    return `
-    <svg viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg" aria-label="Lọ sữa tắm gội Bon Bon">
-        <defs>
-            <linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#7fdbe8"/><stop offset=".5" stop-color="#4cc0d3"/><stop offset="1" stop-color="#2a9fb3"/>
-            </linearGradient>
-            <clipPath id="${id}c"><rect x="30" y="66" width="140" height="240" rx="50"/></clipPath>
-        </defs>
-        <g class="pump">
-            <rect x="100" y="12" width="52" height="13" rx="6.5" fill="#fff" stroke="#cfeff4" stroke-width="2"/>
-            <rect x="88" y="10" width="24" height="42" rx="7" fill="#fff" stroke="#cfeff4" stroke-width="2"/>
-        </g>
-        <rect x="76" y="48" width="48" height="24" rx="9" fill="#ffb5c8"/>
-        <rect x="30" y="66" width="140" height="240" rx="50" fill="url(#${id}g)"/>
-        ${withFill ? `<g clip-path="url(#${id}c)"><rect class="liquid" x="20" y="306" width="160" height="260" fill="#ffffff" opacity=".35"/></g>` : ''}
-        <rect x="46" y="92" width="14" height="110" rx="7" fill="#fff" opacity=".35"/>
-        <g class="face">
-            <g class="eyes">
-                <ellipse cx="80" cy="116" rx="7" ry="8.5" fill="#2b3a4a"/><circle cx="82.5" cy="113" r="2.4" fill="#fff"/>
-                <ellipse cx="120" cy="116" rx="7" ry="8.5" fill="#2b3a4a"/><circle cx="122.5" cy="113" r="2.4" fill="#fff"/>
-            </g>
-            <ellipse cx="64" cy="132" rx="9" ry="5.5" fill="#ffb5c8" opacity=".9"/>
-            <ellipse cx="136" cy="132" rx="9" ry="5.5" fill="#ffb5c8" opacity=".9"/>
-            <path class="mouth" d="M90 128 Q100 141 110 128" fill="none" stroke="#2b3a4a" stroke-width="4" stroke-linecap="round"/>
-        </g>
-        <rect x="50" y="152" width="100" height="112" rx="26" fill="#fff"/>
-        <text x="100" y="196" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="800" font-size="30" fill="#2a9fb3" textLength="86" lengthAdjust="spacingAndGlyphs">Bon Bon</text>
-        <text x="100" y="220" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="14" fill="#34495e">Sữa tắm gội</text>
-        <text x="100" y="242" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="12" fill="#ff8fab">2in1 • cho bé</text>
-        <circle cx="152" cy="282" r="6" fill="#fff" opacity=".5"/><circle cx="140" cy="292" r="3.5" fill="#fff" opacity=".5"/>
-    </svg>`;
-}
-$$('[data-bottle]').forEach(el => { el.innerHTML = bottleSVG(el.dataset.bottle === 'lab'); });
-
-// Blink all bottles
-if (!reduceMotion) {
-    $$('[data-bottle] .eyes').forEach(eyes => {
-        gsap.set(eyes, { transformOrigin: '50% 50%', transformBox: 'fill-box' });
-        gsap.timeline({ repeat: -1, repeatDelay: 2.6, delay: Math.random() * 2 })
-            .to(eyes, { scaleY: .1, duration: .09 }).to(eyes, { scaleY: 1, duration: .12 });
-    });
-}
 
 /* ===== TOAST ===== */
 gsap.set('#toast', { xPercent: -50, y: -30 });
@@ -125,26 +99,23 @@ heroTl
     .from('[data-hero]', { y: 30, opacity: 0, duration: .8, stagger: .08 }, '-=.6')
     .from('.hero-blob', { scale: .4, opacity: 0, duration: 1.2, ease: 'elastic.out(1, .6)' }, 0.1)
     .from('#heroBottle', { y: 200, rotate: -20, opacity: 0, duration: 1.3, ease: 'elastic.out(1, .55)' }, .3)
-    .from('.hero-badge', { scale: 0, opacity: 0, duration: .7, stagger: .15, ease: 'back.out(2.2)' }, .9)
     .from('#heroDuck', { x: 120, rotate: 40, opacity: 0, duration: 1, ease: 'back.out(2)' }, 1.1)
     .from('.hero-star', { scale: 0, duration: .6, stagger: .1, ease: 'back.out(3)' }, 1.2);
 
 if (!reduceMotion) {
-    gsap.to('.hero-badge', { y: '+=14', duration: 2.4, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: { each: .6 } });
     gsap.to('.hero-star', { rotate: 20, scale: 1.2, duration: 1.6, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .4 });
     gsap.to('#heroDuck', { rotate: 8, y: -8, duration: 1.3, ease: 'sine.inOut', yoyo: true, repeat: -1 });
 }
 
 // Hero bottle: draggable, springs back + floating idle + parallax tilt
 const heroBottle = $('#heroBottle');
-const bottleIdle = reduceMotion ? null : gsap.to(heroBottle.querySelector('svg'), { y: -16, rotate: 2, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+const bottleIdle = reduceMotion ? null : gsap.to(heroBottle.querySelector('img'), { y: -16, rotate: 2, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
 Draggable.create(heroBottle, {
     type: 'x,y',
-    onPress() { bottleIdle && bottleIdle.pause(); gsap.to(heroBottle.querySelector('.mouth'), { attr: { d: 'M88 126 Q100 146 112 126' }, duration: .2 }); },
+    onPress() { bottleIdle && bottleIdle.pause(); gsap.to(heroBottle, { scale: 1.05, duration: .2 }); },
     onDrag() { gsap.to(heroBottle, { rotate: gsap.utils.clamp(-25, 25, this.deltaX * 2), duration: .3 }); },
     onRelease() {
-        gsap.to(heroBottle, { x: 0, y: 0, rotate: 0, duration: 1.2, ease: 'elastic.out(1, .4)' });
-        gsap.to(heroBottle.querySelector('.mouth'), { attr: { d: 'M90 128 Q100 141 110 128' }, duration: .3 });
+        gsap.to(heroBottle, { x: 0, y: 0, rotate: 0, scale: 1, duration: 1.2, ease: 'elastic.out(1, .4)' });
         bottleIdle && bottleIdle.resume();
         squirtBubbles(heroBottle);
     }
@@ -161,15 +132,14 @@ if (finePointer && !reduceMotion) {
         const r = hv.getBoundingClientRect();
         const px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
         gsap.to('.hero-blob', { x: px * -30, y: py * -30, duration: 1 });
-        gsap.to('.hero-badge', { x: px * 24, duration: 1 });
-        gsap.to(heroBottle.querySelector('.eyes'), { x: px * 8, y: py * 6, duration: .4 });
+        gsap.to(heroBottle.querySelector('img'), { rotationY: px * 16, rotationX: py * -10, transformPerspective: 800, duration: .6 });
     });
 }
 
 // Duck squeak
 $('#heroDuck').addEventListener('click', () => {
     gsap.fromTo('#heroDuck', { scaleX: 1.3, scaleY: .7 }, { scaleX: 1, scaleY: 1, duration: .8, ease: 'elastic.out(1.2, .3)' });
-    toast('🐤 Quạc quạc! Giờ tắm vui quá mẹ ơi!', 1800);
+    toast('🦁 Gràoo! Giờ tắm vui quá mẹ ơi!', 1800);
 });
 
 /* ===== HERO BUBBLES (click to pop) ===== */
@@ -195,7 +165,7 @@ function makeBubble(initial) {
         const pc = $('#popCount');
         pc.textContent = pops;
         gsap.fromTo(pc, { scale: 1.8 }, { scale: 1, duration: .5, ease: 'back.out(3)' });
-        if (pops === 5) toast('<i class="bb"></i> Mẹ bóp bong bóng giỏi quá! Thử <a href="#quiz" class="js-scroll-inline">quiz da bé</a> nhé', 3500);
+        if (pops === 5) toast('<i class="bb"></i> Mẹ bóp bong bóng giỏi quá! Xem <a href="#cong-dung" class="js-scroll-inline">công dụng 3 trong 1</a> nhé', 3500);
         if (pops === 12) toast('🎁 Phần thưởng cho mẹ chăm chỉ: <a href="#vong-quay" class="js-scroll-inline">quay quà ngay</a>', 4000);
     });
 }
@@ -262,24 +232,47 @@ ScrollTrigger.create({
 /* ===== GENERIC REVEAL ===== */
 ScrollTrigger.batch('[data-reveal]', {
     start: 'top 88%',
-    onEnter: batch => gsap.fromTo(batch, { opacity: 0, y: 50, scale: .96 }, { opacity: 1, y: 0, scale: 1, duration: .9, stagger: .12, ease: 'power3.out', overwrite: true }),
+    onEnter: batch => {
+        // Phần tử đã bị cuộn qua (nhảy anchor) thì hiện ngay; phần còn lại xuất hiện so le, tổng thời gian tối đa ~0.6s
+        const passed = batch.filter(el => el.getBoundingClientRect().bottom < 0);
+        const rest = batch.filter(el => !passed.includes(el));
+        if (passed.length) gsap.set(passed, { opacity: 1, y: 0, scale: 1, overwrite: true });
+        if (rest.length) gsap.fromTo(rest, { opacity: 0, y: 50, scale: .96 }, { opacity: 1, y: 0, scale: 1, duration: .9, stagger: Math.min(.12, .6 / rest.length), ease: 'power3.out', overwrite: true });
+    },
     once: true
 });
+// Dự phòng: phần tử nào đã lọt vào màn hình mà vẫn ẩn (cuộn quá nhanh, nhảy anchor) thì hiện luôn
+const revealStragglers = () => $$('[data-reveal]').forEach(el => {
+    if (+getComputedStyle(el).opacity < .05 && el.getBoundingClientRect().top < innerHeight && !gsap.isTweening(el))
+        gsap.to(el, { opacity: 1, y: 0, scale: 1, duration: .6, ease: 'power3.out' });
+});
+ScrollTrigger.addEventListener('scrollEnd', revealStragglers);
+let stragglerT = null;
+window.addEventListener('scroll', () => { clearTimeout(stragglerT); stragglerT = setTimeout(revealStragglers, 250); }, { passive: true });
 $$('.section-title').forEach(t => {
     const hl = t.querySelector('.hl');
     if (!hl) return;
     gsap.from(hl, { scrollTrigger: { trigger: t, start: 'top 85%' }, color: '#34495e', duration: .8, delay: .3 });
 });
 
-/* ===== PAIN FLIP CARDS ===== */
-$$('.flip-card').forEach(card => {
-    const flip = () => {
+/* ===== WISH CARDS ===== */
+$$('.wish-card').forEach(card => {
+    card.addEventListener('click', e => {
         card.classList.toggle('flipped');
-        if (card.classList.contains('flipped')) gsap.fromTo(card, { scale: .95 }, { scale: 1, duration: .6, ease: 'back.out(3)' });
-    };
-    card.addEventListener('click', flip);
-    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
-    if (!reduceMotion) gsap.to(card.querySelector('.flip-front .emo'), { rotate: 10, y: -6, duration: 1.2, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: Math.random() });
+        gsap.fromTo(card, { scale: .94 }, { scale: 1, duration: .7, ease: 'elastic.out(1.2, .4)' });
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX || r.left + r.width / 2) - r.left, y = (e.clientY || r.top + r.height / 2) - r.top;
+        ['💖', '✨', '💙', '🌸', '⭐'].forEach((h, i) => {
+            const el = document.createElement('span');
+            el.className = 'wish-heart'; el.textContent = h;
+            gsap.set(el, { left: x, top: y, xPercent: -50, yPercent: -50 });
+            card.appendChild(el);
+            const a = -Math.PI / 2 + (i - 2) * .55;
+            gsap.to(el, { x: Math.cos(a) * 90, y: Math.sin(a) * 90, scale: 1.4, opacity: 0, duration: .9, ease: 'power2.out', onComplete: () => el.remove() });
+        });
+    });
+    const tap = card.querySelector('.wish-tap');
+    if (tap && !reduceMotion) gsap.to(tap, { y: -6, duration: .9, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: Math.random() });
 });
 
 /* ===== COMPARE SLIDER ===== */
@@ -326,7 +319,6 @@ $$('.flip-card').forEach(card => {
     ];
     const BAD = { ico: '🙅', name: 'Không chứa Paraben!', text: 'Bon Bon nói "không" với Paraben để làn da non nớt của bé luôn được nâng niu dịu nhẹ nhất.' };
     const zone = $('#dropZone'), bottle = $('#labBottle'), info = $('#labInfo');
-    const liquid = bottle.querySelector('.liquid');
     let done = 0;
 
     function showInfo(i) {
@@ -338,7 +330,6 @@ $$('.flip-card').forEach(card => {
         dragInst && dragInst.disable();
         chip.classList.add('rejected');
         gsap.timeline().to(bottle, { rotate: -8, duration: .08, yoyo: true, repeat: 5, ease: 'none' }).set(bottle, { rotate: 0 });
-        gsap.to(bottle.querySelector('.mouth'), { attr: { d: 'M90 136 Q100 126 110 136' }, duration: .2, yoyo: true, repeat: 1, repeatDelay: 1 });
         gsap.to(chip, { x: 0, y: 0, duration: .8, ease: 'elastic.out(1, .5)' });
         info.innerHTML = `<span class="ico">${BAD.ico}</span><div><h4>${BAD.name}</h4><p>${BAD.text}</p></div>`;
         gsap.fromTo(info, { x: -12 }, { x: 0, duration: .5, ease: 'elastic.out(1.2, .3)' });
@@ -363,7 +354,7 @@ $$('.flip-card').forEach(card => {
         done++;
         setTimeout(() => {
             gsap.fromTo(bottle, { scaleX: 1.12, scaleY: .9 }, { scaleX: 1, scaleY: 1, duration: .9, ease: 'elastic.out(1.2, .35)' });
-            gsap.to(liquid, { attr: { y: 306 - (240 * done / ING.length) }, duration: .8, ease: 'power2.out' });
+            bottle.classList.add('glow'); setTimeout(() => bottle.classList.remove('glow'), 700);
             gsap.to('#labBar', { width: (done / ING.length * 100) + '%', duration: .6, ease: 'back.out(2)' });
             $('#labCount').textContent = done;
             squirtBubbles(bottle);
@@ -400,6 +391,27 @@ $$('.flip-card').forEach(card => {
     }
 })();
 
+/* ===== USES (3 trong 1) ===== */
+(function () {
+    const items = $$('.use-item');
+    items.forEach(item => item.addEventListener('click', () => {
+        items.forEach(x => x.classList.toggle('active', x === item));
+        gsap.fromTo(item.querySelector('.use-num'), { scale: .5, rotate: -20 }, { scale: 1, rotate: 0, duration: .8, ease: 'elastic.out(1.2, .4)' });
+    }));
+    gsap.fromTo(items, { x: 80, opacity: 0 }, { x: 0, opacity: 1, duration: .9, stagger: .18, ease: 'back.out(1.6)', clearProps: 'opacity',
+        scrollTrigger: { trigger: '.uses-track', start: 'top 80%' } });
+    gsap.to('#usesLineFill', { scaleY: 1, ease: 'none', scrollTrigger: { trigger: '.uses-track', start: 'top 70%', end: 'bottom 55%', scrub: true } });
+    gsap.fromTo('.uses-chip', { scale: 0, rotate: -30 }, { scale: 1, rotate: 0, duration: .8, stagger: .15, ease: 'back.out(2.4)',
+        scrollTrigger: { trigger: '.uses-visual', start: 'top 75%' } });
+    gsap.fromTo('.uses-bottle', { y: 80, rotate: 30, opacity: 0 }, { y: 0, rotate: 8, opacity: 1, duration: 1.2, ease: 'elastic.out(1, .55)',
+        scrollTrigger: { trigger: '.uses-visual', start: 'top 70%' } });
+    gsap.to('.uses-bigthree', { yPercent: 25, ease: 'none', scrollTrigger: { trigger: '#cong-dung', start: 'top bottom', end: 'bottom top', scrub: true } });
+    if (!reduceMotion) {
+        $$('.uses-chip').forEach((c, i) => gsap.to(c, { y: -10, duration: 1.8 + i * .3, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: i * .4 }));
+        gsap.to('.uses-bottle', { y: -12, duration: 2.2, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: 1.3 });
+    }
+})();
+
 /* ===== HORIZONTAL BENEFITS (desktop pin) ===== */
 const mm = gsap.matchMedia();
 mm.add('(min-width: 769px)', () => {
@@ -420,94 +432,65 @@ mm.add('(max-width: 768px)', () => {
     gsap.from('.b-card', { scrollTrigger: { trigger: '#hTrack', start: 'top 85%' }, x: 60, opacity: 0, duration: .8, stagger: .1, ease: 'power3.out' });
 });
 
-/* ===== QUIZ ===== */
+/* ===== HOW TO STEPS (section 7) ===== */
 (function () {
-    const steps = $$('.q-step'), total = steps.length;
-    const answers = {};
-    let cur = 0, busy = false;
-    const RESULTS = {
-        cradle: { e: '👶', title: 'Bé cần làm sạch cứt trâu', type: 'Cần làm mềm & làm sạch nhẹ nhàng', tips: ['Không cạy, gãi mảng cứt trâu để tránh làm tổn thương da đầu bé.', 'Gội hằng ngày với sữa tắm gội dịu nhẹ có dầu hạnh nhân như Bon Bon để làm mềm và làm sạch dần.', 'Xả thật sạch và lau khô tóc bé bằng khăn mềm sau khi gội.'] },
-        dry: { e: '🌵', title: 'Da bé hơi thiếu ẩm', type: 'Cần làm sạch & giữ ẩm', tips: ['Không tắm nước quá nóng và không tắm quá lâu (5-10 phút).', 'Chọn sữa tắm có thành phần dưỡng ẩm, không làm khô căng da.', 'Thoa dưỡng ẩm ngay sau khi lau khô người bé.'] },
-        sensitive: { e: '🥺', title: 'Bé có làn da nhạy cảm', type: 'Cần sản phẩm thật dịu nhẹ', tips: ['Chọn sữa tắm dịu nhẹ, hương thơm nhẹ, dùng lượng vừa đủ.', 'Thử trước trên một vùng da nhỏ khi đổi sản phẩm mới.', 'Để chuyên viên tư vấn chi tiết theo tình trạng của bé.'] },
-        normal: { e: '🌸', title: 'Da bé khỏe mạnh', type: 'Duy trì làm sạch dịu nhẹ', tips: ['Duy trì thói quen tắm gội đều đặn với sản phẩm dịu nhẹ.', 'Dùng sữa tắm gội 2in1 để giờ tắm nhanh gọn, bé vui hơn.', 'Biến giờ tắm thành giờ chơi với đồ chơi nhà tắm.'] }
+    const steps = $$('.hstep');
+    let auto = null, idx = 0;
+    const activate = i => {
+        idx = i;
+        steps.forEach((st, k) => st.classList.toggle('active', k === i));
+        gsap.fromTo(steps[i].querySelector('.hstep-num'), { scale: .6 }, { scale: 1, duration: .7, ease: 'elastic.out(1.2, .4)' });
     };
-    let skinType = 'normal';
-    const update = () => {
-        $('#qLabel').textContent = cur < total ? `Câu ${cur + 1}/${total}` : 'Kết quả';
-        $('#qBar').style.width = (Math.min(cur, total) / total * 100) + '%';
-        $('#qBack').style.display = cur > 0 && cur < total ? 'inline-block' : 'none';
-    };
-    const show = (idx, dir = 1) => {
-        const from = steps[cur], to = steps[idx];
-        busy = true;
-        gsap.to(from, {
-            x: -60 * dir, opacity: 0, duration: .25, ease: 'power2.in', onComplete: () => {
-                from.classList.remove('active'); gsap.set(from, { x: 0, opacity: 1 });
-                to.classList.add('active');
-                gsap.fromTo(to, { x: 60 * dir, opacity: 0 }, { x: 0, opacity: 1, duration: .4, ease: 'power3.out' });
-                gsap.from(to.querySelectorAll('.q-opt'), { y: 20, opacity: 0, stagger: .06, duration: .4, ease: 'back.out(2)' });
-                cur = idx; update(); busy = false;
-            }
-        });
-    };
-    const finish = () => {
-        const last = steps[cur];
-        cur = total; update();
-        gsap.to(last, { opacity: 0, duration: .25, onComplete: () => {
-            last.classList.remove('active'); gsap.set(last, { opacity: 1 });
-            const ld = $('#qLoading'); ld.classList.add('active');
-            gsap.to(ld.querySelector('.spin'), { rotate: 360, scale: 1.3, duration: .6, repeat: 2, yoyo: true });
-            setTimeout(() => {
-                ld.classList.remove('active');
-                const r = RESULTS[skinType];
-                $('#rEmoji').textContent = r.e; $('#rTitle').textContent = r.title; $('#rType').textContent = r.type;
-                $('#rTips').innerHTML = r.tips.map(t => `<li>✅ <span>${t}</span></li>`).join('');
-                const box = $('#qResult'); box.classList.add('active');
-                gsap.from(box.children, { y: 30, opacity: 0, stagger: .08, duration: .5, ease: 'back.out(2)' });
-                gsap.from('#rEmoji', { scale: 0, rotate: -180, duration: .9, ease: 'elastic.out(1, .5)' });
-                confetti(30);
-                // Prefill form
-                $('#hQuiz').value = `${r.title} | Tuổi: ${answers.age} | Da: ${answers.skin} | Gội: ${answers.bath} | Ưu tiên: ${answers.priority}`;
-                const ageInput = $(`#ageRow input[value="${answers.age}"]`); if (ageInput) ageInput.checked = true;
-                const cMap = { 'Cứt trâu': 'Cứt trâu', 'Da khô': 'Da khô', 'Da nhạy cảm': 'Da nhạy cảm' };
-                if (cMap[answers.skin]) { const c = $(`#concernRow input[value="${cMap[answers.skin]}"]`); if (c) c.checked = true; }
-                if (answers.bath === 'Khóc, sợ cay mắt') { const c = $('#concernRow input[value="Cay mắt khi gội"]'); if (c) c.checked = true; }
-                if (answers.priority === 'Tiện lợi 2in1') { const c = $('#concernRow input[value="Tìm sữa tắm 2in1"]'); if (c) c.checked = true; }
-            }, 1400);
-        } });
-    };
-    steps.forEach((step, i) => {
-        step.querySelectorAll('.q-opt').forEach(btn => btn.addEventListener('click', () => {
-            if (busy) return;
-            busy = true;
-            step.querySelectorAll('.q-opt').forEach(b => b.classList.remove('picked'));
-            btn.classList.add('picked');
-            gsap.fromTo(btn, { scale: .94 }, { scale: 1, duration: .5, ease: 'elastic.out(1.2, .4)' });
-            answers[step.dataset.q] = btn.dataset.v;
-            if (btn.dataset.t) skinType = btn.dataset.t;
-            setTimeout(() => { busy = false; i < total - 1 ? show(i + 1) : finish(); }, 280);
-        }));
+    steps.forEach((st, i) => st.addEventListener('click', () => { clearInterval(auto); activate(i); }));
+    ScrollTrigger.create({
+        trigger: '.howto-grid', start: 'top 70%', end: 'bottom 20%',
+        onToggle: self => { clearInterval(auto); if (self.isActive && !reduceMotion) auto = setInterval(() => activate((idx + 1) % steps.length), 2600); }
     });
-    $('#qBack').addEventListener('click', () => { if (cur > 0 && !busy) show(cur - 1, -1); });
-    $('#qRestart').addEventListener('click', () => {
-        $('#qResult').classList.remove('active');
-        steps.forEach(s => { s.classList.remove('active'); s.querySelectorAll('.q-opt').forEach(b => b.classList.remove('picked')); });
-        cur = 0; steps[0].classList.add('active'); update();
-        gsap.from(steps[0].querySelectorAll('.q-opt'), { y: 20, opacity: 0, stagger: .06, duration: .4 });
-    });
-    update();
+    gsap.fromTo('.howto-phone', { rotate: 8, y: 60 }, { rotate: -3, y: 0, ease: 'none', scrollTrigger: { trigger: '.howto-grid', start: 'top bottom', end: 'bottom 40%', scrub: true } });
 })();
 
-/* ===== HOW TO (path draw + steps) ===== */
+/* ===== MOM VIDEOS (section 9) ===== */
+$$('.mom-card').forEach(card => card.addEventListener('click', () => {
+    const v = card.querySelector('video');
+    if (!v) { gsap.fromTo(card, { scale: .96 }, { scale: 1, duration: .6, ease: 'elastic.out(1.2, .4)' }); return; }
+    $$('.mom-card video').forEach(o => { if (o !== v) o.pause(); });
+    v.paused ? v.play() : v.pause();
+}));
+
+/* ===== STORES SLIDER (section 10) ===== */
 (function () {
-    const path = $('#stepsPath');
-    const len = path.getTotalLength();
-    path.style.strokeDasharray = `${len}`;
-    path.style.strokeDashoffset = len;
-    gsap.to(path, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: '.steps', start: 'top 75%', end: 'bottom 60%', scrub: 1 } });
-    gsap.from('.step', { scrollTrigger: { trigger: '.steps', start: 'top 78%' }, y: 60, opacity: 0, stagger: .18, duration: .8, ease: 'back.out(1.8)' });
-    gsap.from('.step .circle b', { scrollTrigger: { trigger: '.steps', start: 'top 70%' }, scale: 0, stagger: .18, duration: .6, delay: .5, ease: 'back.out(3)' });
-    $$('.step .circle').forEach(c => c.addEventListener('mouseenter', () => gsap.fromTo(c, { rotate: -10 }, { rotate: 0, duration: .8, ease: 'elastic.out(1.2, .3)' })));
+    const track = $('#storeTrack'), dots = $('#storeDots');
+    const slides = $$('.store-slide', track);
+    const stepW = () => slides[0].getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 20);
+    const pages = () => Math.max(1, Math.round((track.scrollWidth - track.clientWidth) / stepW()) + 1);
+    const renderDots = () => {
+        dots.innerHTML = '';
+        for (let i = 0; i < pages(); i++) {
+            const d = document.createElement('button');
+            d.type = 'button'; d.setAttribute('aria-label', 'Ảnh ' + (i + 1));
+            d.addEventListener('click', () => { track.scrollTo({ left: i * stepW() }); restart(); });
+            dots.appendChild(d);
+        }
+        mark();
+    };
+    const cur = () => Math.round(track.scrollLeft / stepW());
+    const mark = () => [...dots.children].forEach((d, i) => d.classList.toggle('on', i === cur()));
+    const go = dir => {
+        const max = track.scrollWidth - track.clientWidth - 2;
+        if (dir > 0 && track.scrollLeft >= max) track.scrollTo({ left: 0 });
+        else if (dir < 0 && track.scrollLeft <= 2) track.scrollTo({ left: track.scrollWidth });
+        else track.scrollBy({ left: dir * stepW() });
+    };
+    let timer = null;
+    const restart = () => { clearInterval(timer); if (!reduceMotion) timer = setInterval(() => go(1), 3200); };
+    $('.store-nav.prev').addEventListener('click', () => { go(-1); restart(); });
+    $('.store-nav.next').addEventListener('click', () => { go(1); restart(); });
+    track.addEventListener('scroll', () => requestAnimationFrame(mark), { passive: true });
+    track.addEventListener('pointerenter', () => clearInterval(timer));
+    track.addEventListener('pointerleave', restart);
+    window.addEventListener('resize', renderDots);
+    renderDots();
+    ScrollTrigger.create({ trigger: track, start: 'top bottom', end: 'bottom top', onToggle: self => self.isActive ? restart() : clearInterval(timer) });
 })();
 
 /* ===== LUCKY WHEEL ===== */
@@ -569,12 +552,6 @@ mm.add('(max-width: 768px)', () => {
     gsap.from('.wheel-wrap', { scrollTrigger: { trigger: '#vong-quay', start: 'top 70%' }, scale: .5, rotate: -90, opacity: 0, duration: 1.2, ease: 'back.out(1.6)' });
 })();
 
-/* ===== FACT COUNTER ===== */
-(function () {
-    const o = { v: 0 };
-    gsap.to(o, { v: 30, duration: 1.6, ease: 'power2.out', scrollTrigger: { trigger: '.fact', start: 'top 85%' }, onUpdate: () => { $('#factNum').textContent = Math.round(o.v); } });
-})();
-
 /* ===== PRODUCT INFO TABS ===== */
 (function () {
     const tabs = $$('.tab'), panels = $$('.tab-panel'), pill = $('#tabPill');
@@ -587,7 +564,66 @@ mm.add('(max-width: 768px)', () => {
     }));
     movePill(tabs[0], true);
     window.addEventListener('resize', () => movePill($('.tab.active'), true));
-    gsap.fromTo('.vol-tag', { scale: 0, rotate: -120 }, { scrollTrigger: { trigger: '#thong-tin', start: 'top 70%' }, scale: 1, rotate: 0, duration: 1, delay: .3, ease: 'elastic.out(1, .5)' });
+    // Lightbox xem ảnh giấy tờ
+    const lb = $('#lightbox'), lbBody = $('#lbBody');
+    const closeLb = () => gsap.to(lb, { opacity: 0, duration: .25, onComplete: () => { lb.hidden = true; lbBody.innerHTML = ''; } });
+    $$('.doc-card').forEach(card => card.addEventListener('click', () => {
+        lbBody.innerHTML = card.querySelector('.doc-img').innerHTML;
+        lb.hidden = false;
+        gsap.fromTo(lb, { opacity: 0 }, { opacity: 1, duration: .25 });
+        gsap.fromTo(lbBody, { scale: .85, y: 30 }, { scale: 1, y: 0, duration: .5, ease: 'back.out(1.8)' });
+    }));
+    lb.addEventListener('click', e => { if (e.target === lb || e.target.closest('.lb-close')) closeLb(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !lb.hidden) closeLb(); });
+})();
+
+/* ===== ĐÁNH GIÁ SẢN PHẨM ===== */
+(function () {
+    const all = CONFIG.reviews || [];
+    const grid = $('#rvGrid'), filters = $('#rvFilters'), more = $('#rvMore');
+    const PAGE = 6;
+    let shown = PAGE, current = 'all';
+    const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const stars = n => '★'.repeat(n) + '☆'.repeat(5 - n);
+    const fmt = n => n >= 1000 ? (n / 1000).toFixed(1).replace('.0', '') + 'K' : n;
+    const tests = {
+        all: () => true, s5: r => r.stars === 5, s4: r => r.stars === 4, s3: r => r.stars === 3,
+        text: r => !!(r.text && r.text.trim()), media: r => r.photos && r.photos.length
+    };
+    const avg = all.length ? all.reduce((a, r) => a + r.stars, 0) / all.length : 0;
+    $('#rvAvg').textContent = avg ? avg.toFixed(1) : '0';
+    $('#rvAvgStars').textContent = stars(Math.round(avg));
+    $('#rvSampleNote').hidden = !all.some(r => r.sample);
+    const labels = [['all', 'Tất cả', false], ['s5', '5 Sao'], ['s4', '4 Sao'], ['s3', '3 Sao'], ['text', 'Có Bình Luận'], ['media', 'Có Hình Ảnh / Video']];
+    filters.innerHTML = labels.map(([k, l, count]) => `<button type="button" class="rv-filter${k === 'all' ? ' on' : ''}" data-k="${k}">${l}${count === false ? '' : ` (${fmt(all.filter(tests[k]).length)})`}</button>`).join('');
+    const render = animate => {
+        const list = all.filter(tests[current]);
+        grid.innerHTML = list.slice(0, shown).map(r => `
+            <article class="rv-card">
+                <div class="rv-head"><span class="rv-ava">${esc(r.name.trim()[0] || '?').toUpperCase()}</span>
+                    <div><div class="rv-name">${esc(r.name)}</div>
+                    <div class="rv-meta"><i class="rv-stars">${stars(r.stars)}</i><span>${esc(r.time || '')}</span>${r.sample ? '<span class="rv-tag">MẪU</span>' : ''}</div></div></div>
+                <p class="rv-text">${esc(r.text || '')}</p>
+                ${r.photos && r.photos.length ? `<div class="rv-photos">${r.photos.map(src => `<button type="button" data-src="${esc(src)}"><img src="${esc(src)}" alt="Ảnh đánh giá của ${esc(r.name)}" loading="lazy"></button>`).join('')}</div>` : ''}
+            </article>`).join('') || '<p class="rv-empty">Chưa có đánh giá phù hợp.</p>';
+        more.hidden = list.length <= shown;
+        if (animate) gsap.fromTo(grid.children, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .45, stagger: .06, ease: 'power2.out' });
+    };
+    filters.addEventListener('click', e => {
+        const b = e.target.closest('.rv-filter'); if (!b) return;
+        $$('.rv-filter', filters).forEach(x => x.classList.toggle('on', x === b));
+        current = b.dataset.k; shown = PAGE; render(true);
+    });
+    more.addEventListener('click', () => { shown += PAGE; render(true); });
+    grid.addEventListener('click', e => {
+        const b = e.target.closest('.rv-photos button'); if (!b) return;
+        const lb = $('#lightbox');
+        $('#lbBody').innerHTML = `<img src="${b.dataset.src}" alt="">`;
+        lb.hidden = false;
+        gsap.fromTo(lb, { opacity: 0 }, { opacity: 1, duration: .25 });
+    });
+    render(false);
+    gsap.fromTo('#rvGrid .rv-card', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .7, stagger: .1, ease: 'back.out(1.6)', scrollTrigger: { trigger: '#rvGrid', start: 'top 85%' } });
 })();
 
 /* ===== FAQ ===== */
@@ -618,6 +654,15 @@ $$('.faq-item').forEach(item => {
 
 /* ===== LEAD FORM ===== */
 (function () {
+    const money = v => v.toLocaleString('vi-VN') + 'đ';
+    const offer = CONFIG.offer;
+    $('#opPrice').textContent = offer.price ? money(offer.price) : 'Giá ưu đãi';
+    $('#opOld').textContent = offer.old ? money(offer.old) : '';
+    if (offer.price && offer.old) { $('#opOff').hidden = false; $('#opOff').textContent = '-' + Math.round((1 - offer.price / offer.old) * 100) + '%'; }
+    gsap.fromTo('#opPrice', { scale: .6, opacity: 0 }, { scale: 1, opacity: 1, duration: 1, ease: 'elastic.out(1, .5)', scrollTrigger: { trigger: '#dang-ky', start: 'top 70%' } });
+    gsap.fromTo('.oi-lion', { x: 60, rotate: 30, opacity: 0 }, { x: 0, rotate: 0, opacity: 1, duration: 1, ease: 'back.out(2)', scrollTrigger: { trigger: '.order-img', start: 'top 80%' } });
+    if (!reduceMotion) gsap.to('.oi-bottle', { y: -12, rotate: -2, duration: 2.2, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+
     const params = new URLSearchParams(location.search);
     const source = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'ttclid', 'gclid']
         .filter(k => params.get(k)).map(k => `${k}=${params.get(k)}`).join('&');
@@ -641,11 +686,9 @@ $$('.faq-item').forEach(item => {
         const fd = new FormData(form);
         const data = {
             name: name.value.trim(), phone: ph,
-            baby_age: fd.get('baby_age') || '',
-            concern: fd.getAll('concern').join(', '),
-            call_time: fd.get('call_time') || '',
-            note: fd.get('note') || '',
-            quiz_result: fd.get('quiz_result') || '',
+            address: fd.get('address') || '',
+            package: CONFIG.offer.label,
+            price: CONFIG.offer.price || '',
             gift: fd.get('gift') || '',
             source: fd.get('source') || '',
             page: location.href.split('?')[0],
@@ -653,23 +696,37 @@ $$('.faq-item').forEach(item => {
             time: new Date().toLocaleString('vi-VN')
         };
         const btn = $('#submitBtn');
-        btn.disabled = true; btn.innerHTML = '<i class="bb"></i> Đang gửi...';
-        try {
-            // 1. Submit to WordPress AJAX lead handler
-            if (CONFIG.ajaxUrl) {
-                const ajaxFd = new FormData();
-                ajaxFd.append('action', 'lx_submit_lead');
-                ajaxFd.append('nonce', CONFIG.nonce || '');
-                for (const [k, v] of Object.entries(data)) {
-                    ajaxFd.append(k, v);
-                }
-                fetch(CONFIG.ajaxUrl, { method: 'POST', body: ajaxFd }).catch(e => console.warn('AJAX submit warning:', e));
+        btn.disabled = true; btn.innerHTML = '<i class="bb"></i> Đang gửi đơn...';
+        // 1. Post to WordPress AJAX handler
+        if (CONFIG.ajaxUrl) {
+            try {
+                const wpBody = new URLSearchParams();
+                wpBody.append('action', 'lx_submit_lead');
+                wpBody.append('nonce', CONFIG.nonce || '');
+                wpBody.append('name', data.name);
+                wpBody.append('phone', data.phone);
+                wpBody.append('address', data.address);
+                wpBody.append('package', data.package);
+                wpBody.append('price', data.price);
+                wpBody.append('gift', data.gift);
+                wpBody.append('source', data.source);
+                wpBody.append('page', data.page);
+                fetch(CONFIG.ajaxUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+                    body: wpBody.toString()
+                }).catch(e => console.warn('[WP lead error]', e));
+            } catch (e) {
+                console.warn(e);
             }
-            // 2. Submit to external webhook (Pancake / Google Sheet) if configured
+        }
+
+        // 2. Post to external Webhook if configured
+        try {
             if (CONFIG.webhookUrl) {
                 await fetch(CONFIG.webhookUrl, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) });
             } else {
-                console.log('[Bon Bon lead captured]', data);
+                console.log('[Bon Bon lead]', data);
             }
         } catch (err) {
             console.error(err);
@@ -682,6 +739,7 @@ $$('.faq-item').forEach(item => {
 
         $('#sName').textContent = data.name;
         $('#sPhone').textContent = data.phone;
+        $('#sPkg').textContent = data.package;
         gsap.to('#formContent', { opacity: 0, y: -20, duration: .3, onComplete: () => {
             $('#formContent').style.display = 'none';
             const s = $('#formSuccess'); s.classList.add('show');

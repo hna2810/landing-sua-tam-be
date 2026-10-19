@@ -28,6 +28,9 @@ function lx_handle_ajax_lead() {
     $lead = array(
         'name'        => $name,
         'phone'       => $phone,
+        'address'     => isset($_POST['address']) ? sanitize_text_field(wp_unslash($_POST['address'])) : '',
+        'package'     => isset($_POST['package']) ? sanitize_text_field(wp_unslash($_POST['package'])) : '',
+        'price'       => isset($_POST['price']) ? sanitize_text_field(wp_unslash($_POST['price'])) : '',
         'baby_age'    => isset($_POST['baby_age']) ? sanitize_text_field(wp_unslash($_POST['baby_age'])) : '',
         'concern'     => isset($_POST['concern']) ? sanitize_text_field(wp_unslash($_POST['concern'])) : '',
         'call_time'   => isset($_POST['call_time']) ? sanitize_text_field(wp_unslash($_POST['call_time'])) : '',
@@ -58,10 +61,22 @@ function lx_handle_ajax_lead() {
         $to_email = get_option('admin_email');
     }
 
-    $subject = sprintf('[Sữa Tắm Bon Bon] Đơn tư vấn mới từ mẹ %s - %s', $lead['name'], $lead['phone']);
-    $message = "MẸ ĐĂNG KÝ TƯ VẤN SỮA TẮM GỘI BON BON:\n\n";
+    $subject = sprintf('[Sữa Tắm Bon Bon] Đơn đặt hàng mới từ mẹ %s - %s', $lead['name'], $lead['phone']);
+    $message = "MẸ ĐĂNG KÝ SỮA TẮM GỘI BON BON:\n\n";
     $message .= "Họ tên mẹ: " . $lead['name'] . "\n";
     $message .= "Số điện thoại: " . $lead['phone'] . "\n";
+    if (!empty($lead['address'])) {
+        $message .= "Địa chỉ giao hàng: " . $lead['address'] . "\n";
+    }
+    if (!empty($lead['package'])) {
+        $message .= "Gói sản phẩm: " . $lead['package'] . "\n";
+    }
+    if (!empty($lead['price'])) {
+        $message .= "Giá ưu đãi: " . number_format((float)$lead['price'], 0, ',', '.') . "đ\n";
+    }
+    if (!empty($lead['gift'])) {
+        $message .= "Quà tặng kèm: " . $lead['gift'] . "\n";
+    }
     if (!empty($lead['baby_age'])) {
         $message .= "Tuổi của bé: " . $lead['baby_age'] . "\n";
     }
@@ -70,12 +85,6 @@ function lx_handle_ajax_lead() {
     }
     if (!empty($lead['call_time'])) {
         $message .= "Giờ gọi thuận tiện: " . $lead['call_time'] . "\n";
-    }
-    if (!empty($lead['gift'])) {
-        $message .= "Quà trúng thưởng: " . $lead['gift'] . "\n";
-    }
-    if (!empty($lead['quiz_result'])) {
-        $message .= "Kết quả Quiz: " . $lead['quiz_result'] . "\n";
     }
     if (!empty($lead['note'])) {
         $message .= "Ghi chú thêm: " . $lead['note'] . "\n";

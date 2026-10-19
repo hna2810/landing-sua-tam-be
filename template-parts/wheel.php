@@ -1,11 +1,23 @@
-<?php if (!defined('ABSPATH')) exit; ?>
+<?php
+/**
+ * Lucky Wheel Section Template
+ *
+ * @package LXLanding
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+$eyebrow = lx_get_field('lx_wheel_title', 'option', '🎡 Vòng quay may mắn');
+?>
 <!-- ===== WHEEL ===== -->
 <section class="section wheel-sec" id="vong-quay">
     <div class="container wheel-grid">
         <div class="wheel-copy" data-reveal>
-            <span class="eyebrow">🎡 Vòng quay may mắn</span>
+            <span class="eyebrow"><?php echo esc_html($eyebrow); ?></span>
             <h2 class="section-title">Quay là trúng, <span class="hl">100% có quà!</span></h2>
-            <p class="section-sub">Mỗi mẹ có 1 lượt quay. Phần quà sẽ được giữ cho mẹ khi để lại thông tin nhận tư vấn.</p>
+            <p class="section-sub">Mỗi mẹ có 1 lượt quay. Phần quà được gửi kèm đơn hàng khi mẹ đặt mua bên dưới.</p>
             <ul>
                 <li><span>🎁</span> Quà được giữ trong 24 giờ</li>
                 <li><span>📞</span> Chuyên viên gọi lại xác nhận quà</li>

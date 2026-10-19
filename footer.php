@@ -25,9 +25,9 @@ if (!defined('ABSPATH')) {
         </div>
         <div>
             <h4>Khám phá</h4>
-            <p><a href="#quiz" class="js-scroll">Quiz da bé</a></p>
-            <p><a href="#vong-quay" class="js-scroll">Vòng quay quà tặng</a></p>
-            <p><a href="#dang-ky" class="js-scroll">Đăng ký tư vấn</a></p>
+            <p><a href="#cong-dung" class="js-scroll"><?php _e('Công dụng 3 trong 1', 'lx-landing'); ?></a></p>
+            <p><a href="#vong-quay" class="js-scroll"><?php _e('Vòng quay quà tặng', 'lx-landing'); ?></a></p>
+            <p><a href="#dang-ky" class="js-scroll"><?php _e('Đặt hàng', 'lx-landing'); ?></a></p>
         </div>
     </div>
     <div class="container footer-bottom">© <span id="year"></span> Home Care Việt Nam. Sản phẩm này không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh.</div>
@@ -40,7 +40,7 @@ if (!defined('ABSPATH')) {
 </div>
 <div class="sticky-bar" id="stickyBar">
     <a href="#" class="btn call" data-tel aria-label="Gọi hotline">📞</a>
-    <a href="#dang-ky" class="btn btn-primary go js-scroll"><span class="wiggle">🎁</span> Nhận tư vấn &amp; quà</a>
+    <a href="#dang-ky" class="btn btn-primary go js-scroll"><span class="wiggle">🎁</span> <?php _e('Đặt hàng ngay', 'lx-landing'); ?></a>
 </div>
 <div class="toast" id="toast"></div>
 

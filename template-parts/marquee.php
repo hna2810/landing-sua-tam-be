@@ -1,5 +1,14 @@
-<?php if (!defined('ABSPATH')) exit; ?>
-<!-- ===== MARQUEE ===== -->
+<?php
+/**
+ * Marquee Ticker Template
+ *
+ * @package LXLanding
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+?>
 <!-- ===== MARQUEE ===== -->
 <div class="marquee" aria-hidden="true">
     <div class="marquee-track" id="marqueeTrack">

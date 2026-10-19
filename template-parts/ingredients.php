@@ -1,4 +1,19 @@
-<?php if (!defined('ABSPATH')) exit; ?>
+<?php
+/**
+ * Ingredients Mini-game Template
+ *
+ * @package LXLanding
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+$bottle_img = lx_get_field('lx_hero_bottle_img', 'option', '');
+if (empty($bottle_img)) {
+    $bottle_img = LX_THEME_URI . '/assets/img/sua-tam-goi-bon-bon-500ml.webp';
+}
+?>
 <!-- ===== INGREDIENTS GAME ===== -->
 <section class="section ingre" id="thanh-phan">
     <div class="container">
@@ -14,7 +29,9 @@
             </div>
             <div class="drop-zone" id="dropZone">
                 <div class="drop-ring"></div>
-                <div class="lab-bottle" id="labBottle" data-bottle="lab"></div>
+                <div class="lab-bottle" id="labBottle">
+                    <img src="<?php echo esc_url($bottle_img); ?>" alt="Sữa tắm gội Bon Bon 500ml" width="827" height="2000" draggable="false" loading="lazy">
+                </div>
                 <div class="lab-meter">Công thức: <span id="labCount">0</span>/3<div class="bar"><i id="labBar"></i></div></div>
             </div>
             <div class="chips chips-right">

@@ -26,7 +26,7 @@ $tiktok_id   = lx_get_field('lx_tiktok_pixel_id', 'option', '');
     ?></title>
     <meta name="description" content="Sữa tắm gội 2in1 Bon Bon cho bé: không cay mắt, không Paraben, pH cân bằng, dùng được cho trẻ sơ sinh. Đăng ký nhận tư vấn miễn phí &amp; quà tặng dành cho mẹ.">
     <meta property="og:title" content="Sữa Tắm Gội Bon Bon - Nâng niu làn da bé từ những ngày đầu đời">
-    <meta property="og:description" content="Làm quiz 30 giây để biết bé cần chăm da thế nào và nhận quà tặng từ Home Care Việt Nam.">
+    <meta property="og:description" content="Sữa tắm gội 2in1 Bon Bon cho bé: không cay mắt, không Paraben, pH cân bằng, dùng được cho trẻ sơ sinh. Nhận ưu đãi &amp; quà tặng từ Home Care Việt Nam.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="<?php echo esc_url(home_url('/')); ?>">
     <script>document.documentElement.classList.add('js');</script>
@@ -81,7 +81,7 @@ $tiktok_id   = lx_get_field('lx_tiktok_pixel_id', 'option', '');
 <!-- Scroll progress with duck -->
 <div class="progress" aria-hidden="true">
     <div class="progress-bar" id="progressBar"></div>
-    <div class="progress-duck" id="progressDuck">🐥</div>
+    <div class="progress-duck" id="progressDuck"><img src="<?php echo esc_url(LX_THEME_URI . '/assets/img/su-tu-bon-bon.webp'); ?>" alt="" width="30" height="30"></div>
 </div>
 
 <!-- ===== HEADER ===== -->
@@ -92,13 +92,13 @@ $tiktok_id   = lx_get_field('lx_tiktok_pixel_id', 'option', '');
             <span class="logo-text">Bon Bon<small>by Home Care Việt Nam</small></span>
         </a>
         <nav class="nav">
-            <a href="#van-de" class="js-scroll"><?php _e('Mẹ lo gì?', 'lx-landing'); ?></a>
             <a href="#thanh-phan" class="js-scroll"><?php _e('Thành phần', 'lx-landing'); ?></a>
-            <a href="#quiz" class="js-scroll"><?php _e('Quiz da bé', 'lx-landing'); ?></a>
-            <a href="#vong-quay" class="js-scroll"><?php _e('Quà tặng', 'lx-landing'); ?></a>
-            <a href="#hoi-dap" class="js-scroll"><?php _e('Hỏi đáp', 'lx-landing'); ?></a>
+            <a href="#cong-dung" class="js-scroll"><?php _e('Công dụng', 'lx-landing'); ?></a>
+            <a href="#cach-dung" class="js-scroll"><?php _e('Cách dùng', 'lx-landing'); ?></a>
+            <a href="#danh-gia-sp" class="js-scroll"><?php _e('Đánh giá', 'lx-landing'); ?></a>
+            <a href="#vong-quay" class="js-scroll nav-strong"><?php _e('Quay trúng thưởng', 'lx-landing'); ?></a>
         </nav>
-        <a href="#dang-ky" class="btn btn-primary header-cta js-scroll">🎁 <?php _e('Nhận quà', 'lx-landing'); ?></a>
+        <a href="#dang-ky" class="btn btn-primary header-cta js-scroll"><?php _e('Đặt hàng', 'lx-landing'); ?></a>
     </div>
 </header>
 
