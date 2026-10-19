@@ -116,6 +116,7 @@ function lx_enqueue_scripts() {
     }
 
     $js_config = array(
+        'themeUri'         => LX_THEME_URI,
         'hotline'          => lx_get_field('lx_hotline', 'option', '0901234567'),
         'hotlineFormatted' => lx_get_field('lx_hotline_formatted', 'option', '0901.234.567'),
         'zalo'             => lx_get_field('lx_zalo', 'option', '0901234567'),

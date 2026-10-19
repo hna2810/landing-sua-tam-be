@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="100%" height="100%">
+  <defs>
+    <linearGradient id="berryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9333ea" />
+      <stop offset="50%" stop-color="#6b21a8" />
+      <stop offset="100%" stop-color="#3b0764" />
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80" />
+      <stop offset="100%" stop-color="#16a34a" />
+    </linearGradient>
+    <filter id="berryShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <!-- Cuống quả -->
+  <path d="M24 12 C23 7 21 4 18 3" fill="none" stroke="#854d0e" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Lá trái -->
+  <path d="M23 12 C18 9 12 11 10 16 C14 17 20 15 23 12 Z" fill="url(#leafGrad)"/>
+  <path d="M11 15 C15 14 19 13 23 12" fill="none" stroke="#15803d" stroke-width="0.8" stroke-linecap="round"/>
+  <!-- Lá phải -->
+  <path d="M25 12 C30 9 36 11 38 16 C34 17 28 15 25 12 Z" fill="url(#leafGrad)"/>
+  <path d="M37 15 C33 14 29 13 25 12" fill="none" stroke="#15803d" stroke-width="0.8" stroke-linecap="round"/>
+  <!-- Thân chùm quả dâu tằm -->
+  <g fill="url(#berryGrad)" filter="url(#berryShadow)">
+    <!-- Hàng 1 (đỉnh) -->
+    <circle cx="20" cy="17" r="4" />
+    <circle cx="28" cy="17" r="4" />
+    <circle cx="24" cy="18" r="4.2" />
+    <!-- Hàng 2 -->
+    <circle cx="16" cy="22" r="4.2" />
+    <circle cx="22" cy="23" r="4.5" />
+    <circle cx="28" cy="23" r="4.5" />
+    <circle cx="33" cy="22" r="4" />
+    <!-- Hàng 3 -->
+    <circle cx="15" cy="28" r="4.2" />
+    <circle cx="21" cy="29" r="4.6" />
+    <circle cx="27" cy="29" r="4.6" />
+    <circle cx="33" cy="28" r="4.2" />
+    <!-- Hàng 4 -->
+    <circle cx="17" cy="34" r="4.2" />
+    <circle cx="23" cy="35" r="4.6" />
+    <circle cx="29" cy="35" r="4.4" />
+    <circle cx="32" cy="33" r="3.8" />
+    <!-- Hàng 5 (đáy thon) -->
+    <circle cx="20" cy="40" r="4" />
+    <circle cx="26" cy="40" r="4" />
+    <circle cx="23" cy="43" r="3.5" />
+  </g>
+  <!-- Đốm sáng căng mọng trên từng múi dâu tằm -->
+  <g fill="#c084fc" opacity="0.6">
+    <ellipse cx="19" cy="16" rx="1.5" ry="0.9" />
+    <ellipse cx="27" cy="16" rx="1.5" ry="0.9" />
+    <ellipse cx="15" cy="21" rx="1.5" ry="0.9" />
+    <ellipse cx="21" cy="22" rx="1.6" ry="1" />
+    <ellipse cx="27" cy="22" rx="1.6" ry="1" />
+    <ellipse cx="14" cy="27" rx="1.5" ry="0.9" />
+    <ellipse cx="20" cy="28" rx="1.6" ry="1" />
+    <ellipse cx="26" cy="28" rx="1.6" ry="1" />
+    <ellipse cx="16" cy="33" rx="1.5" ry="0.9" />
+    <ellipse cx="22" cy="34" rx="1.6" ry="1" />
+    <ellipse cx="28" cy="34" rx="1.5" ry="0.9" />
+    <ellipse cx="19" cy="39" rx="1.4" ry="0.8" />
+    <ellipse cx="25" cy="39" rx="1.4" ry="0.8" />
+    <ellipse cx="22" cy="42" rx="1.2" ry="0.7" />
+  </g>
+</svg>

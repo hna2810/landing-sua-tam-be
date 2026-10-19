@@ -469,7 +469,7 @@ safeRun('ingredientsGame', () => {
         { ico: '🌰', name: 'Dầu Hạnh Nhân (Prunus Amygdalus Dulcis Oil)', text: 'Giàu Vitamin E và axit béo tự nhiên, nuôi dưỡng sâu, giảm khô rát, bong tróc và củng cố hàng rào bảo vệ da bé.' },
         { ico: '💊', name: 'Vitamin E (Tocopherol)', text: 'Chống oxy hóa, hỗ trợ bảo vệ da trước tác nhân môi trường và giúp da bé mịn màng.' },
         { ico: '💧', name: 'Aqua & Sodium Laureth Sulfate dịu nhẹ', text: 'Lấy đi bụi bẩn và mồ hôi hằng ngày một cách nhẹ nhàng mà không làm bít tắc lỗ chân lông.' },
-        { ico: '🫐', name: 'Chiết Xuất Dâu Tằm (Morus Alba Leaf Extract)', text: 'Thảo dược tự nhiên tính mát, giàu chất chống oxy hóa, giúp làm dịu rôm sảy, mẩn ngứa và giữ làn da bé luôn ẩm mịn, mát lành.' }
+        { ico: '<img src="' + ((window.BONBON_CONFIG && window.BONBON_CONFIG.themeUri) ? window.BONBON_CONFIG.themeUri + '/assets/img/dau-tam.svg' : '/wp-content/themes/landing-sua-tam-be/assets/img/dau-tam.svg') + '" alt="Dâu tằm" width="36" height="36">', name: 'Chiết Xuất Dâu Tằm (Morus Alba Leaf Extract)', text: 'Thảo dược tự nhiên tính mát, giàu chất chống oxy hóa, giúp làm dịu rôm sảy, mẩn ngứa và giữ làn da bé luôn ẩm mịn, mát lành.' }
     ];
     const BADS = {
         paraben: {

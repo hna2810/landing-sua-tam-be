@@ -26,7 +26,7 @@ if (empty($bottle_img)) {
             <div class="chips chips-left">
                 <div class="chip" data-ing="0"><span class="ico" style="background:var(--pink-soft)">🌰</span><div>Dầu hạnh nhân<small>Nuôi dưỡng sâu</small></div></div>
                 <div class="chip bad" data-bad="paraben"><span class="ico">🧪</span><div>Paraben<small>Chất bảo quản</small></div></div>
-                <div class="chip" data-ing="3"><span class="ico" style="background:#fce7f3">🫐</span><div>Dâu tằm<small>Dịu mát &amp; dưỡng ẩm</small></div></div>
+                <div class="chip" data-ing="3"><span class="ico" style="background:#fce7f3"><img src="<?php echo esc_url(LX_THEME_URI . '/assets/img/dau-tam.svg'); ?>" alt="Dâu tằm" width="28" height="28"></span><div>Dâu tằm<small>Dịu mát &amp; dưỡng ẩm</small></div></div>
             </div>
             <div class="drop-zone" id="dropZone">
                 <div class="drop-ring"></div>
