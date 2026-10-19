@@ -54,7 +54,7 @@ $lion_img      = lx_get_image_url('lx_hero_lion_img', LX_THEME_URI . '/assets/im
 
             <?php if (!empty($hero_cta)) : ?>
                 <div class="hero-ctas" data-hero>
-                    <a href="#dang-ky" class="btn btn-primary js-scroll magnetic"><span class="wiggle">👶</span> <?php echo esc_html($hero_cta); ?></a>
+                    <a href="#van-de" class="btn btn-primary js-scroll magnetic"><span class="wiggle">👶</span> <?php echo esc_html($hero_cta); ?></a>
                 </div>
             <?php endif; ?>
 
