@@ -432,10 +432,10 @@ add_action('acf/init', function() {
             ),
             array(
                 'key' => 'field_lx_howto_video_url',
-                'label' => __('URL Video hướng dẫn (MP4 khung 9:16)', 'lx-landing'),
+                'label' => __('URL Video hướng dẫn (YouTube / Shorts hoặc MP4 9:16)', 'lx-landing'),
                 'name' => 'lx_howto_video_url',
-                'type' => 'url',
-                'instructions' => __('Tải lên Media Library rồi copy link mp4 dán vào đây.', 'lx-landing'),
+                'type' => 'text',
+                'instructions' => __('Hỗ trợ link YouTube Shorts, YouTube (youtube.com, youtu.be) hoặc link file MP4 tải lên Media.', 'lx-landing'),
             ),
             array(
                 'key' => 'field_lx_howto_video_poster',
@@ -586,9 +586,10 @@ add_action('acf/init', function() {
                     ),
                     array(
                         'key' => 'field_mom_video_url',
-                        'label' => __('URL Video MP4 (khung 9:16)', 'lx-landing'),
+                        'label' => __('URL Video review (YouTube / Shorts hoặc MP4 9:16)', 'lx-landing'),
                         'name' => 'video_url',
-                        'type' => 'url',
+                        'type' => 'text',
+                        'instructions' => __('Hỗ trợ link YouTube Shorts, YouTube (youtube.com, youtu.be) hoặc file MP4 tải lên Media.', 'lx-landing'),
                     ),
                     array(
                         'key' => 'field_mom_poster',

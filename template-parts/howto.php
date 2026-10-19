@@ -82,8 +82,23 @@ if (empty($steps)) {
 
             <div class="howto-phone" data-reveal>
                 <div class="howto-screen">
-                    <?php if (!empty($video_url)) : ?>
+                    <?php 
+                    $yt_id = lx_get_youtube_id($video_url);
+                    if (!empty($yt_id)) : 
+                    ?>
+                        <iframe 
+                            src="https://www.youtube-nocookie.com/embed/<?php echo esc_attr($yt_id); ?>?autoplay=1&mute=1&loop=1&playlist=<?php echo esc_attr($yt_id); ?>&playsinline=1&controls=1&rel=0&modestbranding=1" 
+                            title="<?php echo esc_attr($title); ?>" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen 
+                            loading="lazy"
+                            class="howto-yt-frame"
+                            style="width:100%;height:100%;border:0;border-radius:28px;display:block;"></iframe>
+                    <?php elseif (!empty($video_url)) : ?>
                         <video src="<?php echo esc_url($video_url); ?>" <?php if (!empty($poster)) : ?>poster="<?php echo esc_url($poster); ?>"<?php endif; ?> playsinline muted loop autoplay controls style="width:100%;height:100%;object-fit:cover;border-radius:28px;"></video>
+                    <?php elseif (!empty($poster)) : ?>
+                        <img src="<?php echo esc_url($poster); ?>" alt="<?php echo esc_attr($title); ?>" style="width:100%;height:100%;object-fit:cover;border-radius:28px;">
                     <?php else : ?>
                         <div class="howto-ph"><span class="howto-play">▶</span><span>Video khung hình 9:16</span></div>
                     <?php endif; ?>

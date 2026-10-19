@@ -1025,13 +1025,48 @@ if (document.readyState === 'complete') refreshAll(); else window.addEventListen
             }
 
             function togglePlay() {
+                const ytId = card.dataset.ytId;
+                if (ytId) {
+                    let iframe = videoContainer.querySelector('.js-reel-yt-iframe');
+                    if (!iframe) {
+                        // Pause all HTML5 videos
+                        document.querySelectorAll('.js-reel-video').forEach(v => {
+                            v.pause();
+                            v.closest('.reel-card')?.classList.remove('is-playing', 'has-yt-playing');
+                        });
+                        // Remove any other playing YouTube iframes
+                        document.querySelectorAll('.js-reel-yt-iframe').forEach(f => {
+                            f.closest('.reel-card')?.classList.remove('is-playing', 'has-yt-playing');
+                            f.remove();
+                        });
+
+                        iframe = document.createElement('iframe');
+                        iframe.className = 'reel-video-el js-reel-yt-iframe';
+                        iframe.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(ytId) + '?autoplay=1&playsinline=1&rel=0&controls=1&modestbranding=1';
+                        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                        iframe.allowFullscreen = true;
+                        iframe.style.zIndex = '3';
+                        iframe.style.border = '0';
+                        videoContainer.appendChild(iframe);
+                        card.classList.add('is-playing', 'has-yt-playing');
+                    } else {
+                        card.classList.remove('is-playing', 'has-yt-playing');
+                        iframe.remove();
+                    }
+                    return;
+                }
+
                 if (videoEl) {
                     if (videoEl.paused) {
                         document.querySelectorAll('.js-reel-video').forEach(v => {
                             if (v !== videoEl) {
                                 v.pause();
-                                v.closest('.reel-card')?.classList.remove('is-playing');
+                                v.closest('.reel-card')?.classList.remove('is-playing', 'has-yt-playing');
                             }
+                        });
+                        document.querySelectorAll('.js-reel-yt-iframe').forEach(f => {
+                            f.closest('.reel-card')?.classList.remove('is-playing', 'has-yt-playing');
+                            f.remove();
                         });
                         videoEl.play().then(() => {
                             card.classList.add('is-playing');

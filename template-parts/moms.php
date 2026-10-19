@@ -64,14 +64,18 @@ if (!empty($acf_videos) && is_array($acf_videos)) {
         if (!empty($v['video_url']) || !empty($v['name'])) {
             $base = isset($default_reels[$idx]) ? $default_reels[$idx] : $default_reels[0];
             $likes = !empty($v['likes']) ? (int)$v['likes'] : (2500 + $idx * 650);
+            $v_url = !empty($v['video_url']) ? trim($v['video_url']) : '';
+            $yt_id = !empty($v_url) ? lx_get_youtube_id($v_url) : false;
+            $poster = !empty($v['poster']) ? $v['poster'] : ($yt_id ? lx_get_youtube_thumbnail($yt_id) : '');
             $reels[] = array(
                 'name'        => !empty($v['name']) ? $v['name'] : $base['name'],
                 'quote'       => !empty($v['quote']) ? $v['quote'] : $base['quote'],
                 'likes'       => $likes,
                 'likes_fmt'   => ($likes >= 1000) ? (round($likes / 1000, 1) . 'K') : (string)$likes,
                 'badge'       => !empty($v['baby']) ? ('👶 ' . $v['baby']) : $base['badge'],
-                'video_url'   => !empty($v['video_url']) ? $v['video_url'] : '',
-                'poster'      => !empty($v['poster']) ? $v['poster'] : '',
+                'video_url'   => $v_url,
+                'yt_id'       => $yt_id,
+                'poster'      => $poster,
                 'bg_gradient' => $base['bg_gradient'],
             );
         }
@@ -103,20 +107,40 @@ if (empty($reels)) {
             <button type="button" class="reel-nav next" id="reelNext" aria-label="Xem video tiếp">❯</button>
 
             <div class="mom-row reels-track" id="reelsTrack">
-                <?php foreach ($reels as $idx => $r) : ?>
-                    <div class="mom-card reel-card" data-reel-index="<?php echo $idx; ?>">
+                <?php foreach ($reels as $idx => $r) : 
+                    $is_yt = !empty($r['yt_id']);
+                ?>
+                    <div class="mom-card reel-card <?php echo $is_yt ? 'has-yt' : ''; ?>" data-reel-index="<?php echo $idx; ?>" <?php if ($is_yt) : ?>data-yt-id="<?php echo esc_attr($r['yt_id']); ?>"<?php endif; ?>>
                         <div class="reel-video-container" style="background: <?php echo esc_attr($r['bg_gradient']); ?>;">
                             <!-- Top Bar: Badge & Sound Toggle -->
                             <div class="reel-top-bar">
                                 <span class="reel-badge"><?php echo esc_html($r['badge']); ?></span>
-                                <button type="button" class="reel-sound-btn js-reel-sound" aria-label="Bật/Tắt âm thanh" title="Bật/Tắt âm">
-                                    <span class="sound-icon">🔇</span>
-                                </button>
+                                <?php if (!$is_yt) : ?>
+                                    <button type="button" class="reel-sound-btn js-reel-sound" aria-label="Bật/Tắt âm thanh" title="Bật/Tắt âm">
+                                        <span class="sound-icon">🔇</span>
+                                    </button>
+                                <?php endif; ?>
                             </div>
 
                             <!-- Video Element or Ambient Animated Poster -->
-                            <?php if (!empty($r['video_url'])) : ?>
+                            <?php if ($is_yt) : ?>
+                                <?php if (!empty($r['poster'])) : ?>
+                                    <img class="reel-video-el js-reel-poster-img" src="<?php echo esc_url($r['poster']); ?>" alt="<?php echo esc_attr($r['name']); ?>" style="object-fit:cover;" loading="lazy">
+                                <?php else : ?>
+                                    <div class="reel-ambient-bg">
+                                        <span class="ambient-bubble b1"></span>
+                                        <span class="ambient-bubble b2"></span>
+                                        <span class="ambient-bubble b3"></span>
+                                        <div class="ambient-baby-badge">
+                                            <span class="baby-emoji">👶</span>
+                                            <span class="ambient-pulse"></span>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            <?php elseif (!empty($r['video_url'])) : ?>
                                 <video class="reel-video-el js-reel-video" src="<?php echo esc_url($r['video_url']); ?>" <?php if (!empty($r['poster'])) : ?>poster="<?php echo esc_url($r['poster']); ?>"<?php endif; ?> playsinline loop muted preload="metadata"></video>
+                            <?php elseif (!empty($r['poster'])) : ?>
+                                <img class="reel-video-el" src="<?php echo esc_url($r['poster']); ?>" alt="<?php echo esc_attr($r['name']); ?>" style="object-fit:cover;" loading="lazy">
                             <?php else : ?>
                                 <div class="reel-ambient-bg">
                                     <span class="ambient-bubble b1"></span>
