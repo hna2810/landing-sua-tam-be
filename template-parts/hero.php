@@ -22,7 +22,7 @@ $lion_img      = lx_get_image_url('lx_hero_lion_img', LX_THEME_URI . '/assets/im
 <section class="hero" id="top">
     <div class="hero-bubbles" id="heroBubbles"></div>
     <div class="container hero-grid">
-        <div class="hero-copy">
+        <div class="hero-header">
             <?php if (!empty($hero_badge)) : ?>
                 <span class="pill" data-hero><span class="dot"></span> <?php echo esc_html($hero_badge); ?></span>
             <?php endif; ?>
@@ -51,18 +51,8 @@ $lion_img      = lx_get_image_url('lx_hero_lion_img', LX_THEME_URI . '/assets/im
             <?php if (!empty($hero_desc)) : ?>
                 <p class="hero-desc" data-hero><?php echo esc_html($hero_desc); ?></p>
             <?php endif; ?>
-
-            <?php if (!empty($hero_cta)) : ?>
-                <div class="hero-ctas" data-hero>
-                    <a href="#dang-ky" class="btn btn-primary js-scroll magnetic"><span class="wiggle">👶</span> <?php echo esc_html($hero_cta); ?></a>
-                    <?php if (!empty($hero_subnote)) : ?>
-                        <p class="hero-subnote" style="margin-top:8px;font-size:14px;color:rgba(0,0,0,0.6);"><?php echo esc_html($hero_subnote); ?></p>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
-
-            <div class="pop-hint" data-hero><i class="bb"></i> Thử chạm vào bong bóng xem! Đã bóp: <b id="popCount">0</b></div>
         </div>
+
         <div class="hero-visual">
             <div class="hero-blob"></div>
             <span class="hero-star" style="top:6%;right:18%">✨</span>
@@ -78,6 +68,19 @@ $lion_img      = lx_get_image_url('lx_hero_lion_img', LX_THEME_URI . '/assets/im
                     <img src="<?php echo esc_url($lion_img); ?>" alt="Sư tử Bon Bon" width="400" height="400" draggable="false">
                 </div>
             <?php endif; ?>
+        </div>
+
+        <div class="hero-actions">
+            <?php if (!empty($hero_cta)) : ?>
+                <div class="hero-ctas" data-hero>
+                    <a href="#dang-ky" class="btn btn-primary js-scroll magnetic"><span class="wiggle">👶</span> <?php echo esc_html($hero_cta); ?></a>
+                    <?php if (!empty($hero_subnote)) : ?>
+                        <p class="hero-subnote" style="margin-top:8px;font-size:14px;color:rgba(0,0,0,0.6);"><?php echo esc_html($hero_subnote); ?></p>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="pop-hint" data-hero><i class="bb"></i> Thử chạm vào bong bóng xem! Đã bóp: <b id="popCount">0</b></div>
         </div>
     </div>
     <div class="wave" aria-hidden="true">
