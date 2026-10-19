@@ -598,6 +598,13 @@ add_action('acf/init', function() {
                         'type' => 'image',
                         'return_format' => 'url',
                     ),
+                    array(
+                        'key' => 'field_mom_likes',
+                        'label' => __('Số lượng tim (Mặc định tự động > 10.000 tim)', 'lx-landing'),
+                        'name' => 'likes',
+                        'type' => 'number',
+                        'placeholder' => '12800',
+                    ),
                 ),
             ),
 

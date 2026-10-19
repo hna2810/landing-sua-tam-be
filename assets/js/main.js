@@ -1103,7 +1103,7 @@ if (document.readyState === 'complete') refreshAll(); else window.addEventListen
                 likeBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const isLiked = likeBtn.classList.contains('is-liked');
-                    let count = parseInt(likeBtn.getAttribute('data-count'), 10) || 2500;
+                    let count = parseInt(likeBtn.getAttribute('data-count'), 10) || 12800;
 
                     if (!isLiked) {
                         likeBtn.classList.add('is-liked');
