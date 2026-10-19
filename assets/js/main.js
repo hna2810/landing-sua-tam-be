@@ -985,15 +985,17 @@ if (document.readyState === 'complete') refreshAll(); else window.addEventListen
             const formatCount = (n) => n >= 1000 ? (n / 1000).toFixed(1).replace('.0', '') + 'K' : String(n);
 
             let lastTap = 0;
+            let tapTimer = null;
             if (videoContainer) {
                 videoContainer.addEventListener('click', (e) => {
-                    if (e.target.closest('.reel-actions') || e.target.closest('.reel-top-bar') || e.target.closest('.reel-play-btn')) {
+                    if (e.target.closest('.reel-like-wrap') || e.target.closest('.reel-top-bar') || e.target.closest('.reel-play-btn')) {
                         return;
                     }
 
                     const currentTime = new Date().getTime();
                     const tapLength = currentTime - lastTap;
                     if (tapLength < 320 && tapLength > 0) {
+                        clearTimeout(tapTimer);
                         if (bigHeart) {
                             bigHeart.classList.remove('pop');
                             void bigHeart.offsetWidth;
@@ -1006,9 +1008,11 @@ if (document.readyState === 'complete') refreshAll(); else window.addEventListen
                             spawnFloatingHearts(videoContainer, e.clientX - rect.left, e.clientY - rect.top);
                         }
                         lastTap = 0;
-                        e.preventDefault();
                     } else {
                         lastTap = currentTime;
+                        tapTimer = setTimeout(() => {
+                            togglePlay();
+                        }, 300);
                     }
                 });
             }
@@ -1074,24 +1078,6 @@ if (document.readyState === 'complete') refreshAll(); else window.addEventListen
                     if (likeCountEl) {
                         likeCountEl.textContent = formatCount(count);
                     }
-                });
-            }
-
-            if (commentBtn) {
-                commentBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const commentText = commentBtn.getAttribute('data-comment') || 'Bé tắm ngoan, bọt mềm êm thích lắm mom ơi! ⭐⭐⭐⭐⭐';
-                    showReelToast(commentText);
-                });
-            }
-
-            if (shareBtn) {
-                shareBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    if (navigator.clipboard) {
-                        navigator.clipboard.writeText(window.location.href);
-                    }
-                    showReelToast('🔗 Đã sao chép liên kết video để chia sẻ cùng các Mom!');
                 });
             }
         });
