@@ -140,7 +140,6 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 .pop-particle { position: absolute; width: 8px; height: 8px; border-radius: 50%; pointer-events: none; z-index: 5; }
 .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.08fr .92fr; gap: 40px; align-items: center; pointer-events: none; }
 .hero-grid > * { pointer-events: auto; }
-.hero-mobile-actions { display: none; }
 .pill {
     display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 99px;
     background: var(--white); box-shadow: var(--shadow-soft); font-weight: 800; color: var(--primary-dark); font-size: 15px;
@@ -1255,33 +1254,30 @@ textarea.input { resize: vertical; min-height: 90px; }
         gap: 0;
     }
     .hero-copy {
+        display: contents;
+    }
+    .hero-header {
+        order: 1;
         width: 100%;
         text-align: center;
     }
-    .hero-desktop-cta,
-    .hero-desktop-hint {
-        display: none !important;
-    }
     .hero-visual {
+        order: 2;
         width: 100%;
         min-height: 480px;
         margin: 12px auto 22px;
     }
-    .hero-mobile-actions {
+    .hero-actions {
+        order: 3;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 100%;
         text-align: center;
-    }
-    .hero-mobile-actions .hero-ctas {
-        justify-content: center;
-        width: 100%;
-        max-width: 420px;
-        margin-bottom: 20px;
     }
     .hero { padding-top: 120px; }
     .hero-desc { margin-left: auto; margin-right: auto; }
+    .hero-ctas { justify-content: center; width: 100%; max-width: 420px; margin-bottom: 20px; }
     .lab { grid-template-columns: 1fr 1fr; }
     .drop-zone { grid-column: 1 / -1; grid-row: 1; }
     .wheel-copy { text-align: center; }
@@ -1293,16 +1289,16 @@ textarea.input { resize: vertical; min-height: 90px; }
     .header-cta { display: none; }
     .header-inner { height: 62px; }
     .hero { padding: 90px 0 110px; }
-    .hero-copy { margin-bottom: 4px; }
+    .hero-header { margin-bottom: 4px; }
     .hero-title { margin: 14px 0 12px; font-size: clamp(28px, 7.5vw, 38px); }
     .hero-desc { font-size: 16px; margin-bottom: 8px; max-width: 460px; line-height: 1.5; }
     .hero-visual { min-height: 380px; margin: 4px auto 16px; }
     .hero-bottle { width: 145px; }
     .hero-blob { width: 290px; height: 290px; }
     .hero-duck { width: 115px; right: 2%; bottom: 4%; }
-    .hero-mobile-actions { width: 100%; }
-    .hero-mobile-actions .hero-ctas { width: 100%; max-width: 380px; margin-bottom: 14px; }
-    .hero-mobile-actions .hero-ctas .btn { width: 100%; font-size: 17px; padding: 15px 20px; }
+    .hero-actions { width: 100%; }
+    .hero-ctas { width: 100%; max-width: 380px; margin-bottom: 14px; }
+    .hero-ctas .btn { width: 100%; font-size: 17px; padding: 15px 20px; }
     .pop-hint { font-size: 14px; }
     .marquee-track { font-size: 18px; }
 }

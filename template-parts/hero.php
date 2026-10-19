@@ -23,45 +23,49 @@ $lion_img      = lx_get_image_url('lx_hero_lion_img', LX_THEME_URI . '/assets/im
     <div class="hero-bubbles" id="heroBubbles"></div>
     <div class="container hero-grid">
         <div class="hero-copy">
-            <?php if (!empty($hero_badge)) : ?>
-                <span class="pill" data-hero><span class="dot"></span> <?php echo esc_html($hero_badge); ?></span>
-            <?php endif; ?>
+            <div class="hero-header">
+                <?php if (!empty($hero_badge)) : ?>
+                    <span class="pill" data-hero><span class="dot"></span> <?php echo esc_html($hero_badge); ?></span>
+                <?php endif; ?>
 
-            <?php if (!empty($hero_title)) : ?>
-                <h1 class="hero-title">
-                    <?php
-                    if (strpos($hero_title, '<span') !== false || strpos($hero_title, '<br') !== false) {
-                        echo $hero_title;
-                    } else {
-                        $words = explode(' ', trim($hero_title));
-                        if (count($words) >= 4) {
-                            $half = (int)ceil(count($words) / 2);
-                            $l1 = implode(' ', array_slice($words, 0, $half));
-                            $l2 = implode(' ', array_slice($words, $half));
-                            echo '<span class="line"><span>' . esc_html($l1) . '</span></span>';
-                            echo '<span class="line"><span class="hl">' . esc_html($l2) . '</span></span>';
+                <?php if (!empty($hero_title)) : ?>
+                    <h1 class="hero-title">
+                        <?php
+                        if (strpos($hero_title, '<span') !== false || strpos($hero_title, '<br') !== false) {
+                            echo $hero_title;
                         } else {
-                            echo '<span class="line"><span>' . esc_html($hero_title) . '</span></span>';
+                            $words = explode(' ', trim($hero_title));
+                            if (count($words) >= 4) {
+                                $half = (int)ceil(count($words) / 2);
+                                $l1 = implode(' ', array_slice($words, 0, $half));
+                                $l2 = implode(' ', array_slice($words, $half));
+                                echo '<span class="line"><span>' . esc_html($l1) . '</span></span>';
+                                echo '<span class="line"><span class="hl">' . esc_html($l2) . '</span></span>';
+                            } else {
+                                echo '<span class="line"><span>' . esc_html($hero_title) . '</span></span>';
+                            }
                         }
-                    }
-                    ?>
-                </h1>
-            <?php endif; ?>
+                        ?>
+                    </h1>
+                <?php endif; ?>
 
-            <?php if (!empty($hero_desc)) : ?>
-                <p class="hero-desc" data-hero><?php echo esc_html($hero_desc); ?></p>
-            <?php endif; ?>
+                <?php if (!empty($hero_desc)) : ?>
+                    <p class="hero-desc" data-hero><?php echo esc_html($hero_desc); ?></p>
+                <?php endif; ?>
+            </div>
 
-            <?php if (!empty($hero_cta)) : ?>
-                <div class="hero-ctas hero-desktop-cta" data-hero>
-                    <a href="#dang-ky" class="btn btn-primary js-scroll magnetic"><span class="wiggle">👶</span> <?php echo esc_html($hero_cta); ?></a>
-                    <?php if (!empty($hero_subnote)) : ?>
-                        <p class="hero-subnote" style="margin-top:8px;font-size:14px;color:rgba(0,0,0,0.6);"><?php echo esc_html($hero_subnote); ?></p>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
+            <div class="hero-actions">
+                <?php if (!empty($hero_cta)) : ?>
+                    <div class="hero-ctas" data-hero>
+                        <a href="#dang-ky" class="btn btn-primary js-scroll magnetic"><span class="wiggle">👶</span> <?php echo esc_html($hero_cta); ?></a>
+                        <?php if (!empty($hero_subnote)) : ?>
+                            <p class="hero-subnote" style="margin-top:8px;font-size:14px;color:rgba(0,0,0,0.6);"><?php echo esc_html($hero_subnote); ?></p>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
 
-            <div class="pop-hint hero-desktop-hint" data-hero><i class="bb"></i> Thử chạm vào bong bóng xem! Đã bóp: <b id="popCount" class="js-pop-count">0</b></div>
+                <div class="pop-hint" data-hero><i class="bb"></i> Thử chạm vào bong bóng xem! Đã bóp: <b id="popCount" class="js-pop-count">0</b></div>
+            </div>
         </div>
 
         <div class="hero-visual">
@@ -79,19 +83,6 @@ $lion_img      = lx_get_image_url('lx_hero_lion_img', LX_THEME_URI . '/assets/im
                     <img src="<?php echo esc_url($lion_img); ?>" alt="Sư tử Bon Bon" width="400" height="400" draggable="false">
                 </div>
             <?php endif; ?>
-        </div>
-
-        <div class="hero-mobile-actions">
-            <?php if (!empty($hero_cta)) : ?>
-                <div class="hero-ctas">
-                    <a href="#dang-ky" class="btn btn-primary js-scroll magnetic"><span class="wiggle">👶</span> <?php echo esc_html($hero_cta); ?></a>
-                    <?php if (!empty($hero_subnote)) : ?>
-                        <p class="hero-subnote" style="margin-top:8px;font-size:14px;color:rgba(0,0,0,0.6);"><?php echo esc_html($hero_subnote); ?></p>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
-
-            <div class="pop-hint"><i class="bb"></i> Thử chạm vào bong bóng xem! Đã bóp: <b id="popCountMobile" class="js-pop-count">0</b></div>
         </div>
     </div>
     <div class="wave" aria-hidden="true">
