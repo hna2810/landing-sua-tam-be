@@ -141,14 +141,15 @@ $$('[data-zalo]').forEach(a => { a.href = 'https://zalo.me/' + CONFIG.zalo; });
 $('#year').textContent = new Date().getFullYear();
 
 /* ===== TOAST ===== */
-gsap.set('#toast', { xPercent: -50, y: -30 });
+gsap.set('#toast', { xPercent: -50, y: 20 });
 function toast(html, ms = 3200) {
     const t = $('#toast');
+    if (!t) return;
     t.innerHTML = html;
     gsap.killTweensOf(t);
     gsap.timeline()
-        .to(t, { opacity: 1, y: 0, duration: .45, ease: 'back.out(2)' })
-        .to(t, { opacity: 0, y: -30, duration: .35, delay: ms / 1000 });
+        .to(t, { opacity: 1, y: 0, duration: .35, ease: 'back.out(1.5)' })
+        .to(t, { opacity: 0, y: 20, duration: .3, delay: ms / 1000 });
 }
 
 /* ===== SMOOTH ANCHOR SCROLL ===== */
@@ -221,13 +222,11 @@ if (finePointer && !reduceMotion) {
     });
 }
 
-// Duck squeak
+// Duck squeak (playful mascot bounce)
 const heroDuckEl = $('#heroDuck');
 if (heroDuckEl) {
     heroDuckEl.addEventListener('click', () => {
         gsap.fromTo(heroDuckEl, { scaleX: 1.3, scaleY: .7 }, { scaleX: 1, scaleY: 1, duration: .8, ease: 'elastic.out(1.2, .3)' });
-        const bubbleMsg = heroDuckEl.getAttribute('data-bubble') || '🦁 Gràoo! Giờ tắm vui quá mẹ ơi!';
-        toast(bubbleMsg, 1800);
     });
 }
 
@@ -252,10 +251,10 @@ function makeBubble(initial) {
         gsap.to(b, { scale: 1.5, opacity: 0, duration: .22, ease: 'power2.out', onComplete: () => { b.remove(); makeBubble(false); } });
         pops++;
         const pc = $('#popCount');
-        pc.textContent = pops;
-        gsap.fromTo(pc, { scale: 1.8 }, { scale: 1, duration: .5, ease: 'back.out(3)' });
-        if (pops === 5) toast('<i class="bb"></i> Mẹ bóp bong bóng giỏi quá! Xem <a href="#cong-dung" class="js-scroll-inline">công dụng 3 trong 1</a> nhé', 3500);
-        if (pops === 12) toast('🎁 Phần thưởng cho mẹ chăm chỉ: <a href="#vong-quay" class="js-scroll-inline">quay quà ngay</a>', 4000);
+        if (pc) {
+            pc.textContent = pops;
+            gsap.fromTo(pc, { scale: 1.8 }, { scale: 1, duration: .5, ease: 'back.out(3)' });
+        }
     });
 }
 const bubbleCount = reduceMotion ? 0 : (window.innerWidth < 768 ? 6 : 14);
@@ -1198,17 +1197,7 @@ if (document.readyState === 'complete') refreshAll(); else window.addEventListen
         }
 
         function showReelToast(msg) {
-            const toast = document.getElementById('toast');
-            if (toast) {
-                toast.textContent = msg;
-                toast.style.opacity = '1';
-                toast.style.transform = 'translate(-50%, 0)';
-                clearTimeout(toast._timer);
-                toast._timer = setTimeout(() => {
-                    toast.style.opacity = '0';
-                    toast.style.transform = 'translate(-50%, -10px)';
-                }, 2800);
-            }
+            toast(msg, 2400);
         }
 
         function spawnFloatingHearts(container, x, y) {

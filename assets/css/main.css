@@ -1203,11 +1203,38 @@ textarea.input { resize: vertical; min-height: 90px; }
 .sticky-bar .go { flex: 1; }
 
 .toast {
-    position: fixed; left: 50%; top: 90px; z-index: 130; opacity: 0; pointer-events: none;
-    background: var(--white); padding: 14px 22px; border-radius: 99px; box-shadow: var(--shadow); font-weight: 800; display: flex; gap: 10px; align-items: center;
-    max-width: calc(100vw - 32px);
+    position: fixed;
+    left: 50%;
+    bottom: 85px;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(18, 30, 40, 0.94);
+    color: #ffffff;
+    padding: 10px 22px;
+    border-radius: 999px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    max-width: calc(100vw - 36px);
+    width: max-content;
+    white-space: normal;
+    text-align: center;
+    border: 1px solid rgba(76, 192, 211, 0.35);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
-.toast a { color: var(--primary-dark); text-decoration: underline; pointer-events: auto; white-space: nowrap; }
+.toast a {
+    color: #4cc0d3;
+    text-decoration: underline;
+    pointer-events: auto;
+    font-weight: 700;
+}
 
 .cursor-bubble { position: fixed; z-index: 140; pointer-events: none; border-radius: 50%; border: 1.5px solid rgba(76,192,211,.6); background: radial-gradient(circle at 30% 30%, #fff, rgba(76,192,211,.15)); }
 
