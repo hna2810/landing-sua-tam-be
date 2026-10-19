@@ -57,7 +57,7 @@ if (empty($mascot_img)) {
         <div class="story-hero" data-reveal>
             <img src="<?php echo esc_url($mascot_img); ?>" alt="Sư tử Bon Bon" class="story-mascot" aria-hidden="true" loading="lazy">
             <div class="sec-head">
-                <h2 class="sec-title"><?php echo $story_title; ?></h2>
+                <h2 class="sec-title section-title"><?php echo $story_title; ?></h2>
             </div>
         </div>
 

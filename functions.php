@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 
 // ── Theme Constants ─────────────────────────────────────────
 if (!defined('LX_THEME_VERSION')) {
-    define('LX_THEME_VERSION', '1.2.3');
+    define('LX_THEME_VERSION', '1.2.4');
 }
 if (!defined('LX_THEME_DIR')) {
     define('LX_THEME_DIR', get_template_directory());

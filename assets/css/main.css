@@ -1560,14 +1560,14 @@ textarea.input { resize: vertical; min-height: 90px; }
 /* ===== BRAND STORY: YÊU CON - MẸ CHỌN BON BON ===== */
 .story {
     background: linear-gradient(180deg, var(--white), var(--primary-light, #e3f7fa));
-    padding: 70px 0 80px;
+    padding: 80px 0 90px;
     position: relative;
     text-align: center;
 }
 .story-hero { text-align: center; }
 .story-mascot {
-    width: 140px;
-    margin: 0 auto 8px;
+    width: 160px;
+    margin: 0 auto 12px;
     animation: bob 5s ease-in-out infinite;
     filter: drop-shadow(0 8px 14px rgba(31,127,144,.15));
 }
@@ -1575,22 +1575,22 @@ textarea.input { resize: vertical; min-height: 90px; }
 .story .sec-title {
     font-family: var(--font-head);
     font-weight: 800;
-    font-size: 32px;
+    font-size: clamp(30px, 4.6vw, 48px);
     line-height: 1.25;
     color: var(--text);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 8px;
+    margin-bottom: 14px;
 }
 .story .sec-title .hl {
     color: var(--primary-dark);
 }
 .story-typewriter-box {
-    max-width: 840px;
-    margin: 24px auto 0;
+    max-width: 920px;
+    margin: 28px auto 0;
     background: var(--white);
-    border-radius: 24px;
-    padding: 28px 26px;
+    border-radius: 28px;
+    padding: 38px 40px;
     border: 2px solid rgba(76, 192, 211, 0.36);
     box-shadow: 0 16px 40px rgba(31, 127, 144, 0.12), 0 4px 12px rgba(0, 0, 0, 0.04);
     position: relative;
@@ -1599,9 +1599,9 @@ textarea.input { resize: vertical; min-height: 90px; }
 }
 .story-card-decor-quote {
     position: absolute;
-    top: -12px;
-    left: 20px;
-    font-size: 48px;
+    top: -14px;
+    left: 26px;
+    font-size: 60px;
     line-height: 1;
     font-family: Georgia, serif;
     color: rgba(76, 192, 211, 0.44);
@@ -1610,8 +1610,8 @@ textarea.input { resize: vertical; min-height: 90px; }
 }
 .story-typewriter-text {
     color: var(--primary-deep, #1d7f90);
-    font-size: 16px;
-    line-height: 1.8;
+    font-size: 19px;
+    line-height: 1.85;
     font-weight: 600;
     margin: 0;
     position: relative;
@@ -1621,12 +1621,12 @@ textarea.input { resize: vertical; min-height: 90px; }
 }
 .story-typewriter-highlight {
     display: block;
-    margin-top: 16px;
+    margin-top: 20px;
     color: var(--primary-dark, #2a9fb3);
     font-family: var(--font-head);
-    font-size: 20px;
+    font-size: 23px;
     font-weight: 800;
-    line-height: 1.6;
+    line-height: 1.5;
     position: relative;
     z-index: 2;
     word-break: break-word;
@@ -1661,9 +1661,9 @@ textarea.input { resize: vertical; min-height: 90px; }
 }
 @media (max-width: 768px) {
     .story { padding: 50px 0 60px; }
-    .story-mascot { width: 110px; }
-    .story .sec-title { font-size: 24px; }
-    .story-typewriter-box { padding: 22px 18px; border-radius: 20px; }
-    .story-typewriter-text { font-size: 15px; line-height: 1.7; text-align: left; }
-    .story-typewriter-highlight { font-size: 17px; margin-top: 12px; }
+    .story-mascot { width: 130px; }
+    .story .sec-title { font-size: 28px; }
+    .story-typewriter-box { padding: 26px 20px; border-radius: 22px; }
+    .story-typewriter-text { font-size: 17px; line-height: 1.7; text-align: left; }
+    .story-typewriter-highlight { font-size: 20px; margin-top: 14px; }
 }
