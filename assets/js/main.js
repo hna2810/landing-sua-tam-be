@@ -920,3 +920,258 @@ if (document.readyState === 'complete') refreshAll(); else window.addEventListen
         initStoryTypewriter();
     }
 })();
+
+// ===== TIKTOK / REELS SHORT-FORM VIDEO SHOWCASE (IDEA 4) =====
+(function () {
+    function initReelsShowcase() {
+        const track = document.getElementById('reelsTrack');
+        if (!track) return;
+
+        const prevBtn = document.getElementById('reelPrev');
+        const nextBtn = document.getElementById('reelNext');
+        const cards = track.querySelectorAll('.reel-card');
+
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', () => {
+                const cardWidth = cards[0] ? cards[0].offsetWidth + 20 : 300;
+                track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+            });
+            nextBtn.addEventListener('click', () => {
+                const cardWidth = cards[0] ? cards[0].offsetWidth + 20 : 300;
+                track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+            });
+        }
+
+        function showReelToast(msg) {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.textContent = msg;
+                toast.style.opacity = '1';
+                toast.style.transform = 'translate(-50%, 0)';
+                clearTimeout(toast._timer);
+                toast._timer = setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translate(-50%, -10px)';
+                }, 2800);
+            }
+        }
+
+        function spawnFloatingHearts(container, x, y) {
+            for (let i = 0; i < 5; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'floating-mini-heart';
+                heart.textContent = '❤️';
+                heart.style.left = (x ? (x + (Math.random() * 40 - 20)) : (container.offsetWidth - 35)) + 'px';
+                heart.style.top = (y ? (y + (Math.random() * 30 - 15)) : (container.offsetHeight - 120)) + 'px';
+                heart.style.fontSize = (16 + Math.random() * 14) + 'px';
+                container.appendChild(heart);
+                setTimeout(() => heart.remove(), 1200);
+            }
+        }
+
+        cards.forEach((card) => {
+            const videoContainer = card.querySelector('.reel-video-container');
+            const videoEl = card.querySelector('.js-reel-video');
+            const playBtn = card.querySelector('.js-reel-play');
+            const soundBtn = card.querySelector('.js-reel-sound');
+            const soundIcon = soundBtn ? soundBtn.querySelector('.sound-icon') : null;
+            const likeBtn = card.querySelector('.js-reel-like');
+            const likeIcon = likeBtn ? likeBtn.querySelector('.heart-icon') : null;
+            const likeCountEl = likeBtn ? likeBtn.querySelector('.count-like') : null;
+            const commentBtn = card.querySelector('.js-reel-comment');
+            const shareBtn = card.querySelector('.js-reel-share');
+            const bigHeart = card.querySelector('.reel-big-heart');
+
+            const formatCount = (n) => n >= 1000 ? (n / 1000).toFixed(1).replace('.0', '') + 'K' : String(n);
+
+            let lastTap = 0;
+            if (videoContainer) {
+                videoContainer.addEventListener('click', (e) => {
+                    if (e.target.closest('.reel-actions') || e.target.closest('.reel-top-bar') || e.target.closest('.reel-play-btn')) {
+                        return;
+                    }
+
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTap;
+                    if (tapLength < 320 && tapLength > 0) {
+                        if (bigHeart) {
+                            bigHeart.classList.remove('pop');
+                            void bigHeart.offsetWidth;
+                            bigHeart.classList.add('pop');
+                        }
+                        if (likeBtn && !likeBtn.classList.contains('is-liked')) {
+                            likeBtn.click();
+                        } else if (videoContainer) {
+                            const rect = videoContainer.getBoundingClientRect();
+                            spawnFloatingHearts(videoContainer, e.clientX - rect.left, e.clientY - rect.top);
+                        }
+                        lastTap = 0;
+                        e.preventDefault();
+                    } else {
+                        lastTap = currentTime;
+                    }
+                });
+            }
+
+            function togglePlay() {
+                if (videoEl) {
+                    if (videoEl.paused) {
+                        document.querySelectorAll('.js-reel-video').forEach(v => {
+                            if (v !== videoEl) {
+                                v.pause();
+                                v.closest('.reel-card')?.classList.remove('is-playing');
+                            }
+                        });
+                        videoEl.play().then(() => {
+                            card.classList.add('is-playing');
+                        }).catch(() => {
+                            card.classList.toggle('is-playing');
+                        });
+                    } else {
+                        videoEl.pause();
+                        card.classList.remove('is-playing');
+                    }
+                } else {
+                    card.classList.toggle('is-playing');
+                }
+            }
+
+            if (playBtn) {
+                playBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    togglePlay();
+                });
+            }
+
+            if (soundBtn && videoEl) {
+                soundBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    videoEl.muted = !videoEl.muted;
+                    if (soundIcon) {
+                        soundIcon.textContent = videoEl.muted ? '🔇' : '🔊';
+                    }
+                });
+            }
+
+            if (likeBtn) {
+                likeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isLiked = likeBtn.classList.contains('is-liked');
+                    let count = parseInt(likeBtn.getAttribute('data-count'), 10) || 2500;
+
+                    if (!isLiked) {
+                        likeBtn.classList.add('is-liked');
+                        count += 1;
+                        if (likeIcon) likeIcon.textContent = '❤️';
+                        if (videoContainer) spawnFloatingHearts(videoContainer);
+                    } else {
+                        likeBtn.classList.remove('is-liked');
+                        count = Math.max(0, count - 1);
+                        if (likeIcon) likeIcon.textContent = '🤍';
+                    }
+
+                    likeBtn.setAttribute('data-count', count);
+                    if (likeCountEl) {
+                        likeCountEl.textContent = formatCount(count);
+                    }
+                });
+            }
+
+            if (commentBtn) {
+                commentBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const commentText = commentBtn.getAttribute('data-comment') || 'Bé tắm ngoan, bọt mềm êm thích lắm mom ơi! ⭐⭐⭐⭐⭐';
+                    showReelToast(commentText);
+                });
+            }
+
+            if (shareBtn) {
+                shareBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(window.location.href);
+                    }
+                    showReelToast('🔗 Đã sao chép liên kết video để chia sẻ cùng các Mom!');
+                });
+            }
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initReelsShowcase);
+    } else {
+        initReelsShowcase();
+    }
+})();
+
+// ===== SAVINGS CALCULATOR: THƯỚC ĐO TIẾT KIỆM CHO MẸ (IDEA 5) =====
+(function () {
+    function initSavingsCalculator() {
+        const sec = document.getElementById('tiet-kiem');
+        if (!sec) return;
+
+        const agePills = sec.querySelectorAll('#calcAgePills .age-pill');
+        const slider = document.getElementById('calcFreqSlider');
+        const freqDisplay = document.getElementById('calcFreqDisplay');
+        const resMonths = document.getElementById('resMonths');
+        const resBathsNote = document.getElementById('resBathsNote');
+        const resDailyCost = document.getElementById('resDailyCost');
+        const resSavings = document.getElementById('resSavings');
+
+        const bottlePrice = parseInt(sec.getAttribute('data-bottle-price'), 10) || 265000;
+        const bottleMl = parseInt(sec.getAttribute('data-bottle-ml'), 10) || 500;
+
+        let activeMl = 2.5;
+
+        const formatMoney = (n) => Number(n).toLocaleString('vi-VN');
+
+        function calculate() {
+            const freq = slider ? parseInt(slider.value, 10) : 7;
+            const totalBaths = Math.round(bottleMl / activeMl);
+            const totalWeeks = totalBaths / freq;
+            const months = (totalWeeks / 4.33).toFixed(1);
+            const totalDays = Math.round(totalWeeks * 7);
+            const dailyCost = Math.round(bottlePrice / Math.max(1, totalDays));
+            const savings = 155000;
+
+            if (freqDisplay) {
+                freqDisplay.textContent = freq === 7 ? '7 lần / tuần (Mỗi ngày)' : `${freq} lần / tuần`;
+            }
+
+            if (resMonths) {
+                resMonths.textContent = months;
+            }
+            if (resBathsNote) {
+                resBathsNote.textContent = `(Khoảng ~${totalBaths} lần tắm gội thơm tho)`;
+            }
+            if (resDailyCost) {
+                resDailyCost.textContent = formatMoney(dailyCost);
+            }
+            if (resSavings) {
+                resSavings.textContent = formatMoney(savings);
+            }
+        }
+
+        agePills.forEach((pill) => {
+            pill.addEventListener('click', () => {
+                agePills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                activeMl = parseFloat(pill.getAttribute('data-ml')) || 2.5;
+                calculate();
+            });
+        });
+
+        if (slider) {
+            slider.addEventListener('input', calculate);
+            slider.addEventListener('change', calculate);
+        }
+
+        calculate();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSavingsCalculator);
+    } else {
+        initSavingsCalculator();
+    }
+})();
