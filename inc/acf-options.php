@@ -12,16 +12,27 @@ if (!defined('ABSPATH')) {
 /**
  * Register ACF Options Page
  */
+function lx_register_acf_options_page() {
+    static $registered = false;
+    if ($registered) {
+        return;
+    }
+    if (function_exists('acf_add_options_page')) {
+        $registered = true;
+        acf_add_options_page(array(
+            'page_title' => __('Cài đặt Landing Page', 'lx-landing'),
+            'menu_title' => __('Cài đặt Landing Page', 'lx-landing'),
+            'menu_slug'  => 'lx-landing-settings',
+            'capability' => 'edit_posts',
+            'redirect'   => false,
+            'icon_url'   => 'dashicons-admin-generic',
+            'position'   => 3,
+        ));
+    }
+}
+add_action('acf/init', 'lx_register_acf_options_page');
 if (function_exists('acf_add_options_page')) {
-    acf_add_options_page(array(
-        'page_title' => __('Cài đặt Landing Page', 'lx-landing'),
-        'menu_title' => __('Cài đặt Landing Page', 'lx-landing'),
-        'menu_slug'  => 'lx-landing-settings',
-        'capability' => 'edit_posts',
-        'redirect'   => false,
-        'icon_url'   => 'dashicons-admin-generic',
-        'position'   => 59,
-    ));
+    lx_register_acf_options_page();
 }
 
 /**
