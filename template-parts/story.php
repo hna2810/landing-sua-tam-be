@@ -9,25 +9,13 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$story_title = lx_get_field('lx_story_title', 'option', '__NOT_SET__');
-if ($story_title === '__NOT_SET__') {
-    $story_title = 'YÊU CON -<br><span class="hl">MẸ CHỌN BON BON</span>';
-}
-
+$default_story_title = 'YÊU CON -<br><span class="hl">MẸ CHỌN BON BON</span>';
 $default_story_paragraph = 'Bon Bon đồng hành cùng mẹ từ những ngày đầu đời của bé, từ tắm bé, massage đến chăm sóc da và rốn tại nhà và trung tâm. Với sự chăm chút nhẹ nhàng và các thành phần được lựa chọn phù hợp, Bon Bon cùng mẹ nâng niu làn da non nớt, chăm sóc bé yêu mỗi ngày. Bon Bon còn đồng hành cùng mẹ tại các hội thảo tiền sản và bệnh viện Sản – Nhi trên khắp ba miền Bắc – Trung – Nam.';
 $default_story_highlight = 'Bon Bon - Dịu dàng chăm bé, trọn vẹn yêu thương.';
 
-$raw_story_paragraph = lx_get_field('lx_story_paragraph', 'option', '__NOT_SET__');
-if ($raw_story_paragraph === '__NOT_SET__') {
-    $raw_story_paragraph = $default_story_paragraph;
-}
-
-$raw_story_highlight = lx_get_field('lx_story_tagline', 'option', '__NOT_SET__');
-if ($raw_story_highlight === '__NOT_SET__') {
-    $story_highlight = $default_story_highlight;
-} else {
-    $story_highlight = (string)$raw_story_highlight;
-}
+$story_title = lx_get_field('lx_story_title', 'option', $default_story_title);
+$raw_story_paragraph = lx_get_field('lx_story_paragraph', 'option', $default_story_paragraph);
+$story_highlight = (string)lx_get_field('lx_story_tagline', 'option', $default_story_highlight);
 
 $story_paragraph = '';
 if (!empty($raw_story_paragraph)) {

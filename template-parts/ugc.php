@@ -23,6 +23,16 @@ if (!empty($acf_imgs) && is_array($acf_imgs)) {
     }
 }
 
+if (empty($images)) {
+    $images = array(
+        LX_THEME_URI . '/assets/img/me-tam-be.webp',
+        LX_THEME_URI . '/assets/img/su-tu-bon-bon.webp',
+        LX_THEME_URI . '/assets/img/sua-tam-goi-bon-bon-500ml.webp',
+        LX_THEME_URI . '/assets/img/me-tam-be.webp',
+        LX_THEME_URI . '/assets/img/su-tu-bon-bon.webp',
+    );
+}
+
 $heights = array(1.25, 1, 1.4, 1.1, 1.3);
 ?>
 <!-- ===== SECTION 8: ĐÁNH GIÁ / ẢNH KHÁCH HÀNG ===== -->

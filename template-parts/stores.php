@@ -21,10 +21,6 @@ if (!empty($acf_stores) && is_array($acf_stores)) {
         }
     }
 }
-
-if (empty($stores) && empty($title)) {
-    return;
-}
 ?>
 <!-- ===== SECTION 10: HIỆN DIỆN TẠI CÁC ĐIỂM BÁN ===== -->
 <section class="section stores" id="diem-ban">
@@ -40,19 +36,28 @@ if (empty($stores) && empty($title)) {
             </div>
         <?php endif; ?>
 
-        <?php if (!empty($stores)) : ?>
-            <div class="store-slider" data-reveal>
-                <button class="store-nav prev" type="button" aria-label="Ảnh trước">←</button>
-                <div class="store-track" id="storeTrack">
+        <div class="store-slider" data-reveal>
+            <button class="store-nav prev" type="button" aria-label="Ảnh trước">←</button>
+            <div class="store-track" id="storeTrack">
+                <?php if (!empty($stores)) : ?>
                     <?php foreach ($stores as $idx => $st) : ?>
                         <div class="store-slide">
                             <img src="<?php echo esc_url($st['photo']); ?>" alt="<?php echo !empty($st['name']) ? esc_attr($st['name']) : ('Điểm bán ' . ($idx + 1)); ?>" loading="lazy">
                         </div>
                     <?php endforeach; ?>
-                </div>
-                <button class="store-nav next" type="button" aria-label="Ảnh sau">→</button>
+                <?php else : ?>
+                    <div class="store-slide"><span>Ảnh slider 1</span></div>
+                    <div class="store-slide"><span>Ảnh slider 2</span></div>
+                    <div class="store-slide"><span>Ảnh slider 3</span></div>
+                    <div class="store-slide"><span>Ảnh slider 4</span></div>
+                    <div class="store-slide"><span>Ảnh slider 5</span></div>
+                    <div class="store-slide"><span>Ảnh slider 6</span></div>
+                    <div class="store-slide"><span>Ảnh slider 7</span></div>
+                    <div class="store-slide"><span>Ảnh slider 8</span></div>
+                <?php endif; ?>
             </div>
-            <div class="store-dots" id="storeDots"></div>
-        <?php endif; ?>
+            <button class="store-nav next" type="button" aria-label="Ảnh sau">→</button>
+        </div>
+        <div class="store-dots" id="storeDots"></div>
     </div>
 </section>

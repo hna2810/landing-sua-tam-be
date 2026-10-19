@@ -33,20 +33,19 @@ $default_steps = array(
     ),
 );
 
-$acf_steps = lx_get_field('lx_howto_steps', 'option', '__NOT_SET__');
-if ($acf_steps === '__NOT_SET__') {
-    $steps = $default_steps;
-} else {
-    $steps = array();
-    if (!empty($acf_steps) && is_array($acf_steps)) {
-        foreach ($acf_steps as $idx => $s) {
-            $steps[] = array(
-                'step_num' => !empty($s['step_num']) ? $s['step_num'] : (string)($idx + 1),
-                'title'    => !empty($s['title']) ? $s['title'] : ('Bước ' . ($idx + 1)),
-                'desc'     => !empty($s['desc']) ? $s['desc'] : '',
-            );
-        }
+$acf_steps = lx_get_field('lx_howto_steps', 'option', array());
+$steps = array();
+if (!empty($acf_steps) && is_array($acf_steps)) {
+    foreach ($acf_steps as $idx => $s) {
+        $steps[] = array(
+            'step_num' => !empty($s['step_num']) ? $s['step_num'] : (string)($idx + 1),
+            'title'    => !empty($s['title']) ? $s['title'] : ('Bước ' . ($idx + 1)),
+            'desc'     => !empty($s['desc']) ? $s['desc'] : '',
+        );
     }
+}
+if (empty($steps)) {
+    $steps = $default_steps;
 }
 ?>
 <!-- ===== SECTION 7: TẮM BÉ ĐÚNG CÁCH ===== -->

@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 
 $eyebrow     = lx_get_field('lx_faq_eyebrow', 'option', '❓ Hỏi đáp');
 $title       = lx_get_field('lx_faq_title', 'option', 'Mẹ thường <span class="hl">hỏi</span>');
-$acf_faqs    = lx_get_field('lx_faq_items', 'option', '__NOT_SET__');
+$acf_faqs    = lx_get_field('lx_faq_items', 'option', array());
 $lion_img    = lx_get_image_url('lx_hero_lion_img', LX_THEME_URI . '/assets/img/su-tu-bon-bon.webp');
 $hotline_fmt = lx_get_field('lx_hotline_formatted', 'option', '0901.234.567');
 
@@ -42,21 +42,16 @@ $default_faqs = array(
     ),
 );
 
-if ($acf_faqs === '__NOT_SET__') {
-    $faqs = $default_faqs;
-} else {
-    $faqs = array();
-    if (!empty($acf_faqs) && is_array($acf_faqs)) {
-        foreach ($acf_faqs as $f) {
-            if (!empty($f['q']) && !empty($f['a'])) {
-                $faqs[] = array('q' => $f['q'], 'a' => $f['a']);
-            }
+$faqs = array();
+if (!empty($acf_faqs) && is_array($acf_faqs)) {
+    foreach ($acf_faqs as $f) {
+        if (!empty($f['q']) && !empty($f['a'])) {
+            $faqs[] = array('q' => $f['q'], 'a' => $f['a']);
         }
     }
 }
-
-if (empty($faqs) && empty($title)) {
-    return;
+if (empty($faqs)) {
+    $faqs = $default_faqs;
 }
 ?>
 <!-- ===== FAQ ===== -->

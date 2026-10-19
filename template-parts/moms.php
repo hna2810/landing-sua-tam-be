@@ -57,10 +57,9 @@ $default_reels = array(
     ),
 );
 
+$acf_videos = lx_get_field('lx_moms_videos', 'option', array());
 $reels = array();
-if ($acf_videos === '__NOT_SET__') {
-    $reels = $default_reels;
-} elseif (!empty($acf_videos) && is_array($acf_videos)) {
+if (!empty($acf_videos) && is_array($acf_videos)) {
     foreach ($acf_videos as $idx => $v) {
         if (!empty($v['video_url']) || !empty($v['name'])) {
             $base = isset($default_reels[$idx]) ? $default_reels[$idx] : $default_reels[0];
@@ -78,9 +77,8 @@ if ($acf_videos === '__NOT_SET__') {
         }
     }
 }
-
-if (empty($reels) && empty($title)) {
-    return;
+if (empty($reels)) {
+    $reels = $default_reels;
 }
 ?>
 <!-- ===== SECTION 9: CẢM NHẬN CỦA CÁC MOM (REELS SHOWCASE GỌN ĐẸP) ===== -->

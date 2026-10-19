@@ -14,7 +14,7 @@ $title      = lx_get_field('lx_uses_title', 'option', 'Công dụng 3 trong 1');
 $mom_img    = lx_get_image_url('lx_uses_mom_img', LX_THEME_URI . '/assets/img/me-tam-be.webp');
 $bottle_img = lx_get_image_url('lx_uses_bottle_img', LX_THEME_URI . '/assets/img/sua-tam-goi-bon-bon-500ml.webp');
 
-$acf_uses = lx_get_field('lx_uses_list', 'option', '__NOT_SET__');
+$acf_uses = lx_get_field('lx_uses_list', 'option', array());
 $default_uses = array(
     array(
         'num'   => '01',
@@ -34,9 +34,7 @@ $default_uses = array(
 );
 
 $uses = array();
-if ($acf_uses === '__NOT_SET__') {
-    $uses = $default_uses;
-} elseif (!empty($acf_uses) && is_array($acf_uses)) {
+if (!empty($acf_uses) && is_array($acf_uses)) {
     foreach ($acf_uses as $idx => $u) {
         $num = str_pad($idx + 1, 2, '0', STR_PAD_LEFT);
         $uses[] = array(
@@ -45,6 +43,9 @@ if ($acf_uses === '__NOT_SET__') {
             'desc'  => !empty($u['desc']) ? $u['desc'] : '',
         );
     }
+}
+if (empty($uses)) {
+    $uses = $default_uses;
 }
 
 if (empty($uses) && empty($title)) {

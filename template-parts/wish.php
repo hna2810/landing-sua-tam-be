@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 $wish_title = lx_get_field('lx_wish_title', 'option', 'Mẹ muốn da con yêu thế nào?');
-$acf_cards  = lx_get_field('lx_wish_cards', 'option', '__NOT_SET__');
+$acf_cards  = lx_get_field('lx_wish_cards', 'option', array());
 
 $default_cards = array(
     array(
@@ -40,9 +40,7 @@ $default_cards = array(
 );
 
 $cards = array();
-if ($acf_cards === '__NOT_SET__') {
-    $cards = $default_cards;
-} elseif (!empty($acf_cards) && is_array($acf_cards)) {
+if (!empty($acf_cards) && is_array($acf_cards)) {
     $colors = array(
         array('c1' => '#e3f7fa', 'c2' => '#b8ecf3'),
         array('c1' => '#ffe4ec', 'c2' => '#ffc9d8'),
@@ -59,6 +57,9 @@ if ($acf_cards === '__NOT_SET__') {
             'c2'    => $color['c2'],
         );
     }
+}
+if (empty($cards)) {
+    $cards = $default_cards;
 }
 
 if (empty($cards) && empty($wish_title)) {

@@ -27,21 +27,20 @@ $default_docs = array(
     ),
 );
 
-$acf_docs = lx_get_field('lx_pinfo_docs', 'option', '__NOT_SET__');
-if ($acf_docs === '__NOT_SET__') {
-    $docs = $default_docs;
-} else {
-    $docs = array();
-    if (!empty($acf_docs) && is_array($acf_docs)) {
-        foreach ($acf_docs as $idx => $d) {
-            $docs[] = array(
-                'name'  => !empty($d['name']) ? $d['name'] : ('Chứng nhận ' . ($idx + 1)),
-                'ico'   => ($idx === 0) ? '📄' : '🛡️',
-                'image' => !empty($d['image']) ? $d['image'] : '',
-                'ph'    => !empty($d['name']) ? $d['name'] : 'Ảnh chứng nhận',
-            );
-        }
+$acf_docs = lx_get_field('lx_pinfo_docs', 'option', array());
+$docs = array();
+if (!empty($acf_docs) && is_array($acf_docs)) {
+    foreach ($acf_docs as $idx => $d) {
+        $docs[] = array(
+            'name'  => !empty($d['name']) ? $d['name'] : ('Chứng nhận ' . ($idx + 1)),
+            'ico'   => ($idx === 0) ? '📄' : '🛡️',
+            'image' => !empty($d['image']) ? $d['image'] : '',
+            'ph'    => !empty($d['name']) ? $d['name'] : 'Ảnh chứng nhận',
+        );
     }
+}
+if (empty($docs)) {
+    $docs = $default_docs;
 }
 
 $default_specs = array(
@@ -52,25 +51,28 @@ $default_specs = array(
     array('e' => '📜', 'label' => 'Số công bố',  'val' => '64/26/CBMP-NB'),
 );
 
-$acf_specs = lx_get_field('lx_pinfo_specs', 'option', '__NOT_SET__');
-if ($acf_specs === '__NOT_SET__') {
+$acf_specs = lx_get_field('lx_pinfo_specs', 'option', array());
+$specs = array();
+if (!empty($acf_specs) && is_array($acf_specs)) {
+    $specs = $acf_specs;
+}
+if (empty($specs)) {
     $specs = $default_specs;
-} else {
-    $specs = (!empty($acf_specs) && is_array($acf_specs)) ? $acf_specs : array();
 }
 
 $default_storage = "Để sản phẩm ở nơi khô ráo, thoáng mát.\nTránh ánh nắng mặt trời chiếu trực tiếp.";
-$storage_raw = lx_get_field('lx_pinfo_storage', 'option', '__NOT_SET__');
-$storage = ($storage_raw === '__NOT_SET__') ? $default_storage : (string)$storage_raw;
+$storage = lx_get_field('lx_pinfo_storage', 'option', $default_storage);
+if (empty($storage)) {
+    $storage = $default_storage;
+}
 
 $default_precaution = "Sản phẩm chỉ dùng ngoài da.\nĐể xa tầm tay của trẻ em.";
-$precaution_raw = lx_get_field('lx_pinfo_precaution', 'option', '__NOT_SET__');
-$precaution = ($precaution_raw === '__NOT_SET__') ? $default_precaution : (string)$precaution_raw;
+$precaution = lx_get_field('lx_pinfo_precaution', 'option', $default_precaution);
+if (empty($precaution)) {
+    $precaution = $default_precaution;
+}
 
 $has_info = !empty($specs) || !empty($storage) || !empty($precaution);
-if (empty($docs) && !$has_info && empty($title)) {
-    return;
-}
 ?>
 <!-- ===== SECTION 11: MINH BẠCH ĐỂ MẸ YÊN TÂM ===== -->
 <section class="section pinfo" id="thong-tin">

@@ -18,34 +18,23 @@ if (!defined('ABSPATH')) {
  * @return mixed
  */
 function lx_get_field($selector, $post_id = 'option', $default = '') {
-    if ($post_id === 'option') {
-        $opt_key = 'options_' . $selector;
-        $db_raw = get_option($opt_key, '__NOT_SET__');
-        if ($db_raw === '__NOT_SET__') {
-            $db_raw = get_option($selector, '__NOT_SET__');
-        }
-
-        // Nếu option CHƯA TỪNG tồn tại trong database -> trả về giá trị mặc định ban đầu
-        if ($db_raw === '__NOT_SET__') {
-            return $default;
-        }
-
-        // Nếu option ĐÃ CÓ trong database (người dùng đã lưu, kể cả khi xóa rỗng "")
-        if (function_exists('get_field')) {
-            $val = get_field($selector, 'option');
-            if ($val !== null) {
-                return $val;
-            }
-        }
-
-        return maybe_unserialize($db_raw);
-    }
-
+    $val = null;
     if (function_exists('get_field')) {
         $val = get_field($selector, $post_id);
-        if ($val !== null) {
-            return $val;
+    }
+    if ($val === null || $val === false || $val === '') {
+        $opt_key = ($post_id === 'option') ? 'options_' . $selector : $selector;
+        $db_raw = get_option($opt_key, null);
+        if ($db_raw === null && $post_id === 'option') {
+            $db_raw = get_option($selector, null);
         }
+        if ($db_raw !== null && $db_raw !== '' && $db_raw !== false) {
+            $val = maybe_unserialize($db_raw);
+        }
+    }
+
+    if ($val !== null && $val !== false && $val !== '' && (!is_array($val) || !empty($val))) {
+        return $val;
     }
 
     return $default;
@@ -60,22 +49,19 @@ function lx_get_field($selector, $post_id = 'option', $default = '') {
  * @return string
  */
 function lx_get_image_url($selector, $default = '', $post_id = 'option') {
-    $img = lx_get_field($selector, $post_id, '__NOT_SET__');
-    if ($img === '__NOT_SET__') {
+    $img = lx_get_field($selector, $post_id, '');
+    if (empty($img)) {
         return $default;
     }
-    if (empty($img)) {
-        return '';
-    }
     if (is_array($img) && isset($img['url'])) {
-        return $img['url'];
+        return !empty($img['url']) ? $img['url'] : $default;
     }
     if (is_numeric($img)) {
         $url = wp_get_attachment_image_url((int)$img, 'full');
-        return $url ? $url : '';
+        return $url ? $url : $default;
     }
-    if (is_string($img)) {
+    if (is_string($img) && trim($img) !== '') {
         return $img;
     }
-    return '';
+    return $default;
 }

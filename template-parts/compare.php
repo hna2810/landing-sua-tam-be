@@ -14,35 +14,33 @@ $title        = lx_get_field('lx_compare_title', 'option', 'Khác biệt nằm �
 $sub          = lx_get_field('lx_compare_sub', 'option', 'Kéo nút tròn sang trái/phải để xem sự khác biệt.');
 
 $normal_title = lx_get_field('lx_compare_normal_title', 'option', 'Sữa tắm thông thường');
-$normal_pts   = lx_get_field('lx_compare_normal_points', 'option', '__NOT_SET__');
+$normal_pts   = lx_get_field('lx_compare_normal_points', 'option', '');
 $normal_img   = lx_get_image_url('lx_compare_normal_img', '');
 
 $bonbon_title = lx_get_field('lx_compare_bonbon_title', 'option', 'Sữa tắm gội Bon Bon');
-$bonbon_pts   = lx_get_field('lx_compare_bonbon_points', 'option', '__NOT_SET__');
+$bonbon_pts   = lx_get_field('lx_compare_bonbon_points', 'option', '');
 $bonbon_img   = lx_get_image_url('lx_compare_bonbon_img', '');
 
 $note         = lx_get_field('lx_compare_note', 'option', '* So sánh mang tính minh họa, trải nghiệm có thể khác nhau tùy làn da mỗi bé.');
 
-if ($normal_pts === '__NOT_SET__') {
+$normal_points = array_filter(array_map('trim', explode("\n", (string)$normal_pts)));
+if (empty($normal_points)) {
     $normal_points = array(
         '<i class="bb"></i> Nhiều bọt, khó xả sạch',
         '<i>😣</i> Dễ cay mắt khi gội',
         '<i>🌵</i> Da dễ khô ráp sau tắm',
         '<i>🧴</i> Phải mua riêng dầu gội',
     );
-} else {
-    $normal_points = array_filter(array_map('trim', explode("\n", (string)$normal_pts)));
 }
 
-if ($bonbon_pts === '__NOT_SET__') {
+$bonbon_points = array_filter(array_map('trim', explode("\n", (string)$bonbon_pts)));
+if (empty($bonbon_points)) {
     $bonbon_points = array(
         '<i>😊</i> Ít bọt, không cay mắt',
         '<i>🚫</i> Không chứa Paraben',
         '<i>⚖️</i> pH cân bằng, giữ ẩm da',
         '<i>✨</i> 2in1: tắm &amp; gội',
     );
-} else {
-    $bonbon_points = array_filter(array_map('trim', explode("\n", (string)$bonbon_pts)));
 }
 ?>
 <!-- ===== COMPARE ===== -->
