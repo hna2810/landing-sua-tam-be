@@ -215,9 +215,69 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 .uses .section-head { margin-bottom: 50px; position: relative; }
 .uses-grid { position: relative; display: grid; grid-template-columns: 1fr 1.05fr; gap: 64px; align-items: center; max-width: 1100px; margin: 0 auto; }
 .uses-visual { position: relative; width: min(460px, 100%); aspect-ratio: 1; margin: 0 auto; }
-.uses-ring { position: absolute; inset: -12%; width: 124%; height: 124%; max-width: none; z-index: 1; pointer-events: none; animation: spin 30s linear infinite; }
-.uses-ring text { font-family: var(--font-head); font-weight: 800; font-size: 10.5px; fill: var(--primary-dark); }
-.uses-photo { position: absolute; inset: 7%; overflow: hidden; border-radius: 50%; background: var(--primary-light); border: 7px solid #fff; box-shadow: 0 30px 60px -24px rgba(42,159,179,.55), 0 0 0 12px rgba(76,192,211,.15); }
+.uses-ring-wrap {
+    position: absolute;
+    inset: -5%;
+    width: 110%;
+    height: 110%;
+    z-index: 1;
+    pointer-events: none;
+    display: grid;
+    place-items: center;
+}
+.uses-ring-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    transform-origin: center center;
+    animation: spinUsesRing 14s linear infinite;
+}
+.ring-track {
+    fill: none;
+    stroke: rgba(76, 192, 211, 0.25);
+    stroke-width: 1.5;
+    stroke-dasharray: 6 8;
+    transform-origin: center center;
+    animation: spinUsesRingReverse 35s linear infinite;
+}
+.ring-arc {
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+}
+.ring-arc-1 {
+    stroke-dasharray: 240 426;
+    stroke: url(#usesRingGrad);
+}
+.ring-arc-2 {
+    stroke-dasharray: 120 546;
+    stroke-dashoffset: -340;
+    stroke: #4cc0d3;
+    stroke-opacity: 0.9;
+}
+.ring-dot {
+    transform-origin: center center;
+}
+.ring-dot-1 {
+    fill: #4cc0d3;
+}
+.ring-dot-2 {
+    fill: #7ee4f4;
+}
+.ring-dot-3 {
+    fill: #ffffff;
+    stroke: #4cc0d3;
+    stroke-width: 1.5;
+}
+@keyframes spinUsesRing {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes spinUsesRingReverse {
+    0% { transform: rotate(360deg); }
+    100% { transform: rotate(0deg); }
+}
+.uses-photo { position: absolute; inset: 7%; overflow: hidden; border-radius: 50%; background: var(--primary-light); border: 7px solid #fff; box-shadow: 0 30px 60px -24px rgba(42,159,179,.55), 0 0 0 10px rgba(76,192,211,.15), 0 0 30px rgba(76,192,211,.25); }
 .uses-photo img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); }
 .uses-bottle { position: absolute; z-index: 3; width: 22%; height: auto; right: -4%; bottom: 2%; filter: drop-shadow(0 18px 18px rgba(42,159,179,.35)); transform: rotate(8deg); pointer-events: none; }
 .uses-chip { position: absolute; z-index: 2; display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px 8px 8px; border-radius: 99px; background: #fff; box-shadow: var(--shadow-soft); font-family: var(--font-head); font-weight: 800; font-size: 18px; white-space: nowrap; }

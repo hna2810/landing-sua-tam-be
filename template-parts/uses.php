@@ -68,10 +68,35 @@ if (empty($uses) && empty($title)) {
         <?php endif; ?>
         <div class="uses-grid">
             <div class="uses-visual" data-reveal>
-                <svg class="uses-ring" viewBox="0 0 200 200" aria-hidden="true">
-                    <defs><path id="usesCircle" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"/></defs>
-                    <text><textPath href="#usesCircle" textLength="508" lengthAdjust="spacing">TẮM • GỘI • DƯỠNG ẨM • BON BON 3 TRONG 1 • TẮM • GỘI • DƯỠNG ẨM • BON BON •</textPath></text>
-                </svg>
+                <!-- Vòng màu #4cc0d3 chuyển động xung quanh ảnh (thay thế text cũ) -->
+                <div class="uses-ring-wrap" aria-hidden="true">
+                    <svg class="uses-ring-svg" viewBox="0 0 240 240">
+                        <defs>
+                            <linearGradient id="usesRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#4cc0d3" stop-opacity="1"/>
+                                <stop offset="50%" stop-color="#2a9fb3" stop-opacity="0.9"/>
+                                <stop offset="85%" stop-color="#7ee4f4" stop-opacity="0.3"/>
+                                <stop offset="100%" stop-color="#4cc0d3" stop-opacity="0"/>
+                            </linearGradient>
+                            <filter id="usesRingGlow" x="-30%" y="-30%" width="160%" height="160%">
+                                <feGaussianBlur stdDeviation="3.5" result="blur"/>
+                                <feMerge>
+                                    <feMergeNode in="blur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <!-- Vòng nét đứt mờ phụ trợ -->
+                        <circle class="ring-track" cx="120" cy="120" r="106"/>
+                        <!-- Cung chính màu #4cc0d3 phát sáng chạy quanh ảnh -->
+                        <circle class="ring-arc ring-arc-1" cx="120" cy="120" r="106" filter="url(#usesRingGlow)"/>
+                        <circle class="ring-arc ring-arc-2" cx="120" cy="120" r="106" filter="url(#usesRingGlow)"/>
+                        <!-- Các hạt ngọc phát sáng chạy cùng vòng -->
+                        <circle class="ring-dot ring-dot-1" cx="226" cy="120" r="5.5" filter="url(#usesRingGlow)"/>
+                        <circle class="ring-dot ring-dot-2" cx="14" cy="120" r="4.5" filter="url(#usesRingGlow)"/>
+                        <circle class="ring-dot ring-dot-3" cx="120" cy="14" r="3.5"/>
+                    </svg>
+                </div>
                 <div class="uses-photo">
                     <?php if (!empty($mom_img)) : ?>
                         <img src="<?php echo esc_url($mom_img); ?>" alt="Mẹ tắm cho bé bằng sữa tắm gội Bon Bon" width="504" height="504" loading="lazy">
