@@ -144,11 +144,11 @@ $('#year').textContent = new Date().getFullYear();
 gsap.set('#toast', { xPercent: -50, y: -30 });
 function toast(html, ms = 3200) {
     const t = $('#toast');
-    t.innerHTML = html;
+    t.innerHTML = `<span class="toast-body">${html}</span>`;
     gsap.killTweensOf(t);
     gsap.timeline()
         .to(t, { opacity: 1, y: 0, duration: .45, ease: 'back.out(2)' })
-        .to(t, { opacity: 0, y: -30, duration: .35, delay: ms / 1000 });
+        .to(t, { opacity: 0, y: -20, duration: .35, delay: ms / 1000 });
 }
 
 /* ===== SMOOTH ANCHOR SCROLL ===== */
