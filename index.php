@@ -17,7 +17,6 @@ get_template_part('template-parts/wish');
 get_template_part('template-parts/compare');
 get_template_part('template-parts/ingredients');
 get_template_part('template-parts/uses');
-get_template_part('template-parts/benefits');
 get_template_part('template-parts/howto');
 get_template_part('template-parts/ugc');
 get_template_part('template-parts/moms');

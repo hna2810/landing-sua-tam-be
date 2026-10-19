@@ -394,25 +394,6 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 .lab-done.show { display: block; }
 .lab-note { text-align: center; margin-top: 14px; font-size: 13px; color: var(--text-soft); }
 
-/* ===== HORIZONTAL BENEFITS ===== */
-.benefits { background: var(--cream); padding: 110px 0 60px; overflow: hidden; }
-.h-track { display: flex; gap: 28px; padding: 0 max(20px, calc((100vw - 1180px) / 2 + 20px)); width: max-content; }
-.b-card {
-    position: relative; flex: none; width: min(420px, 82vw); min-height: 420px; padding: 36px 32px; border-radius: 36px;
-    display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; box-shadow: var(--shadow-soft);
-}
-.b-card .num { position: absolute; top: 18px; right: 28px; font-family: var(--font-head); font-size: 120px; font-weight: 800; line-height: 1; opacity: .18; }
-.b-card .big { position: absolute; top: 40px; left: 32px; font-size: 96px; }
-.b-card h3 { font-size: 28px; margin-bottom: 10px; }
-.b-card p { font-size: 17px; }
-.b-card:nth-child(1) { background: var(--pink-soft); }
-.b-card:nth-child(2) { background: var(--mint-soft); }
-.b-card:nth-child(3) { background: var(--yellow-soft); }
-.b-card:nth-child(4) { background: #ece6ff; }
-.b-card:nth-child(5) { background: var(--primary-light); }
-.b-card.cta-card { background: linear-gradient(150deg, var(--primary), var(--primary-dark)); color: var(--white); justify-content: center; text-align: center; align-items: center; }
-.b-card.cta-card h3 { color: var(--white); }
-.b-card.cta-card .btn { margin-top: 20px; }
 
 /* ===== HOW TO (section 7) ===== */
 .howto { background: linear-gradient(180deg, var(--cream), var(--primary-light)); }
@@ -1299,8 +1280,6 @@ textarea.input { resize: vertical; min-height: 90px; }
     .drop-ring { width: 340px; height: 340px; }
     .lab-bottle { width: 140px; }
     .lab-info { flex-direction: column; text-align: center; padding: 18px; }
-    .h-track { overflow-x: auto; width: auto; scroll-snap-type: x mandatory; padding-bottom: 20px; -webkit-overflow-scrolling: touch; }
-    .b-card { scroll-snap-align: center; min-height: 360px; }
     .howto-grid { grid-template-columns: 1fr; gap: 36px; }
     .mom-row { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px; margin: 0 -16px; padding: 4px 16px 20px; scrollbar-width: none; }
     .mom-row::-webkit-scrollbar { display: none; }
@@ -1334,7 +1313,7 @@ textarea.input { resize: vertical; min-height: 90px; }
 /* ===== NHỊP NỀN CÁC SECTION =====
    Nền nhạt xen kẽ kem / xanh nhạt / hồng nhạt; 3 dải màu đậm (marquee, vòng quay, đặt hàng) làm điểm nhấn. */
 :root { --bg-cream: #fffaf3; --bg-aqua: #eaf8fb; --bg-pink: #fff0f4; }
-.wish, .ingre, .benefits, .ugc, .stores, .rv { background: var(--bg-cream); }
+.wish, .ingre, .ugc, .stores, .rv { background: var(--bg-cream); }
 .compare-sec, .howto, .pinfo, .faq { background: var(--bg-aqua); }
 .uses, .moms { background: var(--bg-pink); }
 .form-sec { background: radial-gradient(circle at 12% 18%, rgba(255,255,255,.28) 0, transparent 34%), radial-gradient(circle at 90% 85%, rgba(255,214,170,.45) 0, transparent 40%), linear-gradient(135deg, #ff7fa3 0%, #ff9fb8 45%, #ffbfa8 100%); }
@@ -1354,7 +1333,7 @@ textarea.input { resize: vertical; min-height: 90px; }
 .wish { --next: var(--bg-aqua); --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 46 C240 6 480 6 720 40 C960 74 1200 74 1440 34 L1440 80 L0 80 Z'/%3E%3C/svg%3E"); }
 .compare-sec { --next: var(--bg-cream); --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 30 C300 76 560 70 820 38 C1080 6 1260 14 1440 44 L1440 80 L0 80 Z'/%3E%3C/svg%3E"); }
 .ingre { --next: var(--bg-pink); --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 60 C360 60 520 10 760 10 C1000 10 1120 52 1440 52 L1440 80 L0 80 Z' fill-opacity='.45'/%3E%3Cpath d='M0 50 C280 76 600 22 860 30 C1120 38 1280 66 1440 58 L1440 80 L0 80 Z'/%3E%3C/svg%3E"); }
-.uses { --next: var(--bg-cream); --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 46 C240 6 480 6 720 40 C960 74 1200 74 1440 34 L1440 80 L0 80 Z'/%3E%3C/svg%3E"); }
+.uses { --next: var(--bg-aqua); --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 46 C240 6 480 6 720 40 C960 74 1200 74 1440 34 L1440 80 L0 80 Z'/%3E%3C/svg%3E"); }
 .howto { --next: var(--bg-cream); --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 60 C360 60 520 10 760 10 C1000 10 1120 52 1440 52 L1440 80 L0 80 Z' fill-opacity='.45'/%3E%3Cpath d='M0 50 C280 76 600 22 860 30 C1120 38 1280 66 1440 58 L1440 80 L0 80 Z'/%3E%3C/svg%3E"); }
 .ugc { --next: var(--bg-pink); --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 46 C240 6 480 6 720 40 C960 74 1200 74 1440 34 L1440 80 L0 80 Z'/%3E%3C/svg%3E"); }
 .moms { --next: var(--bg-cream); --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 30 C300 76 560 70 820 38 C1080 6 1260 14 1440 44 L1440 80 L0 80 Z'/%3E%3C/svg%3E"); }
@@ -1378,10 +1357,6 @@ textarea.input { resize: vertical; min-height: 90px; }
 .form-sec::before { content: ''; position: absolute; left: 0; right: 0; top: -1px; height: 80px; z-index: 0; pointer-events: none;
     background: #2a9fb3; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 30 C300 76 560 70 820 38 C1080 6 1260 14 1440 44 L1440 80 L0 80 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 30 C300 76 560 70 820 38 C1080 6 1260 14 1440 44 L1440 80 L0 80 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat; transform: scaleY(-1); }
 @media (max-width: 768px) { .form-sec::before { height: 44px; } }
-/* Lợi ích (section ghim cuộn ngang) -> cách dùng: sóng nằm ở đỉnh section cách dùng để không trôi giữa màn hình khi đang ghim */
-.howto::before { content: ''; position: absolute; left: 0; right: 0; top: -1px; height: 80px; z-index: 0; pointer-events: none;
-    background: var(--bg-cream); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 30 C300 76 560 70 820 38 C1080 6 1260 14 1440 44 L1440 80 L0 80 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 30 C300 76 560 70 820 38 C1080 6 1260 14 1440 44 L1440 80 L0 80 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat; transform: scaleY(-1); }
-@media (max-width: 768px) { .howto::before { height: 44px; } }
 
 /* ===== FAQ 2 cột ===== */
 .faq-wrap { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 32px; align-items: start; max-width: 1080px; margin: 0 auto; }

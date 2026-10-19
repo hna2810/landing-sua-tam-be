@@ -416,25 +416,6 @@ $$('.wish-card').forEach(card => {
     }
 })();
 
-/* ===== HORIZONTAL BENEFITS (desktop pin) ===== */
-const mm = gsap.matchMedia();
-mm.add('(min-width: 769px)', () => {
-    const track = $('#hTrack');
-    const dist = () => track.scrollWidth - window.innerWidth;
-    const tween = gsap.to(track, {
-        x: () => -dist(), ease: 'none',
-        scrollTrigger: { trigger: '#loi-ich', start: 'top top', end: () => '+=' + dist(), pin: true, scrub: 1, invalidateOnRefresh: true, refreshPriority: 1 }
-    });
-    $$('.b-card').forEach(card => {
-        gsap.from(card.querySelector('.big'), {
-            scale: 0, rotate: -30, ease: 'back.out(2)',
-            scrollTrigger: { trigger: card, containerAnimation: tween, start: 'left 90%', end: 'left 60%', scrub: true }
-        });
-    });
-});
-mm.add('(max-width: 768px)', () => {
-    gsap.from('.b-card', { scrollTrigger: { trigger: '#hTrack', start: 'top 85%' }, x: 60, opacity: 0, duration: .8, stagger: .1, ease: 'power3.out' });
-});
 
 /* ===== HOW TO STEPS (section 7) ===== */
 (function () {
