@@ -732,49 +732,6 @@ add_action('acf/init', function() {
                 'default_value' => 'Tránh để sản phẩm tiếp xúc trực tiếp vào mắt trẻ. Nếu vô tình dính vào mắt, hãy rửa sạch ngay bằng nước ấm.',
             ),
 
-            // ================= TAB 10b: THƯỚC ĐO TIẾT KIỆM (CALCULATOR) =================
-            array(
-                'key' => 'field_tab_calc',
-                'label' => __('10b. Thước đo tiết kiệm (Calculator)', 'lx-landing'),
-                'type' => 'tab',
-            ),
-            array(
-                'key' => 'field_lx_calc_eyebrow',
-                'label' => __('Huy hiệu nhỏ', 'lx-landing'),
-                'name' => 'lx_calc_eyebrow',
-                'type' => 'text',
-                'default_value' => '💡 Thước đo chi tiêu thông minh',
-            ),
-            array(
-                'key' => 'field_lx_calc_title',
-                'label' => __('Tiêu đề khối', 'lx-landing'),
-                'name' => 'lx_calc_title',
-                'type' => 'text',
-                'default_value' => 'Bé dùng được bao lâu? <span class="hl">Tiết kiệm bao nhiêu?</span>',
-            ),
-            array(
-                'key' => 'field_lx_calc_sub',
-                'label' => __('Mô tả phụ', 'lx-landing'),
-                'name' => 'lx_calc_sub',
-                'type' => 'textarea',
-                'rows' => 2,
-                'default_value' => 'Chỉ với 1 chai Bon Bon 500ml – Mẹ cùng tính bài toán kinh tế thông minh cho con nhé!',
-            ),
-            array(
-                'key' => 'field_lx_calc_price',
-                'label' => __('Giá chai tính toán (VNĐ)', 'lx-landing'),
-                'name' => 'lx_calc_price',
-                'type' => 'number',
-                'default_value' => 265000,
-            ),
-            array(
-                'key' => 'field_lx_calc_volume',
-                'label' => __('Dung tích chai (ml)', 'lx-landing'),
-                'name' => 'lx_calc_volume',
-                'type' => 'number',
-                'default_value' => 500,
-            ),
-
             // ================= TAB 11: VÒNG QUAY MAY MẮN =================
             array(
                 'key' => 'field_tab_wheel',
