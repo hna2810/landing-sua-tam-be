@@ -46,6 +46,5 @@ if (empty($bottle_img)) {
         <div class="lab-done" id="labDone">
             <a href="#dang-ky" class="btn btn-primary js-scroll">🎉 Hoàn thành! Nhận tư vấn &amp; quà ngay</a>
         </div>
-        <p class="lab-note">* Thành phần nổi bật, xem nhãn sản phẩm để biết bảng thành phần đầy đủ.</p>
     </div>
 </section>

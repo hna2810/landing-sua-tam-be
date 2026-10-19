@@ -184,11 +184,9 @@ heroTl
     .from('[data-hero]', { y: 30, opacity: 0, duration: .8, stagger: .08 }, '-=.6')
     .from('.hero-blob', { scale: .4, opacity: 0, duration: 1.2, ease: 'elastic.out(1, .6)' }, 0.1)
     .from('#heroBottle', { y: 200, rotate: -20, opacity: 0, duration: 1.3, ease: 'elastic.out(1, .55)' }, .3)
-    .from('#heroDuck', { x: 120, rotate: 40, opacity: 0, duration: 1, ease: 'back.out(2)' }, 1.1)
-    .from('.hero-star', { scale: 0, duration: .6, stagger: .1, ease: 'back.out(3)' }, 1.2);
+    .from('#heroDuck', { x: 120, rotate: 40, opacity: 0, duration: 1, ease: 'back.out(2)' }, 1.1);
 
 if (!reduceMotion) {
-    gsap.to('.hero-star', { rotate: 20, scale: 1.2, duration: 1.6, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .4 });
     gsap.to('#heroDuck', { rotate: 8, y: -8, duration: 1.3, ease: 'sine.inOut', yoyo: true, repeat: -1 });
 }
 

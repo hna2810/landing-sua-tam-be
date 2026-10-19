@@ -55,9 +55,6 @@ $lion_img      = lx_get_image_url('lx_hero_lion_img', LX_THEME_URI . '/assets/im
             <?php if (!empty($hero_cta)) : ?>
                 <div class="hero-ctas" data-hero>
                     <a href="#dang-ky" class="btn btn-primary js-scroll magnetic"><span class="wiggle">👶</span> <?php echo esc_html($hero_cta); ?></a>
-                    <?php if (!empty($hero_subnote)) : ?>
-                        <p class="hero-subnote" style="margin-top:8px;font-size:14px;color:rgba(0,0,0,0.6);"><?php echo esc_html($hero_subnote); ?></p>
-                    <?php endif; ?>
                 </div>
             <?php endif; ?>
 
@@ -65,9 +62,6 @@ $lion_img      = lx_get_image_url('lx_hero_lion_img', LX_THEME_URI . '/assets/im
         </div>
         <div class="hero-visual">
             <div class="hero-blob"></div>
-            <span class="hero-star" style="top:6%;right:18%">✨</span>
-            <span class="hero-star" style="bottom:22%;left:-2%">⭐</span>
-            <span class="hero-star" style="top:30%;left:12%">💖</span>
             <?php if (!empty($bottle_img)) : ?>
                 <div class="hero-bottle" id="heroBottle" title="Kéo thử lọ Bon Bon nè!">
                     <img src="<?php echo esc_url($bottle_img); ?>" alt="Sữa tắm gội Bon Bon 500ml" width="827" height="2000" draggable="false">

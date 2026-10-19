@@ -840,14 +840,13 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 .chip.rejected { opacity: .5; text-decoration: line-through; pointer-events: none; }
 
 /* ===== PRODUCT INFO (section 11) ===== */
-.pinfo-docs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; align-items: stretch; }
-.doc-card { display: flex; flex-direction: column; justify-content: space-between; height: 100%; gap: 12px; padding: 14px; border-radius: 24px; background: #ffffff; border: 2px solid rgba(76, 192, 211, 0.25); box-shadow: 0 10px 30px rgba(0,0,0,.05); cursor: zoom-in; transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s, border-color .3s; }
-.doc-card:hover { transform: translateY(-6px); border-color: #4cc0d3; box-shadow: 0 16px 36px rgba(76, 192, 211, 0.22); }
-.doc-card:nth-child(2):hover { transform: translateY(-6px); }
-.doc-img { width: 100%; height: 280px; border-radius: 18px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #ffffff; border: 1px solid #edf2f7; flex: 1 1 auto; }
-.doc-img img { width: 100%; height: 100%; max-height: 280px; object-fit: contain; background: #ffffff; display: block; padding: 8px; }
+.pinfo-docs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: stretch; width: 100%; }
+.doc-card { display: flex; flex-direction: column; justify-content: space-between; height: 100%; width: 100%; min-width: 0; box-sizing: border-box; gap: 12px; padding: 14px; border-radius: 24px; background: #ffffff; border: 2px solid rgba(76, 192, 211, 0.25); box-shadow: 0 10px 30px rgba(0,0,0,.05); cursor: zoom-in; transition: border-color .3s ease, box-shadow .3s ease; }
+.doc-card:hover { border-color: #4cc0d3; box-shadow: 0 16px 36px rgba(76, 192, 211, 0.22); }
+.doc-img { width: 100%; height: 280px; flex: 0 0 280px; border-radius: 18px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #ffffff; border: 1px solid #edf2f7; box-sizing: border-box; }
+.doc-img img { width: 100%; height: 100%; max-width: 100%; max-height: 280px; object-fit: contain; object-position: center; background: #ffffff; display: block; padding: 8px; box-sizing: border-box; }
 .doc-ph { padding: 0 14px; text-align: center; font-weight: 700; font-size: 13px; color: var(--text-soft); }
-.doc-label { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 14px; border-radius: 14px; background: linear-gradient(135deg, #f0fbfd, #e3f7fa); border: 1px solid rgba(76, 192, 211, 0.25); color: #1f6b78; font-weight: 800; font-size: 14px; white-space: nowrap; height: 44px; flex-shrink: 0; }
+.doc-label { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 12px; border-radius: 14px; background: linear-gradient(135deg, #f0fbfd, #e3f7fa); border: 1px solid rgba(76, 192, 211, 0.25); color: #1f6b78; font-weight: 800; font-size: 13.5px; line-height: 1.3; text-align: center; height: 48px; min-height: 48px; width: 100%; box-sizing: border-box; flex-shrink: 0; word-break: break-word; }
 .doc-ico { font-size: 18px; }
 .lightbox { position: fixed; inset: 0; z-index: 99999; display: grid; place-items: center; padding: 24px; background: rgba(15,23,42,.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 .lightbox[hidden] { display: none; }
@@ -1303,11 +1302,11 @@ textarea.input { resize: vertical; min-height: 90px; }
     .ugc-col:nth-child(n+3) { display: none; }
     .ugc-track { gap: 12px; }
     .pinfo-grid { grid-template-columns: 1fr; gap: 28px; }
-    .pinfo-docs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    .doc-card { padding: 10px; gap: 8px; border-radius: 18px; }
-    .doc-img { height: 180px; }
-    .doc-img img { max-height: 180px; padding: 4px; }
-    .doc-label { font-size: 12px; padding: 6px 8px; height: auto; min-height: 38px; white-space: normal; text-align: center; }
+    .pinfo-docs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; width: 100%; }
+    .doc-card { padding: 10px; gap: 8px; border-radius: 18px; width: 100%; min-width: 0; box-sizing: border-box; }
+    .doc-img { height: 180px; flex: 0 0 180px; }
+    .doc-img img { max-height: 180px; padding: 6px; }
+    .doc-label { font-size: 12px; padding: 6px 8px; height: 44px; min-height: 44px; white-space: normal; text-align: center; }
     .tabs { width: 100%; }
     .tab { flex: 1; padding: 10px 8px; font-size: 14px; }
     .spec li span:not(.e) { min-width: 84px; font-size: 14px; }
