@@ -385,14 +385,29 @@ $$('.section-title').forEach(t => {
     const ING = [
         { ico: '🌰', name: 'Dầu Hạnh Nhân (Prunus Amygdalus Dulcis Oil)', text: 'Giàu Vitamin E và axit béo tự nhiên, nuôi dưỡng sâu, giảm khô rát, bong tróc và củng cố hàng rào bảo vệ da bé.' },
         { ico: '💊', name: 'Vitamin E (Tocopherol)', text: 'Chống oxy hóa, hỗ trợ bảo vệ da trước tác nhân môi trường và giúp da bé mịn màng.' },
-        { ico: '💧', name: 'Aqua & Sodium Laureth Sulfate dịu nhẹ', text: 'Lấy đi bụi bẩn và mồ hôi hằng ngày một cách nhẹ nhàng mà không làm bít tắc lỗ chân lông.' }
+        { ico: '💧', name: 'Aqua & Sodium Laureth Sulfate dịu nhẹ', text: 'Lấy đi bụi bẩn và mồ hôi hằng ngày một cách nhẹ nhàng mà không làm bít tắc lỗ chân lông.' },
+        { ico: '🫐', name: 'Chiết Xuất Dâu Tằm (Morus Alba Leaf Extract)', text: 'Thảo dược tự nhiên tính mát, giàu chất chống oxy hóa, giúp làm dịu rôm sảy, mẩn ngứa và giữ làn da bé luôn ẩm mịn, mát lành.' }
     ];
-    const BAD = { ico: '🙅', name: 'Không chứa Paraben!', text: 'Bon Bon nói "không" với Paraben để làn da non nớt của bé luôn được nâng niu dịu nhẹ nhất.' };
+    const BADS = {
+        paraben: {
+            ico: '🙅',
+            name: 'Không chứa Paraben!',
+            text: 'Bon Bon nói "không" với Paraben để làn da non nớt của bé luôn được nâng niu dịu nhẹ và an toàn tuyệt đối.',
+            toast: '🙅 Bon Bon không chứa Paraben đâu mẹ ơi!'
+        },
+        sulfate: {
+            ico: '🙅',
+            name: 'Không chứa gốc Sunfat mạnh!',
+            text: 'Bon Bon nói "không" với chất tẩy rửa gốc Sunfat mạnh (như SLS) để không làm mất màng ẩm tự nhiên hay gây khô rát da bé.',
+            toast: '🙅 Bon Bon không dùng gốc Sunfat mạnh đâu mẹ ơi!'
+        }
+    };
     const zone = $('#dropZone'), bottle = $('#labBottle'), info = $('#labInfo');
     let done = 0;
 
     function showInfo(i) {
         const d = ING[i];
+        if (!d) return;
         info.innerHTML = `<span class="ico">${d.ico}</span><div><h4>${d.name}</h4><p>${d.text}</p></div>`;
         gsap.fromTo(info, { y: 20, opacity: 0, scale: .95 }, { y: 0, opacity: 1, scale: 1, duration: .5, ease: 'back.out(2)' });
     }
@@ -401,9 +416,12 @@ $$('.section-title').forEach(t => {
         chip.classList.add('rejected');
         gsap.timeline().to(bottle, { rotate: -8, duration: .08, yoyo: true, repeat: 5, ease: 'none' }).set(bottle, { rotate: 0 });
         gsap.to(chip, { x: 0, y: 0, duration: .8, ease: 'elastic.out(1, .5)' });
-        info.innerHTML = `<span class="ico">${BAD.ico}</span><div><h4>${BAD.name}</h4><p>${BAD.text}</p></div>`;
+        
+        const badKey = chip.dataset.bad || 'paraben';
+        const bad = BADS[badKey] || BADS.paraben;
+        info.innerHTML = `<span class="ico">${bad.ico}</span><div><h4>${bad.name}</h4><p>${bad.text}</p></div>`;
         gsap.fromTo(info, { x: -12 }, { x: 0, duration: .5, ease: 'elastic.out(1.2, .3)' });
-        toast('🙅 Bon Bon không chứa Paraben đâu mẹ ơi!');
+        toast(bad.toast);
     }
     function accept(chip, dragInst) {
         if (chip.classList.contains('used')) return;
