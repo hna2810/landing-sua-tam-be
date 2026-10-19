@@ -138,23 +138,9 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
     -webkit-tap-highlight-color: transparent;
 }
 .pop-particle { position: absolute; width: 8px; height: 8px; border-radius: 50%; pointer-events: none; z-index: 5; }
-.hero-grid {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    grid-template-columns: 1.08fr .92fr;
-    grid-template-rows: auto auto;
-    grid-template-areas:
-        "header visual"
-        "actions visual";
-    column-gap: 40px;
-    row-gap: 0;
-    align-items: center;
-    pointer-events: none;
-}
+.hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.08fr .92fr; gap: 40px; align-items: center; pointer-events: none; }
 .hero-grid > * { pointer-events: auto; }
-.hero-header { grid-area: header; }
-.hero-actions { grid-area: actions; }
+.hero-mobile-actions { display: none; }
 .pill {
     display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 99px;
     background: var(--white); box-shadow: var(--shadow-soft); font-weight: 800; color: var(--primary-dark); font-size: 15px;
@@ -170,14 +156,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 .hero-ctas { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 26px; }
 .pop-hint { display: inline-flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; font-weight: 700; color: var(--text-soft); font-size: 15px; background: rgba(255,255,255,.7); padding: 8px 16px; border-radius: 99px; }
 .pop-hint b { color: var(--primary-dark); font-size: 18px; min-width: 18px; display: inline-block; text-align: center; }
-.hero-visual {
-    grid-area: visual;
-    grid-row: 1 / span 2;
-    position: relative;
-    display: grid;
-    place-items: center;
-    min-height: 600px;
-}
+.hero-visual { position: relative; display: grid; place-items: center; min-height: 600px; }
 .hero-blob {
     position: absolute; width: 520px; height: 520px; max-width: 100%;
     background: linear-gradient(135deg, var(--primary-light), var(--mint-soft) 60%, var(--pink-soft));
@@ -1275,28 +1254,34 @@ textarea.input { resize: vertical; min-height: 90px; }
         text-align: center;
         gap: 0;
     }
-    .hero-header {
-        order: 1;
+    .hero-copy {
         width: 100%;
         text-align: center;
     }
+    .hero-desktop-cta,
+    .hero-desktop-hint {
+        display: none !important;
+    }
     .hero-visual {
-        order: 2;
         width: 100%;
         min-height: 480px;
         margin: 12px auto 22px;
     }
-    .hero-actions {
-        order: 3;
-        width: 100%;
+    .hero-mobile-actions {
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 100%;
         text-align: center;
+    }
+    .hero-mobile-actions .hero-ctas {
+        justify-content: center;
+        width: 100%;
+        max-width: 420px;
+        margin-bottom: 20px;
     }
     .hero { padding-top: 120px; }
     .hero-desc { margin-left: auto; margin-right: auto; }
-    .hero-ctas { justify-content: center; width: 100%; max-width: 420px; margin-bottom: 20px; }
     .lab { grid-template-columns: 1fr 1fr; }
     .drop-zone { grid-column: 1 / -1; grid-row: 1; }
     .wheel-copy { text-align: center; }
@@ -1308,16 +1293,16 @@ textarea.input { resize: vertical; min-height: 90px; }
     .header-cta { display: none; }
     .header-inner { height: 62px; }
     .hero { padding: 90px 0 110px; }
-    .hero-header { margin-bottom: 4px; }
+    .hero-copy { margin-bottom: 4px; }
     .hero-title { margin: 14px 0 12px; font-size: clamp(28px, 7.5vw, 38px); }
     .hero-desc { font-size: 16px; margin-bottom: 8px; max-width: 460px; line-height: 1.5; }
     .hero-visual { min-height: 380px; margin: 4px auto 16px; }
     .hero-bottle { width: 145px; }
     .hero-blob { width: 290px; height: 290px; }
     .hero-duck { width: 115px; right: 2%; bottom: 4%; }
-    .hero-actions { width: 100%; }
-    .hero-ctas { width: 100%; max-width: 380px; margin-bottom: 14px; }
-    .hero-ctas .btn { width: 100%; font-size: 17px; padding: 15px 20px; }
+    .hero-mobile-actions { width: 100%; }
+    .hero-mobile-actions .hero-ctas { width: 100%; max-width: 380px; margin-bottom: 14px; }
+    .hero-mobile-actions .hero-ctas .btn { width: 100%; font-size: 17px; padding: 15px 20px; }
     .pop-hint { font-size: 14px; }
     .marquee-track { font-size: 18px; }
 }

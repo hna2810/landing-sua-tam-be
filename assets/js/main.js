@@ -250,11 +250,10 @@ function makeBubble(initial) {
         popBurst(r.left - br.left + r.width / 2, r.top - br.top + r.height / 2);
         gsap.to(b, { scale: 1.5, opacity: 0, duration: .22, ease: 'power2.out', onComplete: () => { b.remove(); makeBubble(false); } });
         pops++;
-        const pc = $('#popCount');
-        if (pc) {
+        $$('.js-pop-count').forEach(pc => {
             pc.textContent = pops;
             gsap.fromTo(pc, { scale: 1.8 }, { scale: 1, duration: .5, ease: 'back.out(3)' });
-        }
+        });
     });
 }
 const bubbleCount = reduceMotion ? 0 : (window.innerWidth < 768 ? 6 : 14);
