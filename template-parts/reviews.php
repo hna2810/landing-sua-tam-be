@@ -8,12 +8,16 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+
+$title = lx_get_field('lx_reviews_title', 'option', 'ĐÁNH GIÁ <span class="hl">SẢN PHẨM</span>');
 ?>
 <!-- ===== ĐÁNH GIÁ SẢN PHẨM ===== -->
 <section class="section rv" id="danh-gia-sp">
     <div class="container">
         <div class="section-head" data-reveal>
-            <h2 class="section-title rv-title">ĐÁNH GIÁ <span class="hl">SẢN PHẨM</span></h2>
+            <?php if (!empty($title)) : ?>
+                <h2 class="section-title rv-title"><?php echo $title; ?></h2>
+            <?php endif; ?>
             <svg class="rv-wave" viewBox="0 0 80 14" aria-hidden="true"><path d="M2 7 Q 12 0 22 7 T 42 7 T 62 7 T 78 7" fill="none" stroke="#4cc0d3" stroke-width="3.5" stroke-linecap="round"/></svg>
         </div>
         <div class="rv-bar" data-reveal>

@@ -9,22 +9,18 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$bottle_img = lx_get_field('lx_offer_bottle_img', 'option', '');
-$lion_img   = lx_get_field('lx_offer_lion_img', 'option', '');
-
-if (empty($bottle_img)) {
-    $bottle_img = LX_THEME_URI . '/assets/img/sua-tam-goi-bon-bon-500ml.webp';
-}
-if (empty($lion_img)) {
-    $lion_img = LX_THEME_URI . '/assets/img/su-tu-bon-bon.webp';
-}
+$offer_badge = lx_get_field('lx_offer_badge', 'option', 'ƯU ĐÃI TẶNG MẸ');
+$bottle_img  = lx_get_image_url('lx_offer_bottle_img', LX_THEME_URI . '/assets/img/sua-tam-goi-bon-bon-500ml.webp');
+$lion_img    = lx_get_image_url('lx_offer_lion_img', LX_THEME_URI . '/assets/img/su-tu-bon-bon.webp');
 ?>
 <!-- ===== FORM ĐẶT HÀNG ===== -->
 <section class="section form-sec" id="dang-ky">
     <span class="fs-bub b1"></span><span class="fs-bub b2"></span><span class="fs-bub b3"></span><span class="fs-bub b4"></span><span class="fs-bub b5"></span>
     <div class="container order-wrap">
         <div class="order-side" data-reveal>
-            <h2 class="order-title">ƯU ĐÃI TẶNG MẸ</h2>
+            <?php if (!empty($offer_badge)) : ?>
+                <h2 class="order-title"><?php echo esc_html($offer_badge); ?></h2>
+            <?php endif; ?>
             <div class="order-price"><b id="opPrice">—</b><s id="opOld"></s><span class="order-off" id="opOff" hidden></span></div>
             <div class="order-cd">
                 <span class="lbl">⏰ Ưu đãi kết thúc sau:</span>
@@ -36,8 +32,12 @@ if (empty($lion_img)) {
             </div>
             <div class="order-img">
                 <span class="order-glow"></span>
-                <img class="oi-bottle" src="<?php echo esc_url($bottle_img); ?>" alt="Sữa tắm gội Bon Bon 500ml" width="827" height="2000" loading="lazy">
-                <img class="oi-lion" src="<?php echo esc_url($lion_img); ?>" alt="Sư tử Bon Bon" width="400" height="400" loading="lazy">
+                <?php if (!empty($bottle_img)) : ?>
+                    <img class="oi-bottle" src="<?php echo esc_url($bottle_img); ?>" alt="Sữa tắm gội Bon Bon 500ml" width="827" height="2000" loading="lazy">
+                <?php endif; ?>
+                <?php if (!empty($lion_img)) : ?>
+                    <img class="oi-lion" src="<?php echo esc_url($lion_img); ?>" alt="Sư tử Bon Bon" width="400" height="400" loading="lazy">
+                <?php endif; ?>
             </div>
             <ul class="order-trust">
                 <li>🚚 Giao hàng toàn quốc</li>

@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 $wish_title = lx_get_field('lx_wish_title', 'option', 'Mẹ muốn da con yêu thế nào?');
-$acf_cards  = lx_get_field('lx_wish_cards', 'option', array());
+$acf_cards  = lx_get_field('lx_wish_cards', 'option', '__NOT_SET__');
 
 $default_cards = array(
     array(
@@ -40,7 +40,9 @@ $default_cards = array(
 );
 
 $cards = array();
-if (!empty($acf_cards) && is_array($acf_cards)) {
+if ($acf_cards === '__NOT_SET__') {
+    $cards = $default_cards;
+} elseif (!empty($acf_cards) && is_array($acf_cards)) {
     $colors = array(
         array('c1' => '#e3f7fa', 'c2' => '#b8ecf3'),
         array('c1' => '#ffe4ec', 'c2' => '#ffc9d8'),
@@ -59,17 +61,20 @@ if (!empty($acf_cards) && is_array($acf_cards)) {
     }
 }
 
-if (empty($cards)) {
-    $cards = $default_cards;
+if (empty($cards) && empty($wish_title)) {
+    return;
 }
 ?>
 <!-- ===== WISH (section 2) ===== -->
 <section class="section wish" id="van-de">
     <div class="container">
-        <div class="section-head" data-reveal>
-            <h2 class="section-title">Mẹ muốn da con yêu <span class="hl">thế nào?</span></h2>
-        </div>
-        <div class="wish-grid">
+        <?php if (!empty($wish_title)) : ?>
+            <div class="section-head" data-reveal>
+                <h2 class="section-title"><?php echo $wish_title; ?></h2>
+            </div>
+        <?php endif; ?>
+        <?php if (!empty($cards)) : ?>
+            <div class="wish-grid">
             <?php foreach ($cards as $c) : ?>
                 <button class="wish-card" data-reveal type="button" aria-label="<?php echo esc_attr($c['title']); ?>: chạm để lật">
                     <span class="wish-flip">
@@ -93,6 +98,7 @@ if (empty($cards)) {
                 </button>
             <?php endforeach; ?>
         </div>
+        <?php endif; ?>
         <p class="wish-foot" data-reveal>Hơn cả sữa tắm, Bon Bon là "người bạn thân" để bé thật vui trong mỗi giờ tắm 💙</p>
     </div>
 </section>

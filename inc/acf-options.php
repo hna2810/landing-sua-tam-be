@@ -62,22 +62,6 @@ add_action('acf/init', function() {
                 'return_format' => 'url',
             ),
             array(
-                'key' => 'field_lx_header_logo_text',
-                'label' => __('Chữ Logo chính (VD: Bon Bon)', 'lx-landing'),
-                'name' => 'lx_header_logo_text',
-                'type' => 'text',
-                'default_value' => 'Bon Bon',
-                'instructions' => __('Chữ thương hiệu in đậm cạnh logo (để trống nếu ảnh logo đã có sẵn chữ).', 'lx-landing'),
-            ),
-            array(
-                'key' => 'field_lx_header_logo_sub',
-                'label' => __('Chữ phụ dưới Logo (VD: by Home Care Việt Nam)', 'lx-landing'),
-                'name' => 'lx_header_logo_sub',
-                'type' => 'text',
-                'default_value' => 'by Home Care Việt Nam',
-                'instructions' => __('Dòng chữ nhỏ dưới tên thương hiệu (để trống nếu không muốn hiển thị).', 'lx-landing'),
-            ),
-            array(
                 'key' => 'field_lx_hotline',
                 'label' => __('Số Hotline (liền số)', 'lx-landing'),
                 'name' => 'lx_hotline',
@@ -187,6 +171,13 @@ add_action('acf/init', function() {
                 'type' => 'textarea',
                 'rows' => 3,
                 'default_value' => 'Công thức thảo mộc tự nhiên, làm sạch dịu nhẹ — tắm & gội tiện lợi cho bé yêu từ sơ sinh.',
+            ),
+            array(
+                'key' => 'field_lx_hero_btn_text',
+                'label' => __('Chữ trên nút CTA mở đầu', 'lx-landing'),
+                'name' => 'lx_hero_btn_text',
+                'type' => 'text',
+                'default_value' => '🎁 ĐẶT HÀNG NHẬN ƯU ĐÃI',
             ),
             array(
                 'key' => 'field_lx_hero_subnote',
@@ -433,6 +424,13 @@ add_action('acf/init', function() {
                 'default_value' => '3 bước tắm gội dịu êm cho bé',
             ),
             array(
+                'key' => 'field_lx_howto_sub',
+                'label' => __('Mô tả ngắn dưới tiêu đề', 'lx-landing'),
+                'name' => 'lx_howto_sub',
+                'type' => 'text',
+                'default_value' => 'Để con yêu tận hưởng trọn vẹn sự dịu êm từ Sữa Tắm Bon Bon.',
+            ),
+            array(
                 'key' => 'field_lx_howto_video_url',
                 'label' => __('URL Video hướng dẫn (MP4 khung 9:16)', 'lx-landing'),
                 'name' => 'lx_howto_video_url',
@@ -552,6 +550,13 @@ add_action('acf/init', function() {
                 'name' => 'lx_moms_title',
                 'type' => 'text',
                 'default_value' => 'Mẹ bỉm nói gì về Bon Bon?',
+            ),
+            array(
+                'key' => 'field_lx_moms_sub',
+                'label' => __('Mô tả phụ dưới tiêu đề', 'lx-landing'),
+                'name' => 'lx_moms_sub',
+                'type' => 'text',
+                'default_value' => 'Chạm vào video để xem · Bấm tim ❤️ hoặc chạm 2 lần để thả tim cho các bé mẹ nhé!',
             ),
             array(
                 'key' => 'field_lx_moms_videos',
@@ -777,18 +782,25 @@ add_action('acf/init', function() {
                 'type' => 'tab',
             ),
             array(
+                'key' => 'field_lx_wheel_eyebrow',
+                'label' => __('Huy hiệu nhỏ', 'lx-landing'),
+                'name' => 'lx_wheel_eyebrow',
+                'type' => 'text',
+                'default_value' => '🎡 Vòng quay may mắn',
+            ),
+            array(
                 'key' => 'field_lx_wheel_title',
-                'label' => __('Tiêu đề vòng quay', 'lx-landing'),
+                'label' => __('Tiêu đề khối Vòng quay', 'lx-landing'),
                 'name' => 'lx_wheel_title',
                 'type' => 'text',
-                'default_value' => 'Vòng quay may mắn',
+                'default_value' => 'Quay là trúng, <span class="hl">100% có quà!</span>',
             ),
             array(
                 'key' => 'field_lx_wheel_sub',
                 'label' => __('Mô tả vòng quay', 'lx-landing'),
                 'name' => 'lx_wheel_sub',
                 'type' => 'text',
-                'default_value' => '100% trúng quà cho mẹ & bé',
+                'default_value' => 'Mỗi mẹ có 1 lượt quay. Phần quà được gửi kèm đơn hàng khi mẹ đặt mua bên dưới.',
             ),
             array(
                 'key' => 'field_lx_wheel_gifts',
@@ -877,6 +889,13 @@ add_action('acf/init', function() {
                 'type' => 'tab',
             ),
             array(
+                'key' => 'field_lx_reviews_title',
+                'label' => __('Tiêu đề khối Đánh giá', 'lx-landing'),
+                'name' => 'lx_reviews_title',
+                'type' => 'text',
+                'default_value' => 'ĐÁNH GIÁ <span class="hl">SẢN PHẨM</span>',
+            ),
+            array(
                 'key' => 'field_lx_reviews_score',
                 'label' => __('Điểm đánh giá trung bình', 'lx-landing'),
                 'name' => 'lx_reviews_score',
@@ -934,11 +953,18 @@ add_action('acf/init', function() {
                 'type' => 'tab',
             ),
             array(
+                'key' => 'field_lx_faq_eyebrow',
+                'label' => __('Huy hiệu nhỏ', 'lx-landing'),
+                'name' => 'lx_faq_eyebrow',
+                'type' => 'text',
+                'default_value' => '❓ Hỏi đáp',
+            ),
+            array(
                 'key' => 'field_lx_faq_title',
                 'label' => __('Tiêu đề khối FAQ', 'lx-landing'),
                 'name' => 'lx_faq_title',
                 'type' => 'text',
-                'default_value' => 'Mẹ hỏi — Bon Bon trả lời',
+                'default_value' => 'Mẹ thường <span class="hl">hỏi</span>',
             ),
             array(
                 'key' => 'field_lx_faq_items',

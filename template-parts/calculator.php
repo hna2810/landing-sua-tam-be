@@ -20,11 +20,19 @@ $bottle_size = (int)lx_get_field('lx_calc_volume', 'option', 500);
     <div class="container">
         <div class="calc-box" data-reveal>
             <!-- Decorative badge & header -->
+            <?php if (!empty($eyebrow) || !empty($title) || !empty($sub)) : ?>
             <div class="section-head text-center">
-                <span class="eyebrow"><?php echo esc_html($eyebrow); ?></span>
-                <h2 class="section-title"><?php echo $title; ?></h2>
-                <p class="section-sub"><?php echo esc_html($sub); ?></p>
+                <?php if (!empty($eyebrow)) : ?>
+                    <span class="eyebrow"><?php echo esc_html($eyebrow); ?></span>
+                <?php endif; ?>
+                <?php if (!empty($title)) : ?>
+                    <h2 class="section-title"><?php echo $title; ?></h2>
+                <?php endif; ?>
+                <?php if (!empty($sub)) : ?>
+                    <p class="section-sub"><?php echo esc_html($sub); ?></p>
+                <?php endif; ?>
             </div>
+            <?php endif; ?>
 
             <div class="calc-grid">
                 <!-- Left: Controls -->

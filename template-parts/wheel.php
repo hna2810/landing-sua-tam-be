@@ -9,15 +9,23 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$eyebrow = lx_get_field('lx_wheel_title', 'option', '🎡 Vòng quay may mắn');
+$eyebrow = lx_get_field('lx_wheel_eyebrow', 'option', '🎡 Vòng quay may mắn');
+$title   = lx_get_field('lx_wheel_title', 'option', 'Quay là trúng, <span class="hl">100% có quà!</span>');
+$sub     = lx_get_field('lx_wheel_sub', 'option', 'Mỗi mẹ có 1 lượt quay. Phần quà được gửi kèm đơn hàng khi mẹ đặt mua bên dưới.');
 ?>
 <!-- ===== WHEEL ===== -->
 <section class="section wheel-sec" id="vong-quay">
     <div class="container wheel-grid">
         <div class="wheel-copy" data-reveal>
-            <span class="eyebrow"><?php echo esc_html($eyebrow); ?></span>
-            <h2 class="section-title">Quay là trúng, <span class="hl">100% có quà!</span></h2>
-            <p class="section-sub">Mỗi mẹ có 1 lượt quay. Phần quà được gửi kèm đơn hàng khi mẹ đặt mua bên dưới.</p>
+            <?php if (!empty($eyebrow)) : ?>
+                <span class="eyebrow"><?php echo esc_html($eyebrow); ?></span>
+            <?php endif; ?>
+            <?php if (!empty($title)) : ?>
+                <h2 class="section-title"><?php echo $title; ?></h2>
+            <?php endif; ?>
+            <?php if (!empty($sub)) : ?>
+                <p class="section-sub"><?php echo esc_html($sub); ?></p>
+            <?php endif; ?>
             <ul>
                 <li><span>🎁</span> Quà được giữ trong 24 giờ</li>
                 <li><span>📞</span> Chuyên viên gọi lại xác nhận quà</li>

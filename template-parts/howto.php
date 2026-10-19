@@ -10,11 +10,11 @@ if (!defined('ABSPATH')) {
 }
 
 $eyebrow   = lx_get_field('lx_howto_eyebrow', 'option', '🧴 Tắm gội chuẩn mẹ đảm');
-$title     = lx_get_field('lx_howto_title', 'option', 'Tắm bé đúng cách chỉ 3 bước');
+$title     = lx_get_field('lx_howto_title', 'option', 'Tắm bé đúng cách chỉ <span class="hl">3 bước</span>');
+$sub       = lx_get_field('lx_howto_sub', 'option', 'Để con yêu tận hưởng trọn vẹn sự dịu êm từ Sữa Tắm Bon Bon.');
 $video_url = lx_get_field('lx_howto_video_url', 'option', '');
-$poster    = lx_get_field('lx_howto_video_poster', 'option', '');
+$poster    = lx_get_image_url('lx_howto_video_poster', '');
 
-$acf_steps = lx_get_field('lx_howto_steps', 'option', array());
 $default_steps = array(
     array(
         'step_num' => '1',
@@ -33,40 +33,54 @@ $default_steps = array(
     ),
 );
 
-$steps = array();
-if (!empty($acf_steps) && is_array($acf_steps)) {
-    foreach ($acf_steps as $idx => $s) {
-        $steps[] = array(
-            'step_num' => !empty($s['step_num']) ? $s['step_num'] : (string)($idx + 1),
-            'title'    => !empty($s['title']) ? $s['title'] : ('Bước ' . ($idx + 1)),
-            'desc'     => !empty($s['desc']) ? $s['desc'] : '',
-        );
-    }
-}
-if (empty($steps)) {
+$acf_steps = lx_get_field('lx_howto_steps', 'option', '__NOT_SET__');
+if ($acf_steps === '__NOT_SET__') {
     $steps = $default_steps;
+} else {
+    $steps = array();
+    if (!empty($acf_steps) && is_array($acf_steps)) {
+        foreach ($acf_steps as $idx => $s) {
+            $steps[] = array(
+                'step_num' => !empty($s['step_num']) ? $s['step_num'] : (string)($idx + 1),
+                'title'    => !empty($s['title']) ? $s['title'] : ('Bước ' . ($idx + 1)),
+                'desc'     => !empty($s['desc']) ? $s['desc'] : '',
+            );
+        }
+    }
 }
 ?>
 <!-- ===== SECTION 7: TẮM BÉ ĐÚNG CÁCH ===== -->
 <section class="section howto" id="cach-dung">
     <div class="container">
-        <div class="section-head" data-reveal>
-            <h2 class="section-title">Tắm bé đúng cách chỉ <span class="hl">3 bước</span></h2>
-            <p class="section-sub">Để con yêu tận hưởng trọn vẹn sự dịu êm từ Sữa Tắm Bon Bon.</p>
-        </div>
-        <div class="howto-grid">
-            <div class="howto-steps">
-                <?php foreach ($steps as $idx => $s) : ?>
-                    <button class="hstep <?php echo $idx === 0 ? 'active' : ''; ?>" type="button" data-reveal>
-                        <span class="hstep-num"><?php echo esc_html($s['step_num']); ?></span>
-                        <span class="hstep-body">
-                            <b><?php echo esc_html($s['title']); ?></b>
-                            <?php echo esc_html($s['desc']); ?>
-                        </span>
-                    </button>
-                <?php endforeach; ?>
+        <?php if (!empty($eyebrow) || !empty($title) || !empty($sub)) : ?>
+            <div class="section-head" data-reveal>
+                <?php if (!empty($eyebrow)) : ?>
+                    <span class="eyebrow"><?php echo esc_html($eyebrow); ?></span>
+                <?php endif; ?>
+                <?php if (!empty($title)) : ?>
+                    <h2 class="section-title"><?php echo $title; ?></h2>
+                <?php endif; ?>
+                <?php if (!empty($sub)) : ?>
+                    <p class="section-sub"><?php echo esc_html($sub); ?></p>
+                <?php endif; ?>
             </div>
-            <!-- Thêm video: thay .howto-ph bằng <video src="img/huong-dan-tam.mp4" playsinline muted loop autoplay controls></video> (khung 9:16) -->
+        <?php endif; ?>
+
+        <div class="howto-grid">
+            <?php if (!empty($steps)) : ?>
+                <div class="howto-steps">
+                    <?php foreach ($steps as $idx => $s) : ?>
+                        <button class="hstep <?php echo $idx === 0 ? 'active' : ''; ?>" type="button" data-reveal>
+                            <span class="hstep-num"><?php echo esc_html($s['step_num']); ?></span>
+                            <span class="hstep-body">
+                                <b><?php echo esc_html($s['title']); ?></b>
+                                <?php echo esc_html($s['desc']); ?>
+                            </span>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
             <div class="howto-phone" data-reveal>
                 <div class="howto-screen">
                     <?php if (!empty($video_url)) : ?>

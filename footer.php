@@ -10,13 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 $default_logo = LX_THEME_URI . '/assets/img/logo-bon-bon.png';
-$footer_logo  = lx_get_field('lx_footer_logo', 'option', '');
-if (empty($footer_logo)) {
-    $footer_logo = lx_get_field('lx_logo_image', 'option', $default_logo);
-}
-if (empty($footer_logo)) {
-    $footer_logo = $default_logo;
-}
+$footer_logo  = lx_get_image_url('lx_footer_logo', $default_logo);
 
 $footer_title   = lx_get_field('lx_footer_title', 'option', 'Bon Bon - Nâng Niu Làn Da Bé');
 $footer_company = lx_get_field('lx_footer_company', 'option', 'CÔNG TY TNHH CHĂM SÓC MẸ VÀ BÉ TẠI NHÀ HOME CARE');
@@ -41,7 +35,9 @@ if (empty($hotline) && !empty($hotline_display)) {
             </div>
         <?php endif; ?>
 
-        <h4 class="footer-title"><?php echo esc_html($footer_title); ?></h4>
+        <?php if (!empty($footer_title)) : ?>
+            <h4 class="footer-title"><?php echo esc_html($footer_title); ?></h4>
+        <?php endif; ?>
 
         <?php if (!empty($hotline_display)) : ?>
             <p class="footer-hotline">
@@ -49,9 +45,17 @@ if (empty($hotline) && !empty($hotline_display)) {
             </p>
         <?php endif; ?>
 
-        <p class="footer-company"><?php echo esc_html($footer_company); ?></p>
-        <p class="footer-address"><?php echo esc_html($footer_address); ?></p>
-        <p class="footer-tax"><?php echo esc_html($footer_tax); ?></p>
+        <?php if (!empty($footer_company)) : ?>
+            <p class="footer-company"><?php echo esc_html($footer_company); ?></p>
+        <?php endif; ?>
+
+        <?php if (!empty($footer_address)) : ?>
+            <p class="footer-address"><?php echo esc_html($footer_address); ?></p>
+        <?php endif; ?>
+
+        <?php if (!empty($footer_tax)) : ?>
+            <p class="footer-tax"><?php echo esc_html($footer_tax); ?></p>
+        <?php endif; ?>
 
         <div class="footer-copy">
             &copy; <span id="year"><?php echo date('Y'); ?></span> Home Care. All rights reserved.

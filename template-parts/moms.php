@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 $eyebrow    = lx_get_field('lx_moms_eyebrow', 'option', '🎬 Video Trải Nghiệm');
 $title      = lx_get_field('lx_moms_title', 'option', 'Khoảnh khắc bé yêu & <span class="hl">Review từ các Mẹ</span>');
 $sub        = lx_get_field('lx_moms_sub', 'option', 'Chạm vào video để xem · Bấm tim ❤️ hoặc chạm 2 lần để thả tim cho các bé mẹ nhé!');
-$acf_videos = lx_get_field('lx_moms_videos', 'option', array());
+$acf_videos = lx_get_field('lx_moms_videos', 'option', '__NOT_SET__');
 
 $default_reels = array(
     array(
@@ -58,7 +58,9 @@ $default_reels = array(
 );
 
 $reels = array();
-if (!empty($acf_videos) && is_array($acf_videos)) {
+if ($acf_videos === '__NOT_SET__') {
+    $reels = $default_reels;
+} elseif (!empty($acf_videos) && is_array($acf_videos)) {
     foreach ($acf_videos as $idx => $v) {
         if (!empty($v['video_url']) || !empty($v['name'])) {
             $base = isset($default_reels[$idx]) ? $default_reels[$idx] : $default_reels[0];
@@ -76,18 +78,27 @@ if (!empty($acf_videos) && is_array($acf_videos)) {
         }
     }
 }
-if (empty($reels)) {
-    $reels = $default_reels;
+
+if (empty($reels) && empty($title)) {
+    return;
 }
 ?>
 <!-- ===== SECTION 9: CẢM NHẬN CỦA CÁC MOM (REELS SHOWCASE GỌN ĐẸP) ===== -->
 <section class="section moms reels-section" id="cam-nhan">
     <div class="container">
-        <div class="section-head" data-reveal>
-            <span class="eyebrow"><?php echo esc_html($eyebrow); ?></span>
-            <h2 class="section-title"><?php echo $title; ?></h2>
-            <p class="section-sub"><?php echo esc_html($sub); ?></p>
-        </div>
+        <?php if (!empty($eyebrow) || !empty($title) || !empty($sub)) : ?>
+            <div class="section-head" data-reveal>
+                <?php if (!empty($eyebrow)) : ?>
+                    <span class="eyebrow"><?php echo esc_html($eyebrow); ?></span>
+                <?php endif; ?>
+                <?php if (!empty($title)) : ?>
+                    <h2 class="section-title"><?php echo $title; ?></h2>
+                <?php endif; ?>
+                <?php if (!empty($sub)) : ?>
+                    <p class="section-sub"><?php echo esc_html($sub); ?></p>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
 
         <div class="reels-slider-wrap" data-reveal>
             <button type="button" class="reel-nav prev" id="reelPrev" aria-label="Xem video trước">❮</button>

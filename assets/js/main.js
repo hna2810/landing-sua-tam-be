@@ -137,10 +137,14 @@ if (finePointer && !reduceMotion) {
 }
 
 // Duck squeak
-$('#heroDuck').addEventListener('click', () => {
-    gsap.fromTo('#heroDuck', { scaleX: 1.3, scaleY: .7 }, { scaleX: 1, scaleY: 1, duration: .8, ease: 'elastic.out(1.2, .3)' });
-    toast('🦁 Gràoo! Giờ tắm vui quá mẹ ơi!', 1800);
-});
+const heroDuckEl = $('#heroDuck');
+if (heroDuckEl) {
+    heroDuckEl.addEventListener('click', () => {
+        gsap.fromTo(heroDuckEl, { scaleX: 1.3, scaleY: .7 }, { scaleX: 1, scaleY: 1, duration: .8, ease: 'elastic.out(1.2, .3)' });
+        const bubbleMsg = heroDuckEl.getAttribute('data-bubble') || '🦁 Gràoo! Giờ tắm vui quá mẹ ơi!';
+        toast(bubbleMsg, 1800);
+    });
+}
 
 /* ===== HERO BUBBLES (click to pop) ===== */
 const bubbleBox = $('#heroBubbles');

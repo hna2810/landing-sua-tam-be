@@ -9,14 +9,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$title       = lx_get_field('lx_faq_title', 'option', 'Mẹ thường hỏi');
-$acf_faqs    = lx_get_field('lx_faq_items', 'option', array());
-$lion_img    = lx_get_field('lx_hero_lion_img', 'option', '');
+$eyebrow     = lx_get_field('lx_faq_eyebrow', 'option', '❓ Hỏi đáp');
+$title       = lx_get_field('lx_faq_title', 'option', 'Mẹ thường <span class="hl">hỏi</span>');
+$acf_faqs    = lx_get_field('lx_faq_items', 'option', '__NOT_SET__');
+$lion_img    = lx_get_image_url('lx_hero_lion_img', LX_THEME_URI . '/assets/img/su-tu-bon-bon.webp');
 $hotline_fmt = lx_get_field('lx_hotline_formatted', 'option', '0901.234.567');
-
-if (empty($lion_img)) {
-    $lion_img = LX_THEME_URI . '/assets/img/su-tu-bon-bon.webp';
-}
 
 $default_faqs = array(
     array(
@@ -45,36 +42,53 @@ $default_faqs = array(
     ),
 );
 
-$faqs = array();
-if (!empty($acf_faqs) && is_array($acf_faqs)) {
-    foreach ($acf_faqs as $f) {
-        if (!empty($f['q']) && !empty($f['a'])) {
-            $faqs[] = array('q' => $f['q'], 'a' => $f['a']);
+if ($acf_faqs === '__NOT_SET__') {
+    $faqs = $default_faqs;
+} else {
+    $faqs = array();
+    if (!empty($acf_faqs) && is_array($acf_faqs)) {
+        foreach ($acf_faqs as $f) {
+            if (!empty($f['q']) && !empty($f['a'])) {
+                $faqs[] = array('q' => $f['q'], 'a' => $f['a']);
+            }
         }
     }
 }
-if (empty($faqs)) {
-    $faqs = $default_faqs;
+
+if (empty($faqs) && empty($title)) {
+    return;
 }
 ?>
 <!-- ===== FAQ ===== -->
 <section class="section faq" id="hoi-dap">
     <div class="container">
-        <div class="section-head" data-reveal>
-            <span class="eyebrow">❓ Hỏi đáp</span>
-            <h2 class="section-title">Mẹ thường <span class="hl">hỏi</span></h2>
-        </div>
-        <div class="faq-wrap">
-            <div class="faq-list">
-                <?php foreach ($faqs as $item) : ?>
-                    <div class="faq-item" data-reveal>
-                        <button class="faq-q"><?php echo esc_html($item['q']); ?><span class="pm">+</span></button>
-                        <div class="faq-a"><p><?php echo esc_html($item['a']); ?></p></div>
-                    </div>
-                <?php endforeach; ?>
+        <?php if (!empty($eyebrow) || !empty($title)) : ?>
+            <div class="section-head" data-reveal>
+                <?php if (!empty($eyebrow)) : ?>
+                    <span class="eyebrow"><?php echo esc_html($eyebrow); ?></span>
+                <?php endif; ?>
+                <?php if (!empty($title)) : ?>
+                    <h2 class="section-title"><?php echo $title; ?></h2>
+                <?php endif; ?>
             </div>
+        <?php endif; ?>
+
+        <div class="faq-wrap">
+            <?php if (!empty($faqs)) : ?>
+                <div class="faq-list">
+                    <?php foreach ($faqs as $item) : ?>
+                        <div class="faq-item" data-reveal>
+                            <button class="faq-q"><?php echo esc_html($item['q']); ?><span class="pm">+</span></button>
+                            <div class="faq-a"><p><?php echo esc_html($item['a']); ?></p></div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
             <aside class="faq-help" data-reveal>
-                <img src="<?php echo esc_url($lion_img); ?>" alt="Sư tử Bon Bon" width="400" height="400" loading="lazy">
+                <?php if (!empty($lion_img)) : ?>
+                    <img src="<?php echo esc_url($lion_img); ?>" alt="Sư tử Bon Bon" width="400" height="400" loading="lazy">
+                <?php endif; ?>
                 <h3>Mẹ vẫn còn băn khoăn?</h3>
                 <p>Chuyên viên Home Care luôn sẵn sàng tư vấn miễn phí cách chăm da cho bé.</p>
                 <a href="#" class="btn btn-zalo" data-zalo target="_blank" rel="noopener">💬 Chat Zalo ngay</a>
