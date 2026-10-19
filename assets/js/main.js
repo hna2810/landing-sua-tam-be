@@ -522,22 +522,44 @@ $$('.mom-card').forEach(card => card.addEventListener('click', () => {
         return n - 1;
     };
     const applyPrize = (label, animate) => {
-        $('#wheelPrize').textContent = label;
-        $('#wheelResult').classList.add('show');
-        $('#wonText').textContent = label;
-        $('#wonBanner').classList.add('show');
-        $('#hGift').value = label;
+        const wp = $('#wheelPrize'); if (wp) wp.textContent = label;
+        const wr = $('#wheelResult'); if (wr) wr.classList.add('show');
+
+        // Cập nhật quà tặng vào banner đỉnh form & input trong form
+        const giftBannerText = $('#orderGiftText');
+        if (giftBannerText) giftBannerText.textContent = label;
+        const giftBanner = $('#orderGiftBanner');
+        if (giftBanner) giftBanner.classList.add('won');
+        const giftDisplayInput = $('#fGiftDisplay');
+        if (giftDisplayInput) giftDisplayInput.value = label;
+        const hGiftInput = $('#hGift');
+        if (hGiftInput) hGiftInput.value = label;
+        const btnChange = $('#btnChangeGift');
+        if (btnChange) btnChange.textContent = 'Đã chọn ✓';
+
         btn.disabled = true;
         btn.innerHTML = 'ĐÃ<br>QUAY';
         if (animate) {
             gsap.from('#wheelResult', { scale: .6, opacity: 0, duration: .7, ease: 'back.out(2.5)' });
             gsap.fromTo('#wheelCta', { scale: 1 }, { scale: 1.1, duration: .4, yoyo: true, repeat: 5 });
+            if (giftBanner) {
+                gsap.fromTo(giftBanner, { scale: 0.95 }, { scale: 1.05, duration: 0.35, yoyo: true, repeat: 3, ease: 'power2.out' });
+            }
         }
     };
     const saved = store.get('bonbon_gift');
     if (saved !== null && gifts[+saved]) {
         gsap.set(wheel, { rotate: 360 - (+saved * seg + seg / 2) });
         applyPrize(gifts[+saved].label, false);
+    } else if (gifts.length > 0) {
+        // Mặc định quà đầu tiên nếu chưa quay
+        const defaultGift = gifts[0].label;
+        const giftBannerText = $('#orderGiftText');
+        if (giftBannerText) giftBannerText.textContent = defaultGift;
+        const giftDisplayInput = $('#fGiftDisplay');
+        if (giftDisplayInput) giftDisplayInput.value = defaultGift;
+        const hGiftInput = $('#hGift');
+        if (hGiftInput) hGiftInput.value = defaultGift;
     }
     if (!reduceMotion && saved === null) gsap.to(wheel, { rotate: '+=360', duration: 40, ease: 'none', repeat: -1, id: 'wheelIdle' });
     btn.addEventListener('click', () => {

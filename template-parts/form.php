@@ -47,9 +47,22 @@ $lion_img    = lx_get_image_url('lx_offer_lion_img', LX_THEME_URI . '/assets/img
         </div>
 
         <div class="order-card" data-reveal>
-            <span class="order-ribbon">🎁 Đăng ký nhận ưu đãi</span>
+            <!-- Banner Quà tặng vòng quay may mắn trên đầu form -->
+            <div class="order-gift-banner" id="orderGiftBanner">
+                <div class="gift-banner-left">
+                    <span class="gift-banner-badge">🎁 QUÀ TẶNG VÒNG QUAY</span>
+                    <div class="gift-banner-main">
+                        <span class="gift-banner-ico">🎉</span>
+                        <div class="gift-banner-info">
+                            <span class="gift-banner-lbl">Quà tặng của mẹ:</span>
+                            <strong class="gift-banner-name" id="orderGiftText">Vịt tắm cute</strong>
+                        </div>
+                    </div>
+                </div>
+                <a href="#vong-quay" class="btn-change-gift js-scroll" id="btnChangeGift">Đổi quà 🎡</a>
+            </div>
+
             <div id="formContent">
-                <div class="won-banner" id="wonBanner">🎉 <span>Quà của mẹ từ vòng quay: <b id="wonText"></b></span></div>
                 <form id="leadForm" novalidate>
                     <div class="field">
                         <label for="fName">Họ tên <em>*</em></label>
@@ -65,7 +78,16 @@ $lion_img    = lx_get_image_url('lx_offer_lion_img', LX_THEME_URI . '/assets/img
                         <label for="fAddr">Địa chỉ nhận hàng</label>
                         <input class="input" id="fAddr" name="address" type="text" autocomplete="street-address" placeholder="VD: Số 123, đường ABC, Hà Nội">
                     </div>
-                    <input type="hidden" name="gift" id="hGift">
+                    <!-- Trường quà tặng người dùng quay được đưa vào form -->
+                    <div class="field field-gift">
+                        <label for="fGiftDisplay">🎁 Quà tặng kèm theo đơn</label>
+                        <div class="gift-field-box">
+                            <span class="gift-field-ico">🎁</span>
+                            <input class="input input-gift" id="fGiftDisplay" type="text" readonly value="Vịt tắm cute" aria-label="Quà tặng kèm theo đơn">
+                            <span class="gift-tag-free">MIỄN PHÍ</span>
+                        </div>
+                    </div>
+                    <input type="hidden" name="gift" id="hGift" value="Vịt tắm cute">
                     <input type="hidden" name="source" id="hSource">
                     <button type="submit" class="btn btn-pink btn-block order-btn" id="submitBtn"><span class="wiggle">🎁</span> ĐẶT HÀNG NGAY!</button>
                     <p class="consent">🔒 Thông tin của mẹ được bảo mật, Home Care gọi xác nhận trước khi giao hàng.</p>
