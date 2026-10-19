@@ -808,3 +808,115 @@ if (document.readyState === 'complete') refreshAll(); else window.addEventListen
         bootBonBon();
     })();
 })();
+
+// ===== Typewriter effect cho phần CÂU CHUYỆN THƯƠNG HIỆU =====
+(function () {
+    function initStoryTypewriter() {
+        const box = document.getElementById('storyTypewriterBox');
+        if (!box) return;
+
+        const bodyTarget = document.getElementById('storyTypewriterTarget');
+        const highlightTarget = document.getElementById('storyTypewriterHighlight');
+        if (!bodyTarget) return;
+
+        const bodyTextSpan = bodyTarget.querySelector('.typewriter-text');
+        const highlightTextSpan = highlightTarget ? highlightTarget.querySelector('.typewriter-highlight-text') : null;
+        const cursor = box.querySelector('.typewriter-cursor');
+
+        const bodyText = box.getAttribute('data-body') || box.getAttribute('data-text') || (bodyTextSpan ? bodyTextSpan.textContent.trim() : '');
+        const highlightText = box.getAttribute('data-highlight') || (highlightTextSpan ? highlightTextSpan.textContent.trim() : '');
+
+        if (!bodyText && !highlightText) return;
+
+        if (bodyTextSpan) bodyTextSpan.textContent = '';
+        if (highlightTextSpan) highlightTextSpan.textContent = '';
+        if (highlightTarget) highlightTarget.style.display = 'none';
+
+        if (cursor && bodyTarget) {
+            bodyTarget.appendChild(cursor);
+        }
+
+        let hasStarted = false;
+
+        function startTyping() {
+            if (hasStarted) return;
+            hasStarted = true;
+
+            let bodyIndex = 0;
+            let highlightIndex = 0;
+            const speed = 25; // 25ms mỗi ký tự
+
+            function typeBody() {
+                if (bodyIndex < bodyText.length) {
+                    if (bodyTextSpan) {
+                        bodyTextSpan.textContent += bodyText.charAt(bodyIndex);
+                    }
+                    bodyIndex++;
+                    const char = bodyText.charAt(bodyIndex - 1);
+                    const delay = (char === '.' || char === ',' || char === '—') ? 70 : speed;
+                    setTimeout(typeBody, delay);
+                } else if (highlightText && highlightTextSpan) {
+                    setTimeout(() => {
+                        if (highlightTarget) {
+                            highlightTarget.style.display = 'block';
+                        }
+                        if (cursor && highlightTarget) {
+                            highlightTarget.appendChild(cursor);
+                        }
+                        typeHighlight();
+                    }, 300);
+                } else {
+                    finishTyping();
+                }
+            }
+
+            function typeHighlight() {
+                if (highlightIndex < highlightText.length) {
+                    if (highlightTextSpan) {
+                        highlightTextSpan.textContent += highlightText.charAt(highlightIndex);
+                    }
+                    highlightIndex++;
+                    const char = highlightText.charAt(highlightIndex - 1);
+                    const delay = (char === '-' || char === ',' || char === '.') ? 80 : speed;
+                    setTimeout(typeHighlight, delay);
+                } else {
+                    finishTyping();
+                }
+            }
+
+            function finishTyping() {
+                setTimeout(() => {
+                    if (cursor) cursor.classList.add('cursor-finished');
+                }, 3000);
+            }
+
+            if (bodyText.length > 0) {
+                typeBody();
+            } else if (highlightText.length > 0) {
+                if (highlightTarget) highlightTarget.style.display = 'block';
+                if (cursor && highlightTarget) highlightTarget.appendChild(cursor);
+                typeHighlight();
+            }
+        }
+
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        startTyping();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            observer.observe(box);
+        } else {
+            startTyping();
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initStoryTypewriter);
+    } else {
+        initStoryTypewriter();
+    }
+})();

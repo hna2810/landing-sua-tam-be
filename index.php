@@ -27,6 +27,6 @@ get_template_part('template-parts/wheel');
 get_template_part('template-parts/form');
 get_template_part('template-parts/reviews');
 get_template_part('template-parts/faq');
-get_template_part('template-parts/love');
+get_template_part('template-parts/story');
 
 get_footer();
