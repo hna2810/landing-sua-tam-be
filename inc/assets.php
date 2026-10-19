@@ -87,10 +87,15 @@ function lx_enqueue_scripts() {
         $gifts = $default_gifts;
     }
 
+    $offer_label = lx_get_field('lx_offer_label', 'option', 'Sữa tắm Bon Bon');
+    if (empty($offer_label) || strpos($offer_label, 'Combo 299K') !== false) {
+        $offer_label = 'Sữa tắm Bon Bon';
+    }
+
     $offer = array(
-        'label' => lx_get_field('lx_offer_label', 'option', 'Combo 299K BIGSIZE tắm gội + Kem bôi'),
-        'price' => (int)lx_get_field('lx_offer_price', 'option', 299000),
-        'old'   => (int)lx_get_field('lx_offer_old_price', 'option', 455000),
+        'label' => $offer_label,
+        'price' => (int)lx_get_field('lx_offer_price', 'option', 159000),
+        'old'   => (int)lx_get_field('lx_offer_old_price', 'option', 315000),
     );
 
     $acf_reviews = lx_get_field('lx_reviews_list', 'option', array());

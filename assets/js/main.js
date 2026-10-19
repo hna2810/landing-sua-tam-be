@@ -8,7 +8,7 @@ const DEFAULT_CONFIG = {
     webhookUrl: '',
     ajaxUrl: '',
     nonce: '',
-    offer: { label: 'Combo 299K BIGSIZE tắm gội + Kem bôi', price: 299000, old: 455000 },
+    offer: { label: 'Sữa tắm Bon Bon', price: 159000, old: 315000 },
     reviews: [
         {
             name: 'Thu Trang (Mẹ Bắp 4 tháng)',
@@ -979,12 +979,20 @@ $$('.faq-item').forEach(item => {
         const giftVal = fd.get('gift') || '';
         const noteVal = giftVal ? ('Quà tặng: ' + giftVal) : (fd.get('note') || 'Chưa quay vòng quay');
 
+        // Định dạng ngày giờ: ngày trước giờ sau dd/MM/yyyy HH:mm:ss
+        const now = new Date();
+        const pad = n => String(n).padStart(2, '0');
+        const timeStr = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
+        const pkgName = (CONFIG.offer && CONFIG.offer.label && !CONFIG.offer.label.includes('Combo 299K')) ? CONFIG.offer.label : 'Sữa tắm Bon Bon';
+
         const data = {
             name: name.value.trim(),
             phone: ph,
             address: fd.get('address') || '',
-            package: CONFIG.offer.label,
-            price: CONFIG.offer.price || '',
+            package: pkgName,
+            product: pkgName,
+            price: CONFIG.offer.price || 159000,
             gift: giftVal,
             note: noteVal,
             ghi_chu: noteVal,
@@ -992,8 +1000,10 @@ $$('.faq-item').forEach(item => {
             ghichu: noteVal,
             source: fd.get('source') || '',
             page: location.href.split('?')[0],
-            product: 'Sữa tắm gội Bon Bon',
-            time: new Date().toLocaleString('vi-VN')
+            time: timeStr,
+            created_at: timeStr,
+            timestamp: timeStr,
+            date: timeStr
         };
 
         // 1. Gửi qua WordPress AJAX handler (Server xử lý lưu DB, gửi Mail thông báo và forward Webhook duy nhất 1 lần để chống lặp đơn)
@@ -1006,11 +1016,13 @@ $$('.faq-item').forEach(item => {
                 wpBody.append('phone', data.phone);
                 wpBody.append('address', data.address);
                 wpBody.append('package', data.package);
+                wpBody.append('product', data.product);
                 wpBody.append('price', data.price);
                 wpBody.append('gift', data.gift);
                 wpBody.append('note', data.note);
                 wpBody.append('source', data.source);
                 wpBody.append('page', data.page);
+                wpBody.append('time', data.time);
 
                 await fetch(CONFIG.ajaxUrl, {
                     method: 'POST',

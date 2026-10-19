@@ -29,6 +29,16 @@ function lx_handle_ajax_lead() {
     $gift      = isset($_POST['gift']) ? sanitize_text_field(wp_unslash($_POST['gift'])) : '';
     $user_note = isset($_POST['note']) ? sanitize_textarea_field(wp_unslash($_POST['note'])) : '';
 
+    // Gói sản phẩm (Mặc định: Sữa tắm Bon Bon)
+    $package_raw = isset($_POST['package']) ? sanitize_text_field(wp_unslash($_POST['package'])) : '';
+    if (empty($package_raw) || strpos($package_raw, 'Combo 299K') !== false) {
+        $package = 'Sữa tắm Bon Bon';
+    } else {
+        $package = $package_raw;
+    }
+
+    $created_at = current_time('d/m/Y H:i:s');
+
     // Quà tặng lưu vào cột ghi chú
     $note_content = '';
     if (!empty($gift)) {
@@ -50,8 +60,8 @@ function lx_handle_ajax_lead() {
         'name'        => $name,
         'phone'       => $phone,
         'address'     => isset($_POST['address']) ? sanitize_text_field(wp_unslash($_POST['address'])) : '',
-        'package'     => isset($_POST['package']) ? sanitize_text_field(wp_unslash($_POST['package'])) : '',
-        'price'       => isset($_POST['price']) ? sanitize_text_field(wp_unslash($_POST['price'])) : '',
+        'package'     => $package,
+        'price'       => isset($_POST['price']) ? sanitize_text_field(wp_unslash($_POST['price'])) : '159000',
         'baby_age'    => isset($_POST['baby_age']) ? sanitize_text_field(wp_unslash($_POST['baby_age'])) : '',
         'concern'     => isset($_POST['concern']) ? sanitize_text_field(wp_unslash($_POST['concern'])) : '',
         'call_time'   => isset($_POST['call_time']) ? sanitize_text_field(wp_unslash($_POST['call_time'])) : '',
@@ -60,8 +70,8 @@ function lx_handle_ajax_lead() {
         'gift'        => $gift,
         'source'      => isset($_POST['source']) ? sanitize_text_field(wp_unslash($_POST['source'])) : '',
         'page'        => isset($_POST['page']) ? esc_url_raw(wp_unslash($_POST['page'])) : home_url('/'),
-        'product'     => 'Sữa tắm gội Bon Bon',
-        'created_at'  => current_time('H:i:s d/m/Y'),
+        'product'     => $package,
+        'created_at'  => $created_at,
         'ip'          => isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '',
     );
 
@@ -147,14 +157,20 @@ function lx_handle_ajax_lead() {
     $webhook_url = lx_get_field('lx_webhook_url', 'option', '');
     if (!empty($webhook_url)) {
         $webhook_payload = array(
-            'time'        => current_time('H:i:s d/m/Y'),
-            'created_at'  => current_time('H:i:s d/m/Y'),
+            'time'        => $created_at,
+            'created_at'  => $created_at,
+            'date'        => $created_at,
+            'timestamp'   => $created_at,
             'name'        => $lead['name'],
             'phone'       => $lead['phone'],
             'address'     => $lead['address'],
-            'package'     => !empty($lead['package']) ? $lead['package'] : 'Combo 299K BIGSIZE tắm gội + Kem bôi',
-            'product'     => !empty($lead['package']) ? $lead['package'] : 'Combo 299K BIGSIZE tắm gội + Kem bôi',
-            'price'       => !empty($lead['price']) ? $lead['price'] : 299000,
+            'package'     => 'Sữa tắm Bon Bon',
+            'product'     => 'Sữa tắm Bon Bon',
+            'Gói'         => 'Sữa tắm Bon Bon',
+            'goi'         => 'Sữa tắm Bon Bon',
+            'Sản phẩm'    => 'Sữa tắm Bon Bon',
+            'san_pham'    => 'Sữa tắm Bon Bon',
+            'price'       => !empty($lead['price']) ? $lead['price'] : 159000,
             'note'        => $note_content,
             'ghi_chu'     => $note_content,
             'Ghi chú'     => $note_content,
