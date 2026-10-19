@@ -307,25 +307,16 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 .wish { background: var(--cream); }
 .wish .section-head { margin-bottom: 44px; }
 .wish-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
-.wish-card { position: relative; display: flex; flex-direction: column; border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow-soft); overflow: hidden; text-align: center; transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s; -webkit-tap-highlight-color: transparent; }
-.wish-card:hover { transform: translateY(-8px) rotate(-1deg); box-shadow: var(--shadow); }
-.wish-card:nth-child(2):hover { transform: translateY(-8px) rotate(1deg); }
+.wish-card { position: relative; display: flex; flex-direction: column; border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow-soft); overflow: hidden; text-align: center; transition: box-shadow .35s ease, border-color .35s ease; border: 1px solid rgba(0,0,0,0.04); }
+.wish-card:hover { box-shadow: var(--shadow); border-color: rgba(0,0,0,0.08); }
 .wish-card:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; }
-.wish-flip { display: block; perspective: 1200px; aspect-ratio: 4 / 4.2; }
-.wish-inner { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .8s cubic-bezier(.34,1.4,.64,1); }
-.wish-card.flipped .wish-inner { transform: rotateY(180deg); }
-.wish-face { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: radial-gradient(circle at 30% 25%, var(--c1), var(--c2)); }
-.wish-front img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
-.wish-card:hover .wish-front img { transform: scale(1.06); }
-.wish-ph { font-weight: 800; font-size: 18px; color: var(--text-soft); opacity: .7; }
-.wish-tap { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); padding: 6px 14px; border-radius: 99px; background: rgba(255,255,255,.88); font-size: 13px; font-weight: 800; color: #ff6b8a; white-space: nowrap; box-shadow: var(--shadow-soft); }
-.wish-back { transform: rotateY(180deg); align-content: center; gap: 10px; padding: 26px; text-align: center; color: var(--text); }
-.wish-back b { font-family: var(--font-head); font-size: 26px; color: var(--primary-deep); }
-.wish-back span:last-child { font-size: 17px; font-weight: 600; line-height: 1.55; }
-.wish-emo { font-size: 54px; line-height: 1; }
-.wish-label { display: block; padding: 18px 16px 20px; font-family: var(--font-head); font-weight: 800; font-size: 24px; color: var(--primary-dark); }
+.wish-img-wrap { position: relative; width: 100%; padding-bottom: 82%; overflow: hidden; background: radial-gradient(circle at 30% 25%, var(--c1, #e3f7fa), var(--c2, #b8ecf3)); }
+.wish-img-wrap img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.wish-ph { position: absolute; inset: 0; display: grid; place-items: center; font-weight: 800; font-size: 16px; color: var(--text-soft); opacity: .7; }
+.wish-body { display: flex; flex-direction: column; flex-grow: 1; padding: 24px 20px 28px; text-align: center; }
+.wish-title { font-family: var(--font-head); font-weight: 800; font-size: 24px; color: var(--primary-dark); margin: 0 0 8px; line-height: 1.3; }
+.wish-desc { font-family: var(--font-body); font-size: 16px; line-height: 24px; color: var(--text-soft); margin: 0; font-weight: 500; }
 .wish-foot { text-align: center; margin-top: 44px; font-size: 19px; font-weight: 800; }
-.wish-heart { position: absolute; pointer-events: none; font-size: 22px; z-index: 5; }
 
 /* ===== COMPARE SLIDER ===== */
 .compare-sec { background: linear-gradient(180deg, var(--cream), var(--primary-light)); }
@@ -1274,10 +1265,10 @@ textarea.input { resize: vertical; min-height: 90px; }
     .use-num { font-size: 34px; }
     .use-body b { font-size: 18px; }
     .wish-grid { grid-template-columns: 1fr; gap: 20px; max-width: 360px; margin: 0 auto; }
-    .wish-flip { aspect-ratio: 4 / 3; }
-    .wish-back b { font-size: 22px; }
-    .wish-back span:last-child { font-size: 15.5px; }
-    .wish-label { font-size: 21px; padding: 14px; }
+    .wish-img-wrap { padding-bottom: 75%; }
+    .wish-body { padding: 20px 16px 24px; }
+    .wish-title { font-size: 20px; margin-bottom: 8px; }
+    .wish-desc { font-size: 16px; line-height: 24px; }
     .wish-foot { font-size: 17px; margin-top: 32px; }
     .flip-card { height: 250px; }
     .compare { border-radius: 28px; }

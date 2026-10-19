@@ -344,25 +344,8 @@ $$('.section-title').forEach(t => {
     gsap.from(hl, { scrollTrigger: { trigger: t, start: 'top 85%' }, color: '#34495e', duration: .8, delay: .3 });
 });
 
-/* ===== WISH CARDS ===== */
-$$('.wish-card').forEach(card => {
-    card.addEventListener('click', e => {
-        card.classList.toggle('flipped');
-        gsap.fromTo(card, { scale: .94 }, { scale: 1, duration: .7, ease: 'elastic.out(1.2, .4)' });
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX || r.left + r.width / 2) - r.left, y = (e.clientY || r.top + r.height / 2) - r.top;
-        ['💖', '✨', '💙', '🌸', '⭐'].forEach((h, i) => {
-            const el = document.createElement('span');
-            el.className = 'wish-heart'; el.textContent = h;
-            gsap.set(el, { left: x, top: y, xPercent: -50, yPercent: -50 });
-            card.appendChild(el);
-            const a = -Math.PI / 2 + (i - 2) * .55;
-            gsap.to(el, { x: Math.cos(a) * 90, y: Math.sin(a) * 90, scale: 1.4, opacity: 0, duration: .9, ease: 'power2.out', onComplete: () => el.remove() });
-        });
-    });
-    const tap = card.querySelector('.wish-tap');
-    if (tap && !reduceMotion) gsap.to(tap, { y: -6, duration: .9, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: Math.random() });
-});
+/* ===== WISH CARDS (Static cards) ===== */
+
 
 /* ===== COMPARE SLIDER ===== */
 (function () {

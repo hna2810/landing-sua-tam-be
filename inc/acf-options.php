@@ -211,7 +211,7 @@ add_action('acf/init', function() {
             // ================= TAB 3: WISH CARDS (MONG MUỐN) =================
             array(
                 'key' => 'field_tab_wish',
-                'label' => __('3. Thẻ mong muốn (Lật 3D)', 'lx-landing'),
+                'label' => __('3. Thẻ mong muốn (Ảnh + Tiêu đề + Mô tả)', 'lx-landing'),
                 'type' => 'tab',
             ),
             array(
@@ -223,12 +223,19 @@ add_action('acf/init', function() {
             ),
             array(
                 'key' => 'field_lx_wish_cards',
-                'label' => __('Danh sách 3 thẻ lật', 'lx-landing'),
+                'label' => __('Danh sách 3 thẻ (Ảnh + Tiêu đề + Mô tả)', 'lx-landing'),
                 'name' => 'lx_wish_cards',
                 'type' => 'repeater',
                 'layout' => 'block',
                 'button_label' => __('Thêm thẻ', 'lx-landing'),
                 'sub_fields' => array(
+                    array(
+                        'key' => 'field_wish_image',
+                        'label' => __('Ảnh thẻ', 'lx-landing'),
+                        'name' => 'image',
+                        'type' => 'image',
+                        'return_format' => 'url',
+                    ),
                     array(
                         'key' => 'field_wish_title',
                         'label' => __('Tiêu đề thẻ', 'lx-landing'),
@@ -237,24 +244,17 @@ add_action('acf/init', function() {
                     ),
                     array(
                         'key' => 'field_wish_desc',
-                        'label' => __('Nội dung giải thích mặt sau', 'lx-landing'),
+                        'label' => __('Mô tả thẻ (des)', 'lx-landing'),
                         'name' => 'desc',
                         'type' => 'textarea',
                         'rows' => 2,
                     ),
                     array(
                         'key' => 'field_wish_icon',
-                        'label' => __('Biểu tượng Emoji', 'lx-landing'),
+                        'label' => __('Biểu tượng Emoji (tùy chọn)', 'lx-landing'),
                         'name' => 'icon',
                         'type' => 'text',
                         'default_value' => '🛁',
-                    ),
-                    array(
-                        'key' => 'field_wish_image',
-                        'label' => __('Ảnh mặt trước (nếu có)', 'lx-landing'),
-                        'name' => 'image',
-                        'type' => 'image',
-                        'return_format' => 'url',
                     ),
                 ),
             ),
