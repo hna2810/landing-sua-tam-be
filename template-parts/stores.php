@@ -37,7 +37,9 @@ if (!empty($acf_stores) && is_array($acf_stores)) {
         <?php endif; ?>
 
         <div class="store-slider" data-reveal>
-            <button class="store-nav prev" type="button" aria-label="Ảnh trước">←</button>
+            <button class="store-nav prev" type="button" aria-label="Ảnh trước">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
             <div class="store-track" id="storeTrack">
                 <?php if (!empty($stores)) : ?>
                     <?php foreach ($stores as $idx => $st) : ?>
@@ -56,7 +58,9 @@ if (!empty($acf_stores) && is_array($acf_stores)) {
                     <div class="store-slide"><span>Ảnh slider 8</span></div>
                 <?php endif; ?>
             </div>
-            <button class="store-nav next" type="button" aria-label="Ảnh sau">→</button>
+            <button class="store-nav next" type="button" aria-label="Ảnh sau">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
         </div>
         <div class="store-dots" id="storeDots"></div>
     </div>

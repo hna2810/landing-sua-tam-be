@@ -74,6 +74,12 @@ if (empty($hotline) && !empty($hotline_display)) {
 </div>
 <div class="toast" id="toast"></div>
 
+<!-- Global Lightbox for Reviews & Certificate Docs -->
+<div class="lightbox" id="lightbox" hidden>
+    <button class="lb-close" id="lbClose" type="button" aria-label="Đóng">✕</button>
+    <div class="lb-body" id="lbBody"></div>
+</div>
+
 <?php wp_footer(); ?>
 </body>
 </html>

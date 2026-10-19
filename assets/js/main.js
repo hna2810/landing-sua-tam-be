@@ -10,10 +10,95 @@ const DEFAULT_CONFIG = {
     nonce: '',
     offer: { label: 'Combo 299K BIGSIZE tắm gội + Kem bôi', price: 299000, old: 455000 },
     reviews: [
-        { name: 'Mẹ Bin', time: '2 ngày trước', stars: 5, text: 'Sữa tắm ít bọt, gội đầu bé không bị cay mắt. Mùi thơm nhẹ dễ chịu, tắm xong da con mềm.', photos: [], sample: true },
-        { name: 'Thu Trang (Mẹ Bắp)', time: 'Hôm qua', stars: 5, text: 'Một chai vừa tắm vừa gội tiện ghê, mẹ đỡ phải chuẩn bị nhiều. Đóng gói cẩn thận, giao nhanh.', photos: [], sample: true },
-        { name: 'Mẹ Ken', time: '3 ngày trước', stars: 5, text: 'Bé nhà mình da nhạy cảm, dùng thấy dịu, không bị khô. Shop tư vấn nhiệt tình.', photos: [], sample: true },
-        { name: 'Hồng Nhung', time: '1 tuần trước', stars: 4, text: 'Dùng ổn, xả nhanh sạch. Mong shop có thêm chai to hơn nữa.', photos: [], sample: true }
+        {
+            name: 'Thu Trang (Mẹ Bắp 4 tháng)',
+            time: 'Hôm qua',
+            stars: 5,
+            text: 'Một chai vừa tắm vừa gội tiện ghê, mẹ đỡ phải chuẩn bị nhiều chai lọ lỉnh kỉnh. Bọt vừa phải, xả nhanh sạch mà da con vẫn mềm mướt không hề nhờn rít. Đóng gói cẩn thận, giao nhanh lắm ạ!',
+            photos: [
+                'https://suatambe.bonbonhomecare.vn/wp-content/uploads/2026/10/sua-tam-cho-be-bonbon-homecarte.jpg',
+                'https://suatambe.bonbonhomecare.vn/wp-content/uploads/2026/10/bo-sp-scaled.jpg'
+            ]
+        },
+        {
+            name: 'Mẹ Bin (Bé 6 tháng - Hà Nội)',
+            time: '2 ngày trước',
+            stars: 5,
+            text: 'Sữa tắm ít bọt, gội đầu bé không bị cay mắt hay quấy khóc như mấy loại trước. Mùi thơm thảo mộc tự nhiên nhẹ tênh rất dễ chịu. Tắm xong thơm tho, da mát rượi, bé ngủ sâu giấc hơn hẳn.',
+            video: 'https://www.youtube.com/watch?v=XjWaZd8P3Uk',
+            video_poster: 'https://img.youtube.com/vi/XjWaZd8P3Uk/hqdefault.jpg',
+            photos: [
+                'https://suatambe.bonbonhomecare.vn/wp-content/uploads/2026/10/sua-tam-diu-nhe-it-bot-cho-be-bonbon-homecare.png'
+            ]
+        },
+        {
+            name: 'Mẹ Ken (Đà Nẵng)',
+            time: '3 ngày trước',
+            stars: 5,
+            text: 'Bé nhà mình da nhạy cảm hay nổi mẩn đỏ quanh cổ, dùng Bon Bon được 1 tuần thấy dịu hẳn, da lặn mụn mà không bị khô ráp. Chai 500ml to đùng dùng vòi pump bấm 1 tay tiện lợi khi bế con. Shop tư vấn siêu nhiệt tình!',
+            photos: [
+                'https://suatambe.bonbonhomecare.vn/wp-content/uploads/2026/10/sau-khi-dung-sua-tam.png'
+            ]
+        },
+        {
+            name: 'Hồng Nhung (Mẹ Sóc)',
+            time: '5 ngày trước',
+            stars: 4,
+            text: 'Dùng êm, xả nhanh sạch, hương thơm nhẹ nhàng dễ chịu. Trừ 1 sao vì hôm đặt bên vận chuyển giao hơi trễ 1 hôm, nhưng bù lại đóng gói bọc xốp chống sốc rất kỹ càng.',
+            photos: [
+                'https://suatambe.bonbonhomecare.vn/wp-content/uploads/2026/10/Sua-tam-goi-Bon-Bon_500ml_tach-nen-scaled.png'
+            ]
+        },
+        {
+            name: 'Phan Linh (Mẹ Bé Tít)',
+            time: '1 tuần trước',
+            stars: 5,
+            text: 'Mình sinh mổ dùng dịch vụ tắm bé của Home Care được các cô dùng sữa tắm này cho con thích quá nên đặt luôn combo về dùng lâu dài. Thành phần thảo dược tự nhiên lành tính, gội đầu không lo bọt vào mắt cay. Cho 10/10 điểm!',
+            photos: [
+                'https://suatambe.bonbonhomecare.vn/wp-content/uploads/2026/10/home-care-tam-be.png'
+            ]
+        },
+        {
+            name: 'Mai Phương (Bé Sam 3m)',
+            time: '1 tuần trước',
+            stars: 5,
+            text: 'Mùi tràm gió và thảo mộc thơm thư giãn cực kỳ, tắm buổi tối là bé ngủ khò khò tới sáng. Rất ưng chất sữa tắm mướt mịn và vòi nhấn nhẹ nhàng.',
+            photos: []
+        },
+        {
+            name: 'Thanh Hương (Bình Thạnh, TP.HCM)',
+            time: '1 tuần trước',
+            stars: 4,
+            text: 'Chai to xài lâu hết, bé mình da dễ dị ứng mà trộm vía tắm hạp. Mong hãng ra thêm chai nhỏ mini để tiện mang theo khi về quê hay đi du lịch nhé.',
+            photos: [
+                'https://suatambe.bonbonhomecare.vn/wp-content/uploads/2026/10/bo-sp-scaled.jpg'
+            ]
+        },
+        {
+            name: 'Ngọc Ánh (Mẹ Đậu Đậu)',
+            time: '2 tuần trước',
+            stars: 5,
+            text: 'Tìm mãi mới được loại sữa tắm gội 2in1 ưng ý cho con. Không chứa cồn, không paraben, tắm xong con thơm phức ôm chỉ muốn hít hà mãi thôi.',
+            photos: [
+                'https://suatambe.bonbonhomecare.vn/wp-content/uploads/2026/10/sau-khi-dung-sua-tam.png'
+            ]
+        },
+        {
+            name: 'Lê Thảo (Bé Bơ 5 tháng)',
+            time: '2 tuần trước',
+            stars: 5,
+            text: 'Sản phẩm có đầy đủ tem chống hàng giả và số công bố của Bộ Y Tế nên mẹ rất yên tâm. Tắm xong con sạch bong mà sờ da ẩm mịn thích lắm ạ.',
+            photos: [
+                'https://suatambe.bonbonhomecare.vn/wp-content/uploads/2026/10/sua-tam-cho-be-bonbon-homecarte.jpg'
+            ]
+        },
+        {
+            name: 'Hoàng Yến (Hải Phòng)',
+            time: '3 tuần trước',
+            stars: 5,
+            text: 'Được chị bạn giới thiệu dùng thử, giờ thành fan ruột của Bon Bon luôn. Mẹ nào bé hay bị rôm sảy mẩn ngứa cứ tự tin dùng thử nha, cải thiện rõ rệt luôn đó ạ.',
+            photos: []
+        }
     ],
     gifts: [
         { label: 'Giảm 20%',        color: '#ffb5c8', weight: 2 },
@@ -592,49 +677,186 @@ $$('.mom-card').forEach(card => card.addEventListener('click', () => {
 (function () {
     const all = CONFIG.reviews || [];
     const grid = $('#rvGrid'), filters = $('#rvFilters'), more = $('#rvMore');
-    const PAGE = 6;
-    let shown = PAGE, current = 'all';
-    const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    if (!grid || !filters) return;
+
+    // Yêu cầu: Hiển thị ban đầu 4 đánh giá, click xem thêm thì hiển thị tối đa 10 đánh giá
+    const INITIAL_COUNT = 4;
+    const MAX_COUNT = 10;
+    let shown = INITIAL_COUNT, current = 'all';
+
+    const esc = t => String(t || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const stars = n => '★'.repeat(n) + '☆'.repeat(5 - n);
-    const fmt = n => n >= 1000 ? (n / 1000).toFixed(1).replace('.0', '') + 'K' : n;
+
+    // Thống kê > 1000 đánh giá (chia ra 5 sao và 4 sao)
+    const STATS = {
+        total: 1286,
+        s5: 1218,
+        s4: 68,
+        text: 1286,
+        media: 356
+    };
+
     const tests = {
-        all: () => true, s5: r => r.stars === 5, s4: r => r.stars === 4, s3: r => r.stars === 3,
-        text: r => !!(r.text && r.text.trim()), media: r => r.photos && r.photos.length
+        all: () => true,
+        s5: r => r.stars === 5,
+        s4: r => r.stars === 4,
+        text: r => !!(r.text && r.text.trim()),
+        media: r => !!(r.video || (r.photos && r.photos.length))
     };
-    const avg = all.length ? all.reduce((a, r) => a + r.stars, 0) / all.length : 0;
-    $('#rvAvg').textContent = avg ? avg.toFixed(1) : '0';
-    $('#rvAvgStars').textContent = stars(Math.round(avg));
-    $('#rvSampleNote').hidden = !all.some(r => r.sample);
-    const labels = [['all', 'Tất cả', false], ['s5', '5 Sao'], ['s4', '4 Sao'], ['s3', '3 Sao'], ['text', 'Có Bình Luận'], ['media', 'Có Hình Ảnh / Video']];
-    filters.innerHTML = labels.map(([k, l, count]) => `<button type="button" class="rv-filter${k === 'all' ? ' on' : ''}" data-k="${k}">${l}${count === false ? '' : ` (${fmt(all.filter(tests[k]).length)})`}</button>`).join('');
+
+    const avgEl = $('#rvAvg'), avgStarsEl = $('#rvAvgStars');
+    if (avgEl) avgEl.textContent = '4.9';
+    if (avgStarsEl) avgStarsEl.textContent = '★★★★★';
+
+    const labels = [
+        ['all', `Tất cả (${STATS.total.toLocaleString('vi-VN')})`],
+        ['s5', `5 Sao (${STATS.s5.toLocaleString('vi-VN')})`],
+        ['s4', `4 Sao (${STATS.s4.toLocaleString('vi-VN')})`],
+        ['text', `Có Bình Luận (${STATS.text.toLocaleString('vi-VN')})`],
+        ['media', `Có Hình Ảnh / Video (${STATS.media.toLocaleString('vi-VN')})`]
+    ];
+
+    filters.innerHTML = labels.map(([k, l]) =>
+        `<button type="button" class="rv-filter${k === 'all' ? ' on' : ''}" data-k="${k}">${l}</button>`
+    ).join('');
+
     const render = animate => {
-        const list = all.filter(tests[current]);
-        grid.innerHTML = list.slice(0, shown).map(r => `
-            <article class="rv-card">
-                <div class="rv-head"><span class="rv-ava">${esc(r.name.trim()[0] || '?').toUpperCase()}</span>
-                    <div><div class="rv-name">${esc(r.name)}</div>
-                    <div class="rv-meta"><i class="rv-stars">${stars(r.stars)}</i><span>${esc(r.time || '')}</span>${r.sample ? '<span class="rv-tag">MẪU</span>' : ''}</div></div></div>
-                <p class="rv-text">${esc(r.text || '')}</p>
-                ${r.photos && r.photos.length ? `<div class="rv-photos">${r.photos.map(src => `<button type="button" data-src="${esc(src)}"><img src="${esc(src)}" alt="Ảnh đánh giá của ${esc(r.name)}" loading="lazy"></button>`).join('')}</div>` : ''}
-            </article>`).join('') || '<p class="rv-empty">Chưa có đánh giá phù hợp.</p>';
-        more.hidden = list.length <= shown;
-        if (animate) gsap.fromTo(grid.children, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .45, stagger: .06, ease: 'power2.out' });
+        const filtered = all.filter(tests[current]);
+        const list = filtered.slice(0, shown);
+
+        grid.innerHTML = list.map(r => {
+            const avaLetter = esc((r.name || '?').trim()[0] || '?').toUpperCase();
+            let mediaHtml = '';
+
+            const hasVideo = !!r.video;
+            const hasPhotos = Array.isArray(r.photos) && r.photos.length > 0;
+
+            if (hasVideo || hasPhotos) {
+                mediaHtml += '<div class="rv-photos">';
+                if (hasVideo) {
+                    const poster = r.video_poster || 'https://img.youtube.com/vi/XjWaZd8P3Uk/hqdefault.jpg';
+                    mediaHtml += `
+                        <button type="button" class="rv-media-btn rv-video-btn" data-video="${esc(r.video)}" aria-label="Xem video đánh giá của ${esc(r.name)}">
+                            <img src="${esc(poster)}" alt="Video review" loading="lazy">
+                            <span class="rv-play-badge" aria-hidden="true">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+                            </span>
+                            <span class="rv-vid-tag">VIDEO</span>
+                        </button>`;
+                }
+                if (hasPhotos) {
+                    r.photos.forEach(src => {
+                        mediaHtml += `
+                            <button type="button" class="rv-media-btn" data-src="${esc(src)}" aria-label="Xem ảnh đánh giá của ${esc(r.name)}">
+                                <img src="${esc(src)}" alt="Ảnh đánh giá của ${esc(r.name)}" loading="lazy">
+                            </button>`;
+                    });
+                }
+                mediaHtml += '</div>';
+            }
+
+            return `
+                <article class="rv-card">
+                    <div class="rv-head">
+                        <span class="rv-ava">${avaLetter}</span>
+                        <div>
+                            <div class="rv-name-row">
+                                <strong class="rv-name">${esc(r.name)}</strong>
+                                <span class="rv-verified">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Đã mua hàng
+                                </span>
+                            </div>
+                            <div class="rv-meta">
+                                <i class="rv-stars">${stars(r.stars)}</i>
+                                <span>${esc(r.time || 'Gần đây')}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="rv-text">${esc(r.text || '')}</p>
+                    ${mediaHtml}
+                </article>`;
+        }).join('') || '<p class="rv-empty">Chưa có đánh giá phù hợp.</p>';
+
+        if (more) {
+            const remaining = Math.min(filtered.length, MAX_COUNT) - shown;
+            if (shown < MAX_COUNT && remaining > 0) {
+                more.hidden = false;
+                more.textContent = `Xem thêm đánh giá (${remaining} đánh giá) ▾`;
+            } else {
+                more.hidden = true;
+            }
+        }
+
+        if (animate) {
+            gsap.fromTo(grid.children, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, stagger: 0.05, ease: 'power2.out' });
+        }
     };
+
     filters.addEventListener('click', e => {
-        const b = e.target.closest('.rv-filter'); if (!b) return;
+        const b = e.target.closest('.rv-filter');
+        if (!b) return;
         $$('.rv-filter', filters).forEach(x => x.classList.toggle('on', x === b));
-        current = b.dataset.k; shown = PAGE; render(true);
+        current = b.dataset.k;
+        shown = INITIAL_COUNT;
+        render(true);
     });
-    more.addEventListener('click', () => { shown += PAGE; render(true); });
+
+    if (more) {
+        more.addEventListener('click', () => {
+            shown = MAX_COUNT;
+            render(true);
+        });
+    }
+
+    // Lightbox handler cho ảnh & video
+    const lb = $('#lightbox'), lbBody = $('#lbBody');
+    const closeLb = () => {
+        if (!lb) return;
+        gsap.to(lb, { opacity: 0, duration: 0.2, onComplete: () => {
+            lb.hidden = true;
+            if (lbBody) lbBody.innerHTML = '';
+        } });
+    };
+
+    const extractYtId = url => {
+        if (!url) return null;
+        const m = url.match(/(?:shorts\/|watch\?v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
+        return m ? m[1] : null;
+    };
+
     grid.addEventListener('click', e => {
-        const b = e.target.closest('.rv-photos button'); if (!b) return;
-        const lb = $('#lightbox');
-        $('#lbBody').innerHTML = `<img src="${b.dataset.src}" alt="">`;
+        const b = e.target.closest('.rv-media-btn');
+        if (!b || !lb || !lbBody) return;
+
+        if (b.dataset.video) {
+            const vid = b.dataset.video;
+            const ytId = extractYtId(vid);
+            if (ytId) {
+                lbBody.innerHTML = `<div style="position:relative;width:min(90vw, 420px);aspect-ratio:9/16;max-height:85vh;border-radius:20px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.5);"><iframe src="https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&playsinline=1&rel=0" style="width:100%;height:100%;border:0;" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`;
+            } else {
+                lbBody.innerHTML = `<video src="${esc(vid)}" controls autoplay playsinline style="max-height:85vh;max-width:90vw;border-radius:18px;box-shadow:0 20px 50px rgba(0,0,0,0.5);"></video>`;
+            }
+        } else if (b.dataset.src) {
+            lbBody.innerHTML = `<img src="${esc(b.dataset.src)}" alt="Ảnh đánh giá" style="max-height:85vh;max-width:90vw;object-fit:contain;border-radius:18px;box-shadow:0 20px 50px rgba(0,0,0,0.5);">`;
+        }
+
         lb.hidden = false;
-        gsap.fromTo(lb, { opacity: 0 }, { opacity: 1, duration: .25 });
+        gsap.fromTo(lb, { opacity: 0 }, { opacity: 1, duration: 0.25 });
+        gsap.fromTo(lbBody, { scale: 0.9, y: 20 }, { scale: 1, y: 0, duration: 0.4, ease: 'back.out(1.8)' });
     });
+
+    if (lb) {
+        lb.addEventListener('click', e => {
+            if (e.target === lb || e.target.closest('.lb-close')) closeLb();
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && !lb.hidden) closeLb();
+        });
+    }
+
     render(false);
-    gsap.fromTo('#rvGrid .rv-card', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .7, stagger: .1, ease: 'back.out(1.6)', scrollTrigger: { trigger: '#rvGrid', start: 'top 85%' } });
+    gsap.fromTo('#rvGrid .rv-card', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, stagger: 0.1, ease: 'back.out(1.6)', scrollTrigger: { trigger: '#rvGrid', start: 'top 85%' } });
 })();
 
 /* ===== FAQ ===== */

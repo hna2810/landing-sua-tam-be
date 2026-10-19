@@ -161,5 +161,3 @@ $has_info = !empty($specs) || !empty($storage) || !empty($precaution);
         </div>
     </div>
 </section>
-
-<div class="lightbox" id="lightbox" hidden><button class="lb-close" type="button" aria-label="Đóng">×</button><div class="lb-body" id="lbBody"></div></div>
