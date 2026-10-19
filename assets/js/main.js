@@ -124,32 +124,71 @@ const CONFIG = {
 };
 
 function bootBonBon() {
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, Draggable);
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const finePointer = window.matchMedia('(pointer: fine)').matches;
-const $ = (s, c = document) => c.querySelector(s);
-const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+    const hasGsap = typeof window.gsap !== 'undefined';
+    const gsap = window.gsap;
+    const ScrollTrigger = window.ScrollTrigger;
+    const ScrollToPlugin = window.ScrollToPlugin;
+    const Draggable = window.Draggable;
+    if (hasGsap) {
+        const plugins = [window.ScrollTrigger, window.ScrollToPlugin, window.Draggable].filter(Boolean);
+        if (plugins.length) {
+            try {
+                window.gsap.registerPlugin(...plugins);
+            } catch (e) {
+                console.warn('[GSAP registerPlugin error]', e);
+            }
+        }
+    }
+    const reduceMotion = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+    const finePointer = window.matchMedia ? window.matchMedia('(pointer: fine)').matches : false;
+    const $ = (s, c = document) => c ? c.querySelector(s) : null;
+    const $$ = (s, c = document) => c ? [...c.querySelectorAll(s)] : [];
+
+    function safeRun(moduleName, fn) {
+        try {
+            fn();
+        } catch (err) {
+            console.warn('[BonBon Module: ' + moduleName + ']', err);
+        }
+    }
 const store = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
 };
 
 /* ===== CONTACT LINKS ===== */
-$$('[data-tel]').forEach(a => { a.href = 'tel:' + CONFIG.hotline; });
-$$('[data-tel-text]').forEach(a => { a.textContent = CONFIG.hotline.replace(/(\d{4})(\d{3})(\d+)/, '$1.$2.$3'); });
-$$('[data-zalo]').forEach(a => { a.href = 'https://zalo.me/' + CONFIG.zalo; });
-$('#year').textContent = new Date().getFullYear();
+    safeRun('contactLinks', () => {
+        $$('[data-tel]').forEach(a => { a.href = 'tel:' + CONFIG.hotline; });
+        $$('[data-tel-text]').forEach(a => { a.textContent = CONFIG.hotline.replace(/(\d{4})(\d{3})(\d+)/, '$1.$2.$3'); });
+        $$('[data-zalo]').forEach(a => { a.href = 'https://zalo.me/' + CONFIG.zalo; });
+        const yr = $('#year');
+        if (yr) yr.textContent = new Date().getFullYear();
+    });
 
-/* ===== TOAST ===== */
-gsap.set('#toast', { xPercent: -50, y: -30 });
-function toast(html, ms = 3200) {
-    const t = $('#toast');
-    t.innerHTML = `<span class="toast-body">${html}</span>`;
-    gsap.killTweensOf(t);
-    gsap.timeline()
-        .to(t, { opacity: 1, y: 0, duration: .45, ease: 'back.out(2)' })
-        .to(t, { opacity: 0, y: -20, duration: .35, delay: ms / 1000 });
-}
+    /* ===== TOAST ===== */
+    const toastEl = $('#toast');
+    if (toastEl && hasGsap) {
+        window.gsap.set(toastEl, { xPercent: -50, y: -30 });
+    }
+    function toast(html, ms = 3200) {
+        const t = $('#toast');
+        if (!t) return;
+        t.innerHTML = `<span class="toast-body">${html}</span>`;
+        if (hasGsap) {
+            window.gsap.killTweensOf(t);
+            window.gsap.timeline()
+                .to(t, { opacity: 1, y: 0, duration: .45, ease: 'back.out(2)' })
+                .to(t, { opacity: 0, y: -20, duration: .35, delay: ms / 1000 });
+        } else {
+            t.style.opacity = '1';
+            t.style.transform = 'translate(-50%, 0)';
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => {
+                t.style.opacity = '0';
+                t.style.transform = 'translate(-50%, -20px)';
+            }, ms);
+        }
+    }
 
 /* ===== SMOOTH ANCHOR SCROLL ===== */
 $$('.js-scroll').forEach(a => a.addEventListener('click', e => {
@@ -162,22 +201,32 @@ $$('.js-scroll').forEach(a => a.addEventListener('click', e => {
 }));
 
 /* ===== HEADER & PROGRESS ===== */
-const header = $('#header');
-let lastY = 0;
-ScrollTrigger.create({
-    start: 0, end: 'max',
-    onUpdate(self) {
-        const y = self.scroll();
-        header.classList.toggle('scrolled', y > 40);
-        header.classList.toggle('hide', y > 500 && y > lastY);
-        lastY = y;
-        gsap.set('#progressBar', { scaleX: self.progress });
-        gsap.set('#progressDuck', { left: (self.progress * 100) + '%' });
-        $('#stickyBar').classList.toggle('show', y > window.innerHeight * .6);
+safeRun('headerProgress', () => {
+    const header = $('#header');
+    if (!header) return;
+    let lastY = 0;
+    if (ScrollTrigger) {
+        ScrollTrigger.create({
+            start: 0, end: 'max',
+            onUpdate(self) {
+                const y = self.scroll();
+                header.classList.toggle('scrolled', y > 40);
+                header.classList.toggle('hide', y > 500 && y > lastY);
+                lastY = y;
+                if (gsap) {
+                    gsap.set('#progressBar', { scaleX: self.progress });
+                    gsap.set('#progressDuck', { left: (self.progress * 100) + '%' });
+                }
+                const sticky = $('#stickyBar');
+                if (sticky) sticky.classList.toggle('show', y > window.innerHeight * .6);
+            }
+        });
     }
 });
 
 /* ===== HERO INTRO ===== */
+safeRun('heroIntro', () => {
+if (gsap) {
 const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 heroTl
     .from('.hero-title .line > span', { yPercent: 110, rotate: 4, duration: 1, stagger: .12 })
@@ -193,16 +242,19 @@ if (!reduceMotion) {
 // Hero bottle: draggable, springs back + floating idle + parallax tilt
 const heroBottle = $('#heroBottle');
 const bottleIdle = reduceMotion ? null : gsap.to(heroBottle.querySelector('img'), { y: -16, rotate: 2, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-Draggable.create(heroBottle, {
-    type: 'x,y',
-    onPress() { bottleIdle && bottleIdle.pause(); gsap.to(heroBottle, { scale: 1.05, duration: .2 }); },
-    onDrag() { gsap.to(heroBottle, { rotate: gsap.utils.clamp(-25, 25, this.deltaX * 2), duration: .3 }); },
-    onRelease() {
-        gsap.to(heroBottle, { x: 0, y: 0, rotate: 0, scale: 1, duration: 1.2, ease: 'elastic.out(1, .4)' });
-        bottleIdle && bottleIdle.resume();
-        squirtBubbles(heroBottle);
-    }
-});
+if (heroBottle && typeof window.Draggable !== 'undefined') {
+    window.Draggable.create(heroBottle, {
+        type: 'x,y',
+        allowEventDefault: true,
+        onPress() { bottleIdle && bottleIdle.pause(); window.gsap && window.gsap.to(heroBottle, { scale: 1.05, duration: .2 }); },
+        onDrag() { window.gsap && window.gsap.to(heroBottle, { rotate: window.gsap.utils.clamp(-25, 25, this.deltaX * 2), duration: .3 }); },
+        onRelease() {
+            window.gsap && window.gsap.to(heroBottle, { x: 0, y: 0, rotate: 0, scale: 1, duration: 1.2, ease: 'elastic.out(1, .4)' });
+            bottleIdle && bottleIdle.resume();
+            squirtBubbles(heroBottle);
+        }
+    });
+}
 function squirtBubbles(el) {
     const r = el.getBoundingClientRect();
     for (let i = 0; i < 8; i++) {
@@ -223,21 +275,26 @@ if (finePointer && !reduceMotion) {
 const heroDuckEl = $('#heroDuck');
 if (heroDuckEl) {
     heroDuckEl.addEventListener('click', () => {
-        gsap.fromTo(heroDuckEl, { scaleX: 1.3, scaleY: .7 }, { scaleX: 1, scaleY: 1, duration: .8, ease: 'elastic.out(1.2, .3)' });
+        if (gsap) gsap.fromTo(heroDuckEl, { scaleX: 1.3, scaleY: .7 }, { scaleX: 1, scaleY: 1, duration: .8, ease: 'elastic.out(1.2, .3)' });
         const bubbleMsg = heroDuckEl.getAttribute('data-bubble') || '🦁 Gràoo! Giờ tắm vui quá mẹ ơi!';
         toast(bubbleMsg, 1800);
     });
 }
+}
+});
 
 /* ===== HERO BUBBLES (click to pop) ===== */
+safeRun('heroBubbles', () => {
 const bubbleBox = $('#heroBubbles');
 let pops = 0;
 function makeBubble(initial) {
     const b = document.createElement('div');
     b.className = 'bubble';
-    const size = gsap.utils.random(26, 86);
-    const W = bubbleBox.clientWidth, H = bubbleBox.clientHeight;
-    gsap.set(b, { width: size, height: size, left: gsap.utils.random(0, W - size), top: initial ? gsap.utils.random(H * .2, H) : H + 20 });
+    if (!bubbleBox || typeof window.gsap === 'undefined') return;
+    const size = window.gsap.utils.random(26, 86);
+    const W = bubbleBox.clientWidth || window.innerWidth || 360;
+    const H = bubbleBox.clientHeight || 450;
+    window.gsap.set(b, { width: size, height: size, left: window.gsap.utils.random(0, Math.max(0, W - size)), top: initial ? window.gsap.utils.random(H * .2, H) : H + 20 });
     bubbleBox.appendChild(b);
     const dur = gsap.utils.random(9, 18);
     const rise = gsap.to(b, { y: -(H + 160), duration: initial ? dur * .7 : dur, ease: 'none', onComplete: () => { b.remove(); makeBubble(false); } });
@@ -274,10 +331,17 @@ document.addEventListener('click', e => {
     const a = e.target.closest('.js-scroll-inline');
     if (!a) return;
     e.preventDefault();
-    gsap.to(window, { scrollTo: { y: a.getAttribute('href'), offsetY: 70 }, duration: 1.1, ease: 'power3.inOut' });
+    const href = a.getAttribute('href');
+    const target = href ? $(href) : null;
+    if (target) {
+        if (gsap && ScrollToPlugin) gsap.to(window, { scrollTo: { y: target, offsetY: 70 }, duration: 1.1, ease: 'power3.inOut' });
+        else target.scrollIntoView({ behavior: 'smooth' });
+    }
+});
 });
 
 /* ===== CURSOR BUBBLE TRAIL ===== */
+safeRun('cursorBubbles', () => {
 function spawnCursorBubble(x, y, burst) {
     const s = document.createElement('span');
     s.className = 'cursor-bubble';
@@ -304,49 +368,61 @@ if (finePointer && !reduceMotion) {
             const r = btn.getBoundingClientRect();
             gsap.to(btn, { x: (e.clientX - r.left - r.width / 2) * .25, y: (e.clientY - r.top - r.height / 2) * .35, duration: .4 });
         });
-        btn.addEventListener('mouseleave', () => gsap.to(btn, { x: 0, y: 0, duration: .7, ease: 'elastic.out(1, .4)' }));
+        btn.addEventListener('mouseleave', () => { if (gsap) gsap.to(btn, { x: 0, y: 0, duration: .7, ease: 'elastic.out(1, .4)' }); });
     });
 }
+});
 
 /* ===== MARQUEE ===== */
+safeRun('marquee', () => {
 const mq = $('#marqueeTrack');
+if (!mq) return;
 mq.innerHTML += mq.innerHTML;
 const mqTween = gsap.to(mq, { xPercent: -50, duration: 26, ease: 'none', repeat: -1 });
-ScrollTrigger.create({
-    onUpdate(self) { gsap.to(mqTween, { timeScale: self.direction * (1 + Math.min(Math.abs(self.getVelocity()) / 600, 3)), duration: .3, overwrite: true }); }
+if (ScrollTrigger && mqTween) {
+    ScrollTrigger.create({
+        onUpdate(self) { if (gsap) gsap.to(mqTween, { timeScale: self.direction * (1 + Math.min(Math.abs(self.getVelocity()) / 600, 3)), duration: .3, overwrite: true }); }
+    });
+}
 });
 
 /* ===== GENERIC REVEAL ===== */
-ScrollTrigger.batch('[data-reveal]', {
-    start: 'top 88%',
-    onEnter: batch => {
-        // Phần tử đã bị cuộn qua (nhảy anchor) thì hiện ngay; phần còn lại xuất hiện so le, tổng thời gian tối đa ~0.6s
-        const passed = batch.filter(el => el.getBoundingClientRect().bottom < 0);
-        const rest = batch.filter(el => !passed.includes(el));
-        if (passed.length) gsap.set(passed, { opacity: 1, y: 0, scale: 1, overwrite: true });
-        if (rest.length) gsap.fromTo(rest, { opacity: 0, y: 50, scale: .96 }, { opacity: 1, y: 0, scale: 1, duration: .9, stagger: Math.min(.12, .6 / rest.length), ease: 'power3.out', overwrite: true });
-    },
-    once: true
-});
-// Dự phòng: phần tử nào đã lọt vào màn hình mà vẫn ẩn (cuộn quá nhanh, nhảy anchor) thì hiện luôn
-const revealStragglers = () => $$('[data-reveal]').forEach(el => {
-    if (+getComputedStyle(el).opacity < .05 && el.getBoundingClientRect().top < innerHeight && !gsap.isTweening(el))
-        gsap.to(el, { opacity: 1, y: 0, scale: 1, duration: .6, ease: 'power3.out' });
-});
-ScrollTrigger.addEventListener('scrollEnd', revealStragglers);
-let stragglerT = null;
-window.addEventListener('scroll', () => { clearTimeout(stragglerT); stragglerT = setTimeout(revealStragglers, 250); }, { passive: true });
-$$('.section-title').forEach(t => {
-    const hl = t.querySelector('.hl');
-    if (!hl) return;
-    gsap.from(hl, { scrollTrigger: { trigger: t, start: 'top 85%' }, color: '#34495e', duration: .8, delay: .3 });
+safeRun('reveal', () => {
+    if (typeof window.ScrollTrigger === 'undefined' || typeof window.gsap === 'undefined') {
+        $$('[data-reveal]').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+    } else {
+        window.ScrollTrigger.batch('[data-reveal]', {
+            start: 'top 88%',
+            onEnter: batch => {
+                const passed = batch.filter(el => el.getBoundingClientRect().bottom < 0);
+                const rest = batch.filter(el => !passed.includes(el));
+                if (passed.length) gsap.set(passed, { opacity: 1, y: 0, scale: 1, overwrite: true });
+                if (rest.length) gsap.fromTo(rest, { opacity: 0, y: 50, scale: .96 }, { opacity: 1, y: 0, scale: 1, duration: .9, stagger: Math.min(.12, .6 / rest.length), ease: 'power3.out', overwrite: true });
+            },
+            once: true
+        });
+        const revealStragglers = () => $$('[data-reveal]').forEach(el => {
+            if (+getComputedStyle(el).opacity < .05 && el.getBoundingClientRect().top < innerHeight && !gsap.isTweening(el))
+                gsap.to(el, { opacity: 1, y: 0, scale: 1, duration: .6, ease: 'power3.out' });
+        });
+        if (ScrollTrigger && ScrollTrigger.addEventListener) {
+            ScrollTrigger.addEventListener('scrollEnd', revealStragglers);
+        }
+        let stragglerT = null;
+        window.addEventListener('scroll', () => { clearTimeout(stragglerT); stragglerT = setTimeout(revealStragglers, 250); }, { passive: true });
+        $$('.section-title').forEach(t => {
+            const hl = t.querySelector('.hl');
+            if (!hl) return;
+            window.gsap.from(hl, { scrollTrigger: { trigger: t, start: 'top 85%' }, color: '#34495e', duration: .8, delay: .3 });
+        });
+    }
 });
 
 /* ===== WISH CARDS (Static cards) ===== */
 
 
 /* ===== COMPARE SLIDER ===== */
-(function () {
+safeRun('compareSlider', () => {
     const box = $('#compare'), handle = $('#cmpHandle'), top = $('#cmpTop');
     const setPos = x => {
         const w = box.clientWidth;
@@ -354,11 +430,16 @@ $$('.section-title').forEach(t => {
         gsap.set(handle, { x });
         top.style.clipPath = `inset(0 0 0 ${x}px)`;
     };
-    const drag = Draggable.create(handle, {
-        type: 'x', bounds: box, trigger: handle.querySelector('.cmp-knob'),
-        onDrag() { setPos(this.x); }
-    })[0];
-    const center = () => { setPos(box.clientWidth / 2); drag.update(); };
+    let drag = null;
+    if (typeof window.Draggable !== 'undefined' && box && handle) {
+        const drags = window.Draggable.create(handle, {
+            type: 'x', bounds: box, trigger: handle.querySelector('.cmp-knob') || handle,
+            allowEventDefault: true,
+            onDrag() { setPos(this.x); }
+        });
+        drag = drags ? drags[0] : null;
+    }
+    const center = () => { if (box) setPos(box.clientWidth / 2); if (drag) drag.update(); };
     center();
     window.addEventListener('resize', center);
     box.addEventListener('click', e => {
@@ -368,20 +449,22 @@ $$('.section-title').forEach(t => {
         gsap.to(o, { v: x, duration: .6, ease: 'power3.out', onUpdate: () => { setPos(o.v); drag.update(); } });
     });
     // Auto-demo when visible
-    ScrollTrigger.create({
-        trigger: box, start: 'top 70%', once: true,
-        onEnter() {
-            const w = box.clientWidth, o = { v: w / 2 };
-            gsap.timeline({ onUpdate: () => { setPos(o.v); drag.update(); } })
-                .to(o, { v: w * .2, duration: .8, ease: 'power2.inOut' })
-                .to(o, { v: w * .8, duration: 1, ease: 'power2.inOut' })
-                .to(o, { v: w * .5, duration: .8, ease: 'power2.inOut' });
-        }
-    });
-})();
+    if (ScrollTrigger && box && gsap) {
+        ScrollTrigger.create({
+            trigger: box, start: 'top 70%', once: true,
+            onEnter() {
+                const w = box.clientWidth, o = { v: w / 2 };
+                gsap.timeline({ onUpdate: () => { setPos(o.v); if (drag) drag.update(); } })
+                    .to(o, { v: w * .2, duration: .8, ease: 'power2.inOut' })
+                    .to(o, { v: w * .8, duration: 1, ease: 'power2.inOut' })
+                    .to(o, { v: w * .5, duration: .8, ease: 'power2.inOut' });
+            }
+        });
+    }
+});
 
 /* ===== INGREDIENTS GAME ===== */
-(function () {
+safeRun('ingredientsGame', () => {
     const ING = [
         { ico: '🌰', name: 'Dầu Hạnh Nhân (Prunus Amygdalus Dulcis Oil)', text: 'Giàu Vitamin E và axit béo tự nhiên, nuôi dưỡng sâu, giảm khô rát, bong tróc và củng cố hàng rào bảo vệ da bé.' },
         { ico: '💊', name: 'Vitamin E (Tocopherol)', text: 'Chống oxy hóa, hỗ trợ bảo vệ da trước tác nhân môi trường và giúp da bé mịn màng.' },
@@ -456,31 +539,36 @@ $$('.section-title').forEach(t => {
         }, 650);
     }
     $$('.chip').forEach(chip => {
-        Draggable.create(chip, {
-            type: 'x,y', zIndexBoost: true,
-            onDrag() { zone.classList.toggle('over', this.hitTest(bottle, '20%')); },
-            onRelease() {
-                zone.classList.remove('over');
-                if (this.hitTest(bottle, '20%')) accept(chip, this);
-                else gsap.to(chip, { x: 0, y: 0, duration: .8, ease: 'elastic.out(1, .5)' });
-            },
-            onClick() { accept(chip, this); }
-        });
+        if (Draggable) {
+            Draggable.create(chip, {
+                type: 'x,y', zIndexBoost: true,
+                allowEventDefault: true,
+                onDrag() { if (zone && bottle) zone.classList.toggle('over', this.hitTest(bottle, '20%')); },
+                onRelease() {
+                    if (zone) zone.classList.remove('over');
+                    if (bottle && this.hitTest(bottle, '20%')) accept(chip, this);
+                    else if (gsap) gsap.to(chip, { x: 0, y: 0, duration: .8, ease: 'elastic.out(1, .5)' });
+                },
+                onClick() { accept(chip, this); }
+            });
+        } else {
+            chip.addEventListener('click', () => accept(chip, null));
+        }
     });
     gsap.fromTo('.chips-left .chip', { x: -80, autoAlpha: 0 }, { scrollTrigger: { trigger: '#lab', start: 'top 80%' }, x: 0, autoAlpha: 1, duration: .8, stagger: .12, ease: 'back.out(2)', clearProps: 'opacity,visibility' });
     gsap.fromTo('.chips-right .chip', { x: 80, autoAlpha: 0 }, { scrollTrigger: { trigger: '#lab', start: 'top 80%' }, x: 0, autoAlpha: 1, duration: .8, stagger: .12, ease: 'back.out(2)', clearProps: 'opacity,visibility' });
     gsap.from(bottle, { scrollTrigger: { trigger: '#lab', start: 'top 80%' }, y: 80, scale: .6, opacity: 0, duration: 1.1, ease: 'elastic.out(1, .5)' });
     // Nudge first chip to hint dragging
-    if (!reduceMotion) {
+    if (!reduceMotion && ScrollTrigger && gsap) {
         ScrollTrigger.create({
             trigger: '#lab', start: 'top 60%', once: true,
             onEnter() { gsap.to('.chip[data-ing="0"]', { x: 26, duration: .35, yoyo: true, repeat: 3, ease: 'sine.inOut', delay: 1.2 }); }
         });
     }
-})();
+});
 
 /* ===== USES (3 trong 1) ===== */
-(function () {
+safeRun('uses', () => {
     const items = $$('.use-item');
     items.forEach(item => item.addEventListener('click', () => {
         items.forEach(x => x.classList.toggle('active', x === item));
@@ -498,38 +586,48 @@ $$('.section-title').forEach(t => {
         $$('.uses-chip').forEach((c, i) => gsap.to(c, { y: -10, duration: 1.8 + i * .3, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: i * .4 }));
         gsap.to('.uses-bottle', { y: -12, duration: 2.2, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: 1.3 });
     }
-})();
+});
 
 
 /* ===== HOW TO STEPS (section 7) ===== */
-(function () {
+safeRun('howToSteps', () => {
     const steps = $$('.hstep');
+    if (!steps.length) return;
     let auto = null, idx = 0;
     const activate = i => {
         idx = i;
         steps.forEach((st, k) => st.classList.toggle('active', k === i));
-        gsap.fromTo(steps[i].querySelector('.hstep-num'), { scale: .6 }, { scale: 1, duration: .7, ease: 'elastic.out(1.2, .4)' });
+        const num = steps[i] ? steps[i].querySelector('.hstep-num') : null;
+        if (num && gsap) gsap.fromTo(num, { scale: .6 }, { scale: 1, duration: .7, ease: 'elastic.out(1.2, .4)' });
     };
     steps.forEach((st, i) => st.addEventListener('click', () => { clearInterval(auto); activate(i); }));
-    ScrollTrigger.create({
-        trigger: '.howto-grid', start: 'top 70%', end: 'bottom 20%',
-        onToggle: self => { clearInterval(auto); if (self.isActive && !reduceMotion) auto = setInterval(() => activate((idx + 1) % steps.length), 2600); }
-    });
-    gsap.fromTo('.howto-phone', { rotate: 7, y: 40 }, { rotate: 4.5, y: 0, ease: 'power1.out', scrollTrigger: { trigger: '.howto-grid', start: 'top 85%', end: 'top 30%', scrub: 1 } });
-})();
+    if (ScrollTrigger) {
+        ScrollTrigger.create({
+            trigger: '.howto-grid', start: 'top 70%', end: 'bottom 20%',
+            onToggle: self => { clearInterval(auto); if (self.isActive && !reduceMotion) auto = setInterval(() => activate((idx + 1) % steps.length), 2600); }
+        });
+        if (gsap) {
+            gsap.fromTo('.howto-phone', { rotate: 7, y: 40 }, { rotate: 4.5, y: 0, ease: 'power1.out', scrollTrigger: { trigger: '.howto-grid', start: 'top 85%', end: 'top 30%', scrub: 1 } });
+        }
+    }
+});
 
 /* ===== MOM VIDEOS (section 9) ===== */
+safeRun('momVideos', () => {
 $$('.mom-card').forEach(card => card.addEventListener('click', () => {
     const v = card.querySelector('video');
     if (!v) { gsap.fromTo(card, { scale: .96 }, { scale: 1, duration: .6, ease: 'elastic.out(1.2, .4)' }); return; }
     $$('.mom-card video').forEach(o => { if (o !== v) o.pause(); });
     v.paused ? v.play() : v.pause();
 }));
+});
 
 /* ===== STORES SLIDER (section 10) ===== */
-(function () {
+safeRun('storesSlider', () => {
     const track = $('#storeTrack'), dots = $('#storeDots');
+    if (!track || !dots) return;
     const slides = $$('.store-slide', track);
+    if (!slides.length) return;
     const stepW = () => slides[0].getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 20);
     const pages = () => Math.max(1, Math.round((track.scrollWidth - track.clientWidth) / stepW()) + 1);
     const renderDots = () => {
@@ -552,18 +650,21 @@ $$('.mom-card').forEach(card => card.addEventListener('click', () => {
     };
     let timer = null;
     const restart = () => { clearInterval(timer); if (!reduceMotion) timer = setInterval(() => go(1), 3200); };
-    $('.store-nav.prev').addEventListener('click', () => { go(-1); restart(); });
-    $('.store-nav.next').addEventListener('click', () => { go(1); restart(); });
+    const prevBtn = $('.store-nav.prev'), nextBtn = $('.store-nav.next');
+    if (prevBtn) prevBtn.addEventListener('click', () => { go(-1); restart(); });
+    if (nextBtn) nextBtn.addEventListener('click', () => { go(1); restart(); });
     track.addEventListener('scroll', () => requestAnimationFrame(mark), { passive: true });
     track.addEventListener('pointerenter', () => clearInterval(timer));
     track.addEventListener('pointerleave', restart);
     window.addEventListener('resize', renderDots);
     renderDots();
-    ScrollTrigger.create({ trigger: track, start: 'top bottom', end: 'bottom top', onToggle: self => self.isActive ? restart() : clearInterval(timer) });
-})();
+    if (ScrollTrigger) {
+        ScrollTrigger.create({ trigger: track, start: 'top bottom', end: 'bottom top', onToggle: self => self.isActive ? restart() : clearInterval(timer) });
+    }
+});
 
 /* ===== LUCKY WHEEL ===== */
-(function () {
+safeRun('luckyWheel', () => {
     const gifts = CONFIG.gifts, n = gifts.length, seg = 360 / n;
     const R = 200, C = 200;
     const pt = (deg, r) => { const a = (deg - 90) * Math.PI / 180; return [C + r * Math.cos(a), C + r * Math.sin(a)]; };
@@ -697,10 +798,10 @@ $$('.mom-card').forEach(card => card.addEventListener('click', () => {
         gsap.to('.wheel-pointer', { rotate: 18, duration: .08, yoyo: true, repeat: 40, ease: 'none', onComplete: () => gsap.set('.wheel-pointer', { rotate: 0 }) });
     });
     gsap.from('.wheel-wrap', { scrollTrigger: { trigger: '#vong-quay', start: 'top 70%' }, scale: .5, rotate: -90, opacity: 0, duration: 1.2, ease: 'back.out(1.6)' });
-})();
+});
 
 /* ===== PRODUCT INFO TABS ===== */
-(function () {
+safeRun('productInfoTabs', () => {
     const tabs = $$('.tab'), panels = $$('.tab-panel'), pill = $('#tabPill');
     const movePill = (t, instant) => gsap.to(pill, { x: t.offsetLeft, width: t.offsetWidth, duration: instant ? 0 : .45, ease: 'back.out(1.6)' });
     tabs.forEach((t, i) => t.addEventListener('click', () => {
@@ -722,10 +823,10 @@ $$('.mom-card').forEach(card => card.addEventListener('click', () => {
     }));
     lb.addEventListener('click', e => { if (e.target === lb || e.target.closest('.lb-close')) closeLb(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && !lb.hidden) closeLb(); });
-})();
+});
 
 /* ===== ĐÁNH GIÁ SẢN PHẨM ===== */
-(function () {
+safeRun('reviews', () => {
     const all = CONFIG.reviews || [];
     const grid = $('#rvGrid'), filters = $('#rvFilters'), more = $('#rvMore');
     if (!grid || !filters) return;
@@ -907,9 +1008,10 @@ $$('.mom-card').forEach(card => card.addEventListener('click', () => {
 
     render(false);
     gsap.fromTo('#rvGrid .rv-card', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, stagger: 0.1, ease: 'back.out(1.6)', scrollTrigger: { trigger: '#rvGrid', start: 'top 85%' } });
-})();
+});
 
 /* ===== FAQ ===== */
+safeRun('faq', () => {
 $$('.faq-item').forEach(item => {
     const q = item.querySelector('.faq-q'), a = item.querySelector('.faq-a');
     q.setAttribute('aria-expanded', 'false');
@@ -918,12 +1020,13 @@ $$('.faq-item').forEach(item => {
         $$('.faq-item.open').forEach(o => { if (o !== item) { o.classList.remove('open'); o.querySelector('.faq-q').setAttribute('aria-expanded', 'false'); gsap.to(o.querySelector('.faq-a'), { height: 0, duration: .4, ease: 'power2.inOut' }); } });
         item.classList.toggle('open', !open);
         q.setAttribute('aria-expanded', String(!open));
-        gsap.to(a, { height: open ? 0 : 'auto', duration: .45, ease: 'power2.inOut' });
+        if (gsap) gsap.to(a, { height: open ? 0 : 'auto', duration: .45, ease: 'power2.inOut' }); else a.style.height = open ? '0' : 'auto';
     });
+});
 });
 
 /* ===== COUNTDOWN (end of day) ===== */
-(function () {
+safeRun('countdown', () => {
     const pad = v => String(v).padStart(2, '0');
     const tick = () => {
         const now = new Date(), end = new Date(now); end.setHours(23, 59, 59, 999);
@@ -933,10 +1036,10 @@ $$('.faq-item').forEach(item => {
         $('#cdS').textContent = pad(s % 60);
     };
     tick(); setInterval(tick, 1000);
-})();
+});
 
 /* ===== LEAD FORM ===== */
-(function () {
+safeRun('leadForm', () => {
     const money = v => v.toLocaleString('vi-VN') + 'đ';
     const offer = CONFIG.offer;
     $('#opPrice').textContent = offer.price ? money(offer.price) : 'Giá ưu đãi';
@@ -1082,7 +1185,7 @@ $$('.faq-item').forEach(item => {
         confetti(120);
         gsap.to(window, { scrollTo: { y: '#dang-ky', offsetY: 70 }, duration: .8 });
     });
-})();
+});
 
 /* ===== CONFETTI ===== */
 function confetti(count) {
@@ -1104,43 +1207,34 @@ function confetti(count) {
     }
 }
 
-ScrollTrigger.sort();
-const refreshAll = () => { ScrollTrigger.sort(); ScrollTrigger.refresh(); };
-if (document.readyState === 'complete') refreshAll(); else window.addEventListener('load', refreshAll);
+    safeRun('refreshAll', () => {
+        if (typeof window.ScrollTrigger !== 'undefined') {
+            window.ScrollTrigger.sort();
+            const refreshAll = () => {
+                if (typeof window.ScrollTrigger !== 'undefined') {
+                    window.ScrollTrigger.sort();
+                    window.ScrollTrigger.refresh();
+                }
+            };
+            if (document.readyState === 'complete') refreshAll(); else window.addEventListener('load', refreshAll);
+        }
+    });
 }
 
-/* ===== GSAP LOADER =====
-   Một số trình xem (htmlpreview.github.io, in-app browser...) chạy script inline
-   trước khi thư viện từ CDN tải xong hoặc bỏ qua thẻ <script src>. Đảm bảo đủ
-   thư viện (cdnjs, dự phòng jsDelivr) rồi mới khởi chạy trang. */
-(function () {
-    const V = '3.12.5';
-    const libs = [['gsap', 'gsap.min.js'], ['ScrollTrigger', 'ScrollTrigger.min.js'], ['ScrollToPlugin', 'ScrollToPlugin.min.js'], ['Draggable', 'Draggable.min.js']];
-    const hosts = [f => `https://cdnjs.cloudflare.com/ajax/libs/gsap/${V}/${f}`, f => `https://cdn.jsdelivr.net/npm/gsap@${V}/dist/${f}`];
-    const load = src => new Promise((ok, fail) => {
-        const el = document.createElement('script');
-        el.src = src; el.onload = ok; el.onerror = fail;
-        document.head.appendChild(el);
-    });
-    const ensure = async ([name, file]) => {
-        if (window[name]) return;
-        for (const h of hosts) {
-            try { await load(h(file)); } catch (e) { continue; }
-            if (window[name]) return;
-        }
-        throw new Error('Không tải được thư viện ' + name);
-    };
-    (async () => {
-        try {
-            for (const lib of libs) await ensure(lib);
-        } catch (e) {
-            console.error(e);
-            document.documentElement.classList.remove('js');
-            return;
-        }
+// Khởi chạy ứng dụng an toàn và đáng tin cậy trên mọi thiết bị (đặc biệt iOS Safari & in-app browsers)
+function initBonBonApp() {
+    try {
         bootBonBon();
-    })();
-})();
+    } catch (err) {
+        console.error('[BonBon Boot Error]', err);
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBonBonApp);
+} else {
+    initBonBonApp();
+}
 
 // ===== Typewriter effect cho phần CÂU CHUYỆN THƯƠNG HIỆU =====
 (function () {
@@ -1358,11 +1452,11 @@ if (document.readyState === 'complete') refreshAll(); else window.addEventListen
                         // Pause all HTML5 videos
                         document.querySelectorAll('.js-reel-video').forEach(v => {
                             v.pause();
-                            v.closest('.reel-card')?.classList.remove('is-playing', 'has-yt-playing');
+                            const pCard = v.closest('.reel-card'); if (pCard) pCard.classList.remove('is-playing', 'has-yt-playing');
                         });
                         // Remove any other playing YouTube iframes
                         document.querySelectorAll('.js-reel-yt-iframe').forEach(f => {
-                            f.closest('.reel-card')?.classList.remove('is-playing', 'has-yt-playing');
+                            const pCard = f.closest('.reel-card'); if (pCard) pCard.classList.remove('is-playing', 'has-yt-playing');
                             f.remove();
                         });
 
@@ -1387,11 +1481,11 @@ if (document.readyState === 'complete') refreshAll(); else window.addEventListen
                         document.querySelectorAll('.js-reel-video').forEach(v => {
                             if (v !== videoEl) {
                                 v.pause();
-                                v.closest('.reel-card')?.classList.remove('is-playing', 'has-yt-playing');
+                                const pCard = v.closest('.reel-card'); if (pCard) pCard.classList.remove('is-playing', 'has-yt-playing');
                             }
                         });
                         document.querySelectorAll('.js-reel-yt-iframe').forEach(f => {
-                            f.closest('.reel-card')?.classList.remove('is-playing', 'has-yt-playing');
+                            const pCard = f.closest('.reel-card'); if (pCard) pCard.classList.remove('is-playing', 'has-yt-playing');
                             f.remove();
                         });
                         videoEl.play().then(() => {

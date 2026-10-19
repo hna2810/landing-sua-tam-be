@@ -45,11 +45,11 @@ function lx_enqueue_scripts() {
         LX_THEME_VERSION
     );
 
-    // GSAP 3.12.5 libraries from CDN
-    wp_enqueue_script('gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', array(), '3.12.5', true);
-    wp_enqueue_script('gsap-scroll-trigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js', array('gsap'), '3.12.5', true);
-    wp_enqueue_script('gsap-scroll-to', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js', array('gsap'), '3.12.5', true);
-    wp_enqueue_script('gsap-draggable', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js', array('gsap'), '3.12.5', true);
+    // GSAP 3.12.5 libraries (Self-hosted locally for reliability & compatibility on iOS/Safari)
+    wp_enqueue_script('gsap', LX_THEME_URI . '/assets/js/vendor/gsap.min.js', array(), '3.12.5', true);
+    wp_enqueue_script('gsap-scroll-trigger', LX_THEME_URI . '/assets/js/vendor/ScrollTrigger.min.js', array('gsap'), '3.12.5', true);
+    wp_enqueue_script('gsap-scroll-to', LX_THEME_URI . '/assets/js/vendor/ScrollToPlugin.min.js', array('gsap'), '3.12.5', true);
+    wp_enqueue_script('gsap-draggable', LX_THEME_URI . '/assets/js/vendor/Draggable.min.js', array('gsap'), '3.12.5', true);
 
     // Main Theme JS
     wp_enqueue_script(
