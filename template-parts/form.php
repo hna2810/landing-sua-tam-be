@@ -50,16 +50,16 @@ $lion_img    = lx_get_image_url('lx_offer_lion_img', LX_THEME_URI . '/assets/img
             <!-- Banner Quà tặng vòng quay may mắn trên đầu form -->
             <div class="order-gift-banner" id="orderGiftBanner">
                 <div class="gift-banner-left">
-                    <span class="gift-banner-badge">🎁 QUÀ TẶNG VÒNG QUAY</span>
+                    <span class="gift-banner-badge" id="giftBannerBadge">🎡 VÒNG QUAY MAY MẮN</span>
                     <div class="gift-banner-main">
-                        <span class="gift-banner-ico">🎉</span>
+                        <span class="gift-banner-ico" id="giftBannerIco">🎡</span>
                         <div class="gift-banner-info">
-                            <span class="gift-banner-lbl">Quà tặng của mẹ:</span>
-                            <strong class="gift-banner-name" id="orderGiftText">Vịt tắm cute</strong>
+                            <span class="gift-banner-lbl" id="giftBannerLbl">Mẹ ơi, chưa quay quà nè:</span>
+                            <strong class="gift-banner-name" id="orderGiftText">Quay ngay để nhận 100% quà!</strong>
                         </div>
                     </div>
                 </div>
-                <a href="#vong-quay" class="btn-change-gift js-scroll" id="btnChangeGift">Đổi quà 🎡</a>
+                <a href="#vong-quay" class="btn-change-gift js-scroll" id="btnChangeGift">Quay nhận quà 🎡</a>
             </div>
 
             <div id="formContent">
@@ -81,14 +81,14 @@ $lion_img    = lx_get_image_url('lx_offer_lion_img', LX_THEME_URI . '/assets/img
                     <!-- Trường quà tặng người dùng quay được đưa vào form -->
                     <div class="field field-gift">
                         <label for="fGiftDisplay">🎁 Quà tặng kèm theo đơn</label>
-                        <div class="gift-field-box">
+                        <a href="#vong-quay" class="gift-field-box js-scroll" id="giftFieldBox" style="text-decoration:none; display:flex;">
                             <span class="gift-field-ico">🎁</span>
-                            <input class="input input-gift" id="fGiftDisplay" type="text" readonly value="Vịt tắm cute" aria-label="Quà tặng kèm theo đơn">
-                            <span class="gift-tag-free">MIỄN PHÍ</span>
-                        </div>
+                            <input class="input input-gift" id="fGiftDisplay" type="text" readonly value="Mẹ chưa quay thưởng (Bấm vào đây để quay 🎡)" aria-label="Quà tặng kèm theo đơn" style="cursor:pointer;">
+                            <span class="gift-tag-free" id="giftTagBadge">QUAY NGAY 🎡</span>
+                        </a>
                     </div>
-                    <input type="hidden" name="gift" id="hGift" value="Vịt tắm cute">
-                    <input type="hidden" name="note" id="hNote" value="Quà tặng: Vịt tắm cute">
+                    <input type="hidden" name="gift" id="hGift" value="">
+                    <input type="hidden" name="note" id="hNote" value="">
                     <input type="hidden" name="source" id="hSource">
                     <button type="submit" class="btn btn-pink btn-block order-btn" id="submitBtn"><span class="wiggle">🎁</span> ĐẶT HÀNG NGAY!</button>
                     <p class="consent">🔒 Thông tin của mẹ được bảo mật, Home Care gọi xác nhận trước khi giao hàng.</p>

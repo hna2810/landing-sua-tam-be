@@ -1023,21 +1023,32 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
     gap: 4px;
     padding: 8px 14px;
     border-radius: 99px;
-    background: #ffffff;
-    color: var(--primary-deep);
+    background: #ff8fab;
+    color: #ffffff;
     font-family: var(--font-head);
     font-size: 13px;
     font-weight: 800;
     white-space: nowrap;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 10px rgba(255, 143, 171, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
     text-decoration: none;
-    border: 1.5px solid rgba(42,159,179,0.3);
+    border: 1.5px solid #ff7599;
 }
 .btn-change-gift:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(42,159,179,0.25);
+    box-shadow: 0 6px 14px rgba(255, 143, 171, 0.5);
+    background: #ff7599;
+    color: #ffffff;
+}
+.order-gift-banner.won .btn-change-gift {
+    background: #ffffff;
+    color: var(--primary-deep);
+    border: 1.5px solid rgba(42,159,179,0.3);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+.order-gift-banner.won .btn-change-gift:hover {
     background: var(--primary-light);
+    color: var(--primary-deep);
 }
 
 /* Trường Quà Tặng trong form */
@@ -1058,18 +1069,26 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 }
 .input.input-gift {
     padding-left: 48px;
-    padding-right: 90px;
+    padding-right: 110px;
+    background: #fffdf5;
+    border: 2px dashed #f59e0b;
+    color: #b45309;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.input.input-gift.won {
     background: #f4fbfd;
     border: 2px solid #bcebf3;
     color: var(--primary-deep);
-    font-weight: 800;
     font-size: 16px;
     cursor: default;
 }
 .gift-tag-free {
     position: absolute;
     right: 14px;
-    background: #10b981;
+    background: #f59e0b;
     color: #ffffff;
     font-family: var(--font-head);
     font-size: 11px;
@@ -1077,6 +1096,11 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
     padding: 4px 10px;
     border-radius: 99px;
     letter-spacing: 0.3px;
+    box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
+    transition: background 0.3s, box-shadow 0.3s;
+}
+.gift-tag-free.is-free {
+    background: #10b981;
     box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
 }
 .field { margin-bottom: 18px; }

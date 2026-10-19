@@ -573,18 +573,33 @@ $$('.mom-card').forEach(card => card.addEventListener('click', () => {
         const wr = $('#wheelResult'); if (wr) wr.classList.add('show');
 
         // Cập nhật quà tặng vào banner đỉnh form & input trong form
-        const giftBannerText = $('#orderGiftText');
-        if (giftBannerText) giftBannerText.textContent = label;
         const giftBanner = $('#orderGiftBanner');
         if (giftBanner) giftBanner.classList.add('won');
+        const giftBadge = $('#giftBannerBadge');
+        if (giftBadge) giftBadge.textContent = '🎁 QUÀ TẶNG VÒNG QUAY';
+        const giftIco = $('#giftBannerIco');
+        if (giftIco) giftIco.textContent = '🎉';
+        const giftLbl = $('#giftBannerLbl');
+        if (giftLbl) giftLbl.textContent = 'Quà tặng của mẹ:';
+        const giftBannerText = $('#orderGiftText');
+        if (giftBannerText) giftBannerText.textContent = label;
+        const btnChange = $('#btnChangeGift');
+        if (btnChange) btnChange.textContent = 'Đã nhận ✓';
+
         const giftDisplayInput = $('#fGiftDisplay');
-        if (giftDisplayInput) giftDisplayInput.value = label;
+        if (giftDisplayInput) {
+            giftDisplayInput.value = label;
+            giftDisplayInput.classList.add('won');
+        }
+        const giftTagBadge = $('#giftTagBadge');
+        if (giftTagBadge) {
+            giftTagBadge.textContent = 'MIỄN PHÍ';
+            giftTagBadge.classList.add('is-free');
+        }
         const hGiftInput = $('#hGift');
         if (hGiftInput) hGiftInput.value = label;
         const hNoteInput = $('#hNote');
         if (hNoteInput) hNoteInput.value = 'Quà tặng: ' + label;
-        const btnChange = $('#btnChangeGift');
-        if (btnChange) btnChange.textContent = 'Đã chọn ✓';
 
         btn.disabled = true;
         btn.innerHTML = 'ĐÃ<br>QUAY';
@@ -600,17 +615,54 @@ $$('.mom-card').forEach(card => card.addEventListener('click', () => {
     if (saved !== null && gifts[+saved]) {
         gsap.set(wheel, { rotate: 360 - (+saved * seg + seg / 2) });
         applyPrize(gifts[+saved].label, false);
-    } else if (gifts.length > 0) {
-        // Mặc định quà đầu tiên nếu chưa quay
-        const defaultGift = gifts[0].label;
+    } else {
+        // Khách hàng chưa quay -> giữ trạng thái mời lên quay
+        const giftBanner = $('#orderGiftBanner');
+        if (giftBanner) giftBanner.classList.remove('won');
+        const giftBadge = $('#giftBannerBadge');
+        if (giftBadge) giftBadge.textContent = '🎡 VÒNG QUAY MAY MẮN';
+        const giftIco = $('#giftBannerIco');
+        if (giftIco) giftIco.textContent = '🎡';
+        const giftLbl = $('#giftBannerLbl');
+        if (giftLbl) giftLbl.textContent = 'Mẹ ơi, chưa quay quà nè:';
         const giftBannerText = $('#orderGiftText');
-        if (giftBannerText) giftBannerText.textContent = defaultGift;
+        if (giftBannerText) giftBannerText.textContent = 'Quay ngay để nhận 100% quà!';
+        const btnChange = $('#btnChangeGift');
+        if (btnChange) btnChange.textContent = 'Quay nhận quà 🎡';
+
         const giftDisplayInput = $('#fGiftDisplay');
-        if (giftDisplayInput) giftDisplayInput.value = defaultGift;
+        if (giftDisplayInput) {
+            giftDisplayInput.value = 'Mẹ chưa quay thưởng (Bấm vào đây để quay 🎡)';
+            giftDisplayInput.classList.remove('won');
+        }
+        const giftTagBadge = $('#giftTagBadge');
+        if (giftTagBadge) {
+            giftTagBadge.textContent = 'QUAY NGAY 🎡';
+            giftTagBadge.classList.remove('is-free');
+        }
         const hGiftInput = $('#hGift');
-        if (hGiftInput) hGiftInput.value = defaultGift;
+        if (hGiftInput) hGiftInput.value = '';
         const hNoteInput = $('#hNote');
-        if (hNoteInput) hNoteInput.value = 'Quà tặng: ' + defaultGift;
+        if (hNoteInput) hNoteInput.value = 'Chưa quay vòng quay';
+    }
+
+    const giftBox = $('#giftFieldBox');
+    if (giftBox) {
+        giftBox.addEventListener('click', e => {
+            const currentSaved = store.get('bonbon_gift');
+            if (currentSaved === null) {
+                e.preventDefault();
+                const wheelEl = $('#vong-quay');
+                if (wheelEl) {
+                    wheelEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    toast('🎡 Mẹ bấm "QUAY NGAY" để nhận quà may mắn nhé!', 3000);
+                    const spinBtn = $('#wheelSpin');
+                    if (spinBtn) {
+                        gsap.fromTo(spinBtn, { scale: 1 }, { scale: 1.25, duration: 0.3, yoyo: true, repeat: 5, ease: 'power2.out' });
+                    }
+                }
+            }
+        });
     }
     if (!reduceMotion && saved === null) gsap.to(wheel, { rotate: '+=360', duration: 40, ease: 'none', repeat: -1, id: 'wheelIdle' });
     btn.addEventListener('click', () => {
@@ -693,7 +745,6 @@ $$('.mom-card').forEach(card => card.addEventListener('click', () => {
         ['all', `Tất cả (${STATS.total.toLocaleString('vi-VN')})`],
         ['s5', `5 Sao (${STATS.s5.toLocaleString('vi-VN')})`],
         ['s4', `4 Sao (${STATS.s4.toLocaleString('vi-VN')})`],
-        ['text', `Có Bình Luận (${STATS.text.toLocaleString('vi-VN')})`],
         ['media', `Có Hình Ảnh / Video (${STATS.media.toLocaleString('vi-VN')})`]
     ];
 
@@ -763,7 +814,7 @@ $$('.mom-card').forEach(card => card.addEventListener('click', () => {
             const remaining = Math.min(filtered.length, MAX_COUNT) - shown;
             if (shown < MAX_COUNT && remaining > 0) {
                 more.hidden = false;
-                more.textContent = `Xem thêm đánh giá (${remaining} đánh giá) ▾`;
+                more.textContent = 'Xem thêm đánh giá ▾';
             } else {
                 more.hidden = true;
             }
@@ -901,6 +952,22 @@ $$('.faq-item').forEach(item => {
         setErr(phone, '#ePhone', badPhone);
         if (badName || badPhone) { (badName ? name : phone).focus(); return; }
 
+        // Nếu khách hàng chưa quay vòng quay -> mời họ lên quay trước
+        const savedGift = store.get('bonbon_gift');
+        if (savedGift === null && form.dataset.promptedSpin !== 'true') {
+            form.dataset.promptedSpin = 'true';
+            toast('🎁 Mẹ ơi, lên quay Vòng Quay May Mắn để nhận quà 100% trúng trước nhé!', 4000);
+            const wheelEl = $('#vong-quay');
+            if (wheelEl) {
+                wheelEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                const spinBtn = $('#wheelSpin');
+                if (spinBtn) {
+                    gsap.fromTo(spinBtn, { scale: 1 }, { scale: 1.25, duration: 0.3, yoyo: true, repeat: 5, ease: 'power2.out' });
+                }
+            }
+            return;
+        }
+
         form.dataset.submitting = 'true';
         const btn = $('#submitBtn');
         if (btn) {
@@ -909,8 +976,8 @@ $$('.faq-item').forEach(item => {
         }
 
         const fd = new FormData(form);
-        const giftVal = fd.get('gift') || (window.localStorage ? (localStorage.getItem('bonbon_gift_label') || '') : '') || 'Vịt tắm cute';
-        const noteVal = 'Quà tặng: ' + giftVal;
+        const giftVal = fd.get('gift') || '';
+        const noteVal = giftVal ? ('Quà tặng: ' + giftVal) : (fd.get('note') || 'Chưa quay vòng quay');
 
         const data = {
             name: name.value.trim(),
