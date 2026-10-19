@@ -156,6 +156,43 @@ const store = {
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
 };
 
+/* ===== EVENT & CLICK TRACKING ===== */
+function trackEvent(type, label, detail) {
+    try {
+        const trackUrl = CONFIG.ajaxUrl || '/wp-admin/admin-ajax.php';
+        let attr = {};
+        try { attr = JSON.parse(sessionStorage.getItem('bonbon_attr') || '{}'); } catch (e) {}
+
+        const params = new URLSearchParams({
+            action: 'lx_track_event',
+            type: type,
+            label: label || '',
+            detail: detail || '',
+            page: window.location.href.split('?')[0],
+            fbclid: attr.fbclid || '',
+            utm_source: attr.utm_source || '',
+            utm_campaign: attr.utm_campaign || '',
+            _t: Date.now().toString()
+        });
+        const fullUrl = trackUrl + (trackUrl.indexOf('?') === -1 ? '?' : '&') + params.toString();
+        const img = new Image();
+        img.src = fullUrl;
+    } catch (e) {}
+}
+
+let lastContactClick = 0;
+document.addEventListener('click', e => {
+    const link = e.target && e.target.closest ? e.target.closest('a[href^="tel:"], a[href*="zalo"], .float-btn.phone, .float-btn.zalo, .sticky-bar .call') : null;
+    if (link) {
+        const now = Date.now();
+        if (now - lastContactClick < 2500) return;
+        lastContactClick = now;
+        const href = (link.getAttribute('href') || '').trim();
+        const isHotline = href.startsWith('tel:') || link.classList.contains('phone') || link.classList.contains('call');
+        trackEvent(isHotline ? 'hotline' : 'zalo', isHotline ? 'Gọi Hotline' : 'Chat Zalo', href);
+    }
+}, true);
+
 /* ===== CONTACT LINKS ===== */
     safeRun('contactLinks', () => {
         $$('[data-tel]').forEach(a => { a.href = 'tel:' + CONFIG.hotline; });
@@ -287,6 +324,13 @@ if (heroDuckEl) {
 safeRun('heroBubbles', () => {
 const bubbleBox = $('#heroBubbles');
 let pops = 0;
+let popTrackTimer = null;
+function reportPops() {
+    clearTimeout(popTrackTimer);
+    popTrackTimer = setTimeout(() => {
+        trackEvent('bubble_pop', 'Ấn bong bóng', 'Bóp ' + pops + ' bóng');
+    }, 1200);
+}
 function makeBubble(initial) {
     const b = document.createElement('div');
     b.className = 'bubble';
@@ -306,6 +350,7 @@ function makeBubble(initial) {
         popBurst(r.left - br.left + r.width / 2, r.top - br.top + r.height / 2);
         gsap.to(b, { scale: 1.5, opacity: 0, duration: .22, ease: 'power2.out', onComplete: () => { b.remove(); makeBubble(false); } });
         pops++;
+        reportPops();
         const pc = $('#popCount');
         pc.textContent = pops;
         gsap.fromTo(pc, { scale: 1.8 }, { scale: 1, duration: .5, ease: 'back.out(3)' });
@@ -430,12 +475,20 @@ safeRun('compareSlider', () => {
         gsap.set(handle, { x });
         top.style.clipPath = `inset(0 0 0 ${x}px)`;
     };
+    let lastCompareTrack = 0;
+    function reportCompareAction(actionType) {
+        const now = Date.now();
+        if (now - lastCompareTrack > 3500) {
+            lastCompareTrack = now;
+            trackEvent('compare_drag', 'Kéo so sánh Bon Bon', actionType || 'Kéo thanh trượt');
+        }
+    }
     let drag = null;
     if (typeof window.Draggable !== 'undefined' && box && handle) {
         const drags = window.Draggable.create(handle, {
             type: 'x', bounds: box, trigger: handle.querySelector('.cmp-knob') || handle,
             allowEventDefault: true,
-            onDrag() { setPos(this.x); }
+            onDrag() { setPos(this.x); reportCompareAction('Kéo thanh trượt'); }
         });
         drag = drags ? drags[0] : null;
     }
@@ -444,6 +497,7 @@ safeRun('compareSlider', () => {
     window.addEventListener('resize', center);
     box.addEventListener('click', e => {
         if (e.target.closest('.cmp-knob')) return;
+        reportCompareAction('Chạm vị trí so sánh');
         const x = e.clientX - box.getBoundingClientRect().left;
         const o = { v: gsap.getProperty(handle, 'x') };
         gsap.to(o, { v: x, duration: .6, ease: 'power3.out', onUpdate: () => { setPos(o.v); drag.update(); } });
@@ -502,6 +556,7 @@ safeRun('ingredientsGame', () => {
         
         const badKey = chip.dataset.bad || 'paraben';
         const bad = BADS[badKey] || BADS.paraben;
+        trackEvent('ingredient_game', 'Pha chế Bon Bon', 'Thử chất cấm: ' + bad.name);
         info.innerHTML = `<span class="ico">${bad.ico}</span><div><h4>${bad.name}</h4><p>${bad.text}</p></div>`;
         gsap.fromTo(info, { x: -12 }, { x: 0, duration: .5, ease: 'elastic.out(1.2, .3)' });
         toast(bad.toast);
@@ -510,6 +565,9 @@ safeRun('ingredientsGame', () => {
         if (chip.classList.contains('used')) return;
         if (chip.classList.contains('bad')) return reject(chip, dragInst);
         const i = +chip.dataset.ing;
+        const ingData = ING[i];
+        const ingName = ingData ? ingData.name.split('(')[0].trim() : 'Thành phần';
+        trackEvent('ingredient_game', 'Pha chế Bon Bon', 'Thêm thành phần: ' + ingName);
         const ico = chip.querySelector('.ico');
         const ir = ico.getBoundingClientRect(), br = bottle.getBoundingClientRect();
         const ghost = ico.cloneNode(true);
@@ -787,13 +845,19 @@ safeRun('luckyWheel', () => {
     btn.addEventListener('click', () => {
         if (btn.disabled) return;
         btn.disabled = true;
+        trackEvent('wheel_spin', 'Quay vòng quay may mắn', 'Đã nhấn quay thưởng');
         const idle = gsap.getById('wheelIdle'); idle && idle.kill();
         const i = pickWeighted();
         const current = gsap.getProperty(wheel, 'rotate') % 360;
         const target = 360 * 6 + (360 - (i * seg + seg / 2)) + gsap.utils.random(-seg * .3, seg * .3);
         gsap.fromTo(wheel, { rotate: current }, {
             rotate: target, duration: 5, ease: 'power4.out',
-            onComplete: () => { store.set('bonbon_gift', i); applyPrize(gifts[i].label, true); confetti(70); }
+            onComplete: () => {
+                store.set('bonbon_gift', i);
+                applyPrize(gifts[i].label, true);
+                trackEvent('wheel_spin', 'Quay trúng quà', 'Trúng: ' + gifts[i].label);
+                confetti(70);
+            }
         });
         gsap.to('.wheel-pointer', { rotate: 18, duration: .08, yoyo: true, repeat: 40, ease: 'none', onComplete: () => gsap.set('.wheel-pointer', { rotate: 0 }) });
     });
@@ -1445,6 +1509,12 @@ if (document.readyState === 'loading') {
             }
 
             function togglePlay() {
+                function trackVideoPlay() {
+                    const author = card.querySelector('.reel-author-name') ? card.querySelector('.reel-author-name').textContent.trim() : '';
+                    const caption = card.querySelector('.reel-caption') ? card.querySelector('.reel-caption').textContent.trim() : '';
+                    const detail = author ? author + (caption ? ': ' + caption.substring(0, 30) : '') : 'Video cảm nhận';
+                    trackEvent('video_play', 'Xem video mẹ và bé', detail);
+                }
                 const ytId = card.dataset.ytId;
                 if (ytId) {
                     let iframe = videoContainer.querySelector('.js-reel-yt-iframe');
@@ -1469,6 +1539,7 @@ if (document.readyState === 'loading') {
                         iframe.style.border = '0';
                         videoContainer.appendChild(iframe);
                         card.classList.add('is-playing', 'has-yt-playing');
+                        trackVideoPlay();
                     } else {
                         card.classList.remove('is-playing', 'has-yt-playing');
                         iframe.remove();
@@ -1490,6 +1561,7 @@ if (document.readyState === 'loading') {
                         });
                         videoEl.play().then(() => {
                             card.classList.add('is-playing');
+                            trackVideoPlay();
                         }).catch(() => {
                             card.classList.toggle('is-playing');
                         });

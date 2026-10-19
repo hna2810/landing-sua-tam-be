@@ -15,6 +15,7 @@ $modules = array(
     'assets.php',
     'ajax-lead.php',
     'acf-options.php',
+    'click-tracker.php',
 );
 
 foreach ($modules as $file) {
