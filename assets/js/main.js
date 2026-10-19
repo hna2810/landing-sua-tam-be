@@ -431,7 +431,7 @@ $$('.wish-card').forEach(card => {
         trigger: '.howto-grid', start: 'top 70%', end: 'bottom 20%',
         onToggle: self => { clearInterval(auto); if (self.isActive && !reduceMotion) auto = setInterval(() => activate((idx + 1) % steps.length), 2600); }
     });
-    gsap.fromTo('.howto-phone', { rotate: 8, y: 60 }, { rotate: -3, y: 0, ease: 'none', scrollTrigger: { trigger: '.howto-grid', start: 'top bottom', end: 'bottom 40%', scrub: true } });
+    gsap.fromTo('.howto-phone', { rotate: 7, y: 40 }, { rotate: 4.5, y: 0, ease: 'power1.out', scrollTrigger: { trigger: '.howto-grid', start: 'top 85%', end: 'top 30%', scrub: 1 } });
 })();
 
 /* ===== MOM VIDEOS (section 9) ===== */
