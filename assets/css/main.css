@@ -1406,8 +1406,8 @@ textarea.input { resize: vertical; min-height: 90px; }
 .ugc { --next: var(--bg-pink); --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 46 C240 6 480 6 720 40 C960 74 1200 74 1440 34 L1440 80 L0 80 Z'/%3E%3C/svg%3E"); }
 .moms { --next: var(--bg-cream); --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 30 C300 76 560 70 820 38 C1080 6 1260 14 1440 44 L1440 80 L0 80 Z'/%3E%3C/svg%3E"); }
 .stores { --next: var(--bg-aqua); --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 60 C360 60 520 10 760 10 C1000 10 1120 52 1440 52 L1440 80 L0 80 Z' fill-opacity='.45'/%3E%3Cpath d='M0 50 C280 76 600 22 860 30 C1120 38 1280 66 1440 58 L1440 80 L0 80 Z'/%3E%3C/svg%3E"); }
-.pinfo { --next: #4cc0d3; --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 46 C240 6 480 6 720 40 C960 74 1200 74 1440 34 L1440 80 L0 80 Z'/%3E%3C/svg%3E"); padding-bottom: 70px; }
-.wheel-sec { padding-top: 70px; }
+.pinfo { --next: #4cc0d3; --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 46 C240 6 480 6 720 40 C960 74 1200 74 1440 34 L1440 80 L0 80 Z'/%3E%3C/svg%3E"); padding-bottom: 128px; }
+.wheel-sec { padding-top: 104px; }
 
 .form-sec { --next: var(--bg-cream); --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 60 C360 60 520 10 760 10 C1000 10 1120 52 1440 52 L1440 80 L0 80 Z' fill-opacity='.45'/%3E%3Cpath d='M0 50 C280 76 600 22 860 30 C1120 38 1280 66 1440 58 L1440 80 L0 80 Z'/%3E%3C/svg%3E"); }
 .rv { --next: var(--bg-aqua); --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0 46 C240 6 480 6 720 40 C960 74 1200 74 1440 34 L1440 80 L0 80 Z'/%3E%3C/svg%3E"); }
@@ -1417,8 +1417,8 @@ textarea.input { resize: vertical; min-height: 90px; }
     content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 80px; z-index: 0; pointer-events: none;
     background: var(--next); -webkit-mask: var(--wave) center bottom / 100% 100% no-repeat; mask: var(--wave) center bottom / 100% 100% no-repeat; }
 @media (max-width: 768px) {
-    .pinfo { padding-bottom: 50px; }
-    .wheel-sec { padding-top: 50px; }
+    .pinfo { padding-bottom: 84px; }
+    .wheel-sec { padding-top: 72px; }
     .wish::after, .compare-sec::after, .ingre::after, .uses::after, .howto::after, .ugc::after, .moms::after, .stores::after, .pinfo::after, .form-sec::after, .rv::after { height: 44px; }
 }
 /* Vòng quay -> đặt hàng: sóng màu đáy vòng quay phủ lên đỉnh form (khớp màu tốt hơn trên nền chuyển sắc) */
