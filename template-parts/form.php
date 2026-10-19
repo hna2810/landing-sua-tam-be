@@ -88,6 +88,7 @@ $lion_img    = lx_get_image_url('lx_offer_lion_img', LX_THEME_URI . '/assets/img
                         </div>
                     </div>
                     <input type="hidden" name="gift" id="hGift" value="Vịt tắm cute">
+                    <input type="hidden" name="note" id="hNote" value="Quà tặng: Vịt tắm cute">
                     <input type="hidden" name="source" id="hSource">
                     <button type="submit" class="btn btn-pink btn-block order-btn" id="submitBtn"><span class="wiggle">🎁</span> ĐẶT HÀNG NGAY!</button>
                     <p class="consent">🔒 Thông tin của mẹ được bảo mật, Home Care gọi xác nhận trước khi giao hàng.</p>

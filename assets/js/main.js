@@ -515,6 +515,8 @@ $$('.mom-card').forEach(card => card.addEventListener('click', () => {
         if (giftDisplayInput) giftDisplayInput.value = label;
         const hGiftInput = $('#hGift');
         if (hGiftInput) hGiftInput.value = label;
+        const hNoteInput = $('#hNote');
+        if (hNoteInput) hNoteInput.value = 'Quà tặng: ' + label;
         const btnChange = $('#btnChangeGift');
         if (btnChange) btnChange.textContent = 'Đã chọn ✓';
 
@@ -541,6 +543,8 @@ $$('.mom-card').forEach(card => card.addEventListener('click', () => {
         if (giftDisplayInput) giftDisplayInput.value = defaultGift;
         const hGiftInput = $('#hGift');
         if (hGiftInput) hGiftInput.value = defaultGift;
+        const hNoteInput = $('#hNote');
+        if (hNoteInput) hNoteInput.value = 'Quà tặng: ' + defaultGift;
     }
     if (!reduceMotion && saved === null) gsap.to(wheel, { rotate: '+=360', duration: 40, ease: 'none', repeat: -1, id: 'wheelIdle' });
     btn.addEventListener('click', () => {
@@ -684,27 +688,45 @@ $$('.faq-item').forEach(item => {
 
     form.addEventListener('submit', async e => {
         e.preventDefault();
+        if (form.dataset.submitting === 'true') {
+            return;
+        }
+
         const ph = phone.value.replace(/\s/g, '');
         const badName = name.value.trim().length < 2, badPhone = !phoneRe.test(ph);
         setErr(name, '#eName', badName);
         setErr(phone, '#ePhone', badPhone);
         if (badName || badPhone) { (badName ? name : phone).focus(); return; }
 
+        form.dataset.submitting = 'true';
+        const btn = $('#submitBtn');
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="bb"></i> Đang gửi đơn...';
+        }
+
         const fd = new FormData(form);
+        const giftVal = fd.get('gift') || (window.localStorage ? (localStorage.getItem('bonbon_gift_label') || '') : '') || 'Vịt tắm cute';
+        const noteVal = 'Quà tặng: ' + giftVal;
+
         const data = {
-            name: name.value.trim(), phone: ph,
+            name: name.value.trim(),
+            phone: ph,
             address: fd.get('address') || '',
             package: CONFIG.offer.label,
             price: CONFIG.offer.price || '',
-            gift: fd.get('gift') || '',
+            gift: giftVal,
+            note: noteVal,
+            ghi_chu: noteVal,
+            'Ghi chú': noteVal,
+            ghichu: noteVal,
             source: fd.get('source') || '',
             page: location.href.split('?')[0],
             product: 'Sữa tắm gội Bon Bon',
             time: new Date().toLocaleString('vi-VN')
         };
-        const btn = $('#submitBtn');
-        btn.disabled = true; btn.innerHTML = '<i class="bb"></i> Đang gửi đơn...';
-        // 1. Post to WordPress AJAX handler
+
+        // 1. Gửi qua WordPress AJAX handler (Server xử lý lưu DB, gửi Mail thông báo và forward Webhook duy nhất 1 lần để chống lặp đơn)
         if (CONFIG.ajaxUrl) {
             try {
                 const wpBody = new URLSearchParams();
@@ -716,9 +738,11 @@ $$('.faq-item').forEach(item => {
                 wpBody.append('package', data.package);
                 wpBody.append('price', data.price);
                 wpBody.append('gift', data.gift);
+                wpBody.append('note', data.note);
                 wpBody.append('source', data.source);
                 wpBody.append('page', data.page);
-                fetch(CONFIG.ajaxUrl, {
+
+                await fetch(CONFIG.ajaxUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
                     body: wpBody.toString()
@@ -726,18 +750,20 @@ $$('.faq-item').forEach(item => {
             } catch (e) {
                 console.warn(e);
             }
+        } else if (CONFIG.webhookUrl) {
+            // Dự phòng: chỉ gọi trực tiếp Webhook khi không có endpoint WordPress AJAX
+            try {
+                await fetch(CONFIG.webhookUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(data)
+                });
+            } catch (err) {
+                console.error(err);
+            }
         }
 
-        // 2. Post to external Webhook if configured
-        try {
-            if (CONFIG.webhookUrl) {
-                await fetch(CONFIG.webhookUrl, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) });
-            } else {
-                console.log('[Bon Bon lead]', data);
-            }
-        } catch (err) {
-            console.error(err);
-        }
         // Conversion tracking
         try { window.fbq && fbq('track', 'Lead', { content_name: data.product }); } catch (e) {}
         try { window.ttq && ttq.track('SubmitForm'); } catch (e) {}
