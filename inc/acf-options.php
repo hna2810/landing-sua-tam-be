@@ -877,6 +877,49 @@ add_action('acf/init', function() {
                 'type' => 'text',
                 'instructions' => __('Nhập mã TikTok Pixel (nếu có chạy quảng cáo TikTok).', 'lx-landing'),
             ),
+
+            // ================= TAB 16: THÔNG ĐIỆP YÊU THƯƠNG =================
+            array(
+                'key' => 'field_tab_love',
+                'label' => __('16. Thông điệp: Yêu con - Mẹ chọn Bon Bon', 'lx-landing'),
+                'type' => 'tab',
+            ),
+            array(
+                'key' => 'field_lx_love_title_1',
+                'label' => __('Tiêu đề dòng 1', 'lx-landing'),
+                'name' => 'lx_love_title_1',
+                'type' => 'text',
+                'default_value' => 'YÊU CON -',
+            ),
+            array(
+                'key' => 'field_lx_love_title_2',
+                'label' => __('Tiêu đề dòng 2 (chữ xanh)', 'lx-landing'),
+                'name' => 'lx_love_title_2',
+                'type' => 'text',
+                'default_value' => 'MẸ CHỌN BON BON',
+            ),
+            array(
+                'key' => 'field_lx_love_mascot_img',
+                'label' => __('Ảnh sư tử / linh vật (tùy chọn)', 'lx-landing'),
+                'name' => 'lx_love_mascot_img',
+                'type' => 'image',
+                'return_format' => 'url',
+            ),
+            array(
+                'key' => 'field_lx_love_content',
+                'label' => __('Nội dung tâm thư / thông điệp', 'lx-landing'),
+                'name' => 'lx_love_content',
+                'type' => 'textarea',
+                'rows' => 6,
+                'default_value' => "Bon Bon đồng hành cùng mẹ từ những ngày đầu đời của bé, từ tắm bé, massage đến chăm sóc da và rốn tại nhà và trung tâm. Với sự chăm chút nhẹ nhàng và các thành phần được lựa chọn phù hợp, Bon Bon cùng mẹ nâng niu làn da non nớt, chăm sóc bé yêu mỗi ngày. Bon Bon còn đồng hành cùng mẹ tại các hội thảo tiền sản và bệnh viện Sản – Nhi trên khắp ba miền Bắc – Trung – Nam.",
+            ),
+            array(
+                'key' => 'field_lx_love_highlight',
+                'label' => __('Dòng khẩu hiệu kết bài (chữ đậm)', 'lx-landing'),
+                'name' => 'lx_love_highlight',
+                'type' => 'text',
+                'default_value' => 'Bon Bon - Dịu dàng chăm bé, trọn vẹn yêu thương.',
+            ),
         ),
         'location' => array(
             array(

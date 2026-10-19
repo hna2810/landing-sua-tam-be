@@ -27,6 +27,7 @@ if (!defined('ABSPATH')) {
             <h4>Khám phá</h4>
             <p><a href="#cong-dung" class="js-scroll"><?php _e('Công dụng 3 trong 1', 'lx-landing'); ?></a></p>
             <p><a href="#vong-quay" class="js-scroll"><?php _e('Vòng quay quà tặng', 'lx-landing'); ?></a></p>
+            <p><a href="#yeu-con" class="js-scroll"><?php _e('Yêu con - Chọn Bon Bon', 'lx-landing'); ?></a></p>
             <p><a href="#dang-ky" class="js-scroll"><?php _e('Đặt hàng', 'lx-landing'); ?></a></p>
         </div>
     </div>
