@@ -458,7 +458,7 @@ safeRun('reveal', () => {
         $$('.section-title').forEach(t => {
             const hl = t.querySelector('.hl');
             if (!hl) return;
-            window.gsap.from(hl, { scrollTrigger: { trigger: t, start: 'top 85%' }, color: '#34495e', duration: .8, delay: .3 });
+            window.gsap.from(hl, { scrollTrigger: { trigger: t, start: 'top 85%' }, color: '#204184', duration: .8, delay: .3 });
         });
     }
 });
@@ -731,7 +731,7 @@ safeRun('luckyWheel', () => {
         const [x1, y1] = pt(i * seg, R), [x2, y2] = pt((i + 1) * seg, R);
         svg += `<path d="M${C},${C} L${x1},${y1} A${R},${R} 0 0,1 ${x2},${y2} Z" fill="${g.color}" stroke="#fff" stroke-width="3"/>`;
         const mid = i * seg + seg / 2, [tx, ty] = pt(mid, R * .66);
-        svg += `<text x="${tx}" y="${ty}" transform="rotate(${mid} ${tx} ${ty})" text-anchor="middle" dominant-baseline="middle" font-family="Baloo 2, sans-serif" font-weight="800" font-size="19" fill="#34495e">${g.label}</text>`;
+        svg += `<text x="${tx}" y="${ty}" transform="rotate(${mid} ${tx} ${ty})" text-anchor="middle" dominant-baseline="middle" font-family="Baloo 2, sans-serif" font-weight="800" font-size="19" fill="#204184">${g.label}</text>`;
         const [ex, ey] = pt(mid, R * .9);
         svg += `<circle cx="${ex}" cy="${ey}" r="5" fill="#fff"/>`;
     });
