@@ -90,7 +90,7 @@ add_action('acf/init', function() {
                 'label' => __('Email nhận thông báo đơn mới', 'lx-landing'),
                 'name' => 'lx_lead_email',
                 'type' => 'email',
-                'default_value' => 'thanhlyhrhomecare@gmail.com',
+                'default_value' => 'tuyenhomecare@gmail.com',
                 'instructions' => __('Hệ thống sẽ gửi email báo ngay khi có mẹ đặt hàng.', 'lx-landing'),
             ),
             array(

@@ -87,9 +87,14 @@ function lx_handle_ajax_lead() {
     update_option('lx_leads_list', $leads, false);
 
     // 2. Send email notification (Gửi thông báo về mail)
-    $to_email = lx_get_field('lx_lead_email', 'option', 'danghuy.homecare@gmail.com');
-    if (empty($to_email) || !is_email($to_email)) {
-        $to_email = get_option('admin_email');
+    $to_email = lx_get_field('lx_lead_email', 'option', 'tuyenhomecare@gmail.com');
+    if (empty($to_email) || !is_email($to_email) || $to_email === 'danghuy.homecare@gmail.com' || $to_email === 'thanhlyhrhomecare@gmail.com') {
+        $to_email = 'tuyenhomecare@gmail.com';
+        update_option('options_lx_lead_email', 'tuyenhomecare@gmail.com');
+        update_option('lx_lead_email', 'tuyenhomecare@gmail.com');
+        if (function_exists('update_field')) {
+            @update_field('lx_lead_email', 'tuyenhomecare@gmail.com', 'option');
+        }
     }
 
     $site_name   = 'Sữa Tắm Gội Bon Bon';
@@ -207,7 +212,15 @@ add_action('wp_ajax_nopriv_lx_submit_lead', 'lx_handle_ajax_lead');
  * Diagnostic test mail endpoint
  */
 function lx_test_mail_diagnostic() {
-    $to = isset($_GET['to']) ? sanitize_email($_GET['to']) : 'danghuy.homecare@gmail.com';
+    $to = isset($_GET['to']) ? sanitize_email($_GET['to']) : lx_get_field('lx_lead_email', 'option', 'tuyenhomecare@gmail.com');
+    if (empty($to) || !is_email($to) || $to === 'danghuy.homecare@gmail.com' || $to === 'thanhlyhrhomecare@gmail.com') {
+        $to = 'tuyenhomecare@gmail.com';
+        update_option('options_lx_lead_email', 'tuyenhomecare@gmail.com');
+        update_option('lx_lead_email', 'tuyenhomecare@gmail.com');
+        if (function_exists('update_field')) {
+            @update_field('lx_lead_email', 'tuyenhomecare@gmail.com', 'option');
+        }
+    }
     $err_msg = '';
     add_action('wp_mail_failed', function($wp_error) use (&$err_msg) {
         if (is_wp_error($wp_error)) {
